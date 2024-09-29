@@ -1,0 +1,9 @@
+rootProject.name = 'backend'
+
+include 'application'
+include 'common'
+include 'warehousingContext'
+include 'watersideContext'
+include 'landsideContext'
+include 'invoicingContext'
+
