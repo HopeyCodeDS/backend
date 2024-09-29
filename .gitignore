@@ -1,9 +1,15 @@
 HELP.md
 .gradle
 build/
+**/build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+infrastructure/idp_mysql_data/
+infrastructure/mysql/
+infrastructure/rabbitmq/
+
 
 ### STS ###
 .apt_generated
