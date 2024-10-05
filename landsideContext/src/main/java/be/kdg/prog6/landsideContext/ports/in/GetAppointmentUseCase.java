@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GetAppointmentUseCase {
-    Optional<Appointment> getAppointmentBySellerId(UUID sellerId); // Assuming you are now using UUID
+    Optional<Appointment> getAppointmentBySellerId(UUID sellerId);
     Optional<Appointment> getAppointmentBySellerIdAndMaterialType(UUID sellerId, String materialType);
     List<Appointment> getAppointmentsDuringArrivalWindow(LocalDateTime start, LocalDateTime end);
     List<Appointment> getAppointmentsByTruckLicensePlate(String truckLicensePlate);

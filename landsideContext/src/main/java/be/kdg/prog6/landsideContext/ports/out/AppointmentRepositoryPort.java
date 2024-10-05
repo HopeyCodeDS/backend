@@ -13,4 +13,5 @@ public interface AppointmentRepositoryPort {
     Optional<Appointment> findBySellerId(UUID id);
     List<Appointment> findAppointmentsDuringArrivalWindow(LocalDateTime start, LocalDateTime end);
     List<Appointment> findAppointmentsByTruckLicensePlate(String licensePlate);
+    Optional<Appointment> findByLicensePlate(String licensePlate);
 }

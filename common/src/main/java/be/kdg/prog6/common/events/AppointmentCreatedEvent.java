@@ -4,20 +4,20 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class AppointmentCreatedEvent {
-    private String appointmentId;
+    private String licensePlate;
     private UUID sellerId;
     private String materialType;
     private LocalDateTime arrivalWindow;
 
-    public AppointmentCreatedEvent(String appointmentId, UUID sellerId, String materialType, LocalDateTime arrivalWindow) {
-        this.appointmentId = appointmentId;
+    public AppointmentCreatedEvent(String licensePlate, UUID sellerId, String materialType, LocalDateTime arrivalWindow) {
+        this.licensePlate = licensePlate;
         this.sellerId = sellerId;
         this.materialType = materialType;
         this.arrivalWindow = arrivalWindow;
     }
 
-    public String getAppointmentId() {
-        return appointmentId;
+    public String getLicensePlate() {
+        return licensePlate;
     }
 
     public String getSellerId() {

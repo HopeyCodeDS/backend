@@ -9,14 +9,14 @@ import java.util.*;
 
 @Repository
 public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
-    // Use a map to store a list of appointments for each truck
+    // Temporarily using map to store a list of appointments for each truck
     private final Map<String, List<Appointment>> appointments = new HashMap<>();
 
     @Override
     public void save(Appointment appointment) {
         // Retrieve the list of appointments for the truck or create a new one if none exist
         appointments.computeIfAbsent(appointment.getTruck().getLicensePlate(), k -> new ArrayList<>())
-                .add(appointment); // Add the new appointment to the list
+                .add(appointment); // I am adding the new appointment to the list
 
         System.out.println("Appointment saved for truck: " + appointment.getTruck().getLicensePlate());
     }
@@ -46,5 +46,13 @@ public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
     @Override
     public List<Appointment> findAppointmentsByTruckLicensePlate(String licensePlate) {
         return appointments.getOrDefault(licensePlate, Collections.emptyList());
+    }
+
+    @Override
+    public Optional<Appointment> findByLicensePlate(String licensePlate) {
+        return appointments.values().stream()
+                .flatMap(List::stream)
+                .filter(appointment -> appointment.getTruck().getLicensePlate().equals(licensePlate))
+                .findFirst();
     }
 }
