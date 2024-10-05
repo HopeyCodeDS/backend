@@ -6,5 +6,7 @@ plugins {
 dependencies {
     implementation project(":common")
     implementation project(':warehousingContext')
-//    implementation project(':boundedContextB')
+    implementation project(':invoicingContext')
+    implementation project(':landsideContext')
+    implementation project(':watersideContext')
 }
