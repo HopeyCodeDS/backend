@@ -5,6 +5,7 @@ import be.kdg.prog6.landsideContext.ports.in.RecognizeTruckUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -17,8 +18,25 @@ private final AppointmentRepositoryPort appointmentRepositoryPort;
     }
 
     @Override
-    public Optional<Appointment> recognizeTruck(String licensePlate) {
+    public Optional<Appointment> recognizeTruckAndValidateArrival(String licensePlate) {
         // Check for an appointment using the license plate
-        return appointmentRepositoryPort.findByLicensePlate(licensePlate); // Implement this method in the repository
+        Optional<Appointment> appointmentOpt = appointmentRepositoryPort.findByLicensePlate(licensePlate);
+
+        if (appointmentOpt.isPresent()) {
+            Appointment appointment = appointmentOpt.get();
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime arrivalWindowStart =  appointment.getArrivalWindow();
+            LocalDateTime arrivalWindowEnd = arrivalWindowStart.plusDays(1);
+
+            // Validate if the current time is within the arrival window
+            if (now.isAfter(arrivalWindowStart) && now.isBefore(arrivalWindowEnd)) {
+                return Optional.of(appointment);
+            } else {
+                throw new IllegalArgumentException("Truck is outside the scheduled arrival window.");
+            }
+        }
+
+        return Optional.empty();
+
     }
 }

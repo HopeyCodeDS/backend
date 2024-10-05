@@ -21,17 +21,19 @@ public class TruckRecognitionController {
         this.recognizeTruckUseCase = recognizeTruckUseCase;
     }
 
-    @GetMapping("/recognize/{licensePlate}")
-    public ResponseEntity<String> recognizeTruck(@PathVariable String licensePlate) {
-        log.info("Received request to recognize truck with license plate: {}", licensePlate);
-        Optional<Appointment> appointmentOpt = recognizeTruckUseCase.recognizeTruck(licensePlate);
+    @GetMapping("/open/{licensePlate}")
+    public ResponseEntity<String> openGateForTruck(@PathVariable String licensePlate) {
+        try {
+            Optional<Appointment> appointmentOpt = recognizeTruckUseCase.recognizeTruckAndValidateArrival(licensePlate);
 
-        if (appointmentOpt.isPresent()) {
-            // Temporary logic to open the gate
-            openGate(appointmentOpt.get());
-            return ResponseEntity.ok("Gate opened for truck with license plate: " + licensePlate);
-        } else {
-            return ResponseEntity.status(404).body("No appointment found for truck with license plate: " + licensePlate);
+            if (appointmentOpt.isPresent()) {
+                openGate(appointmentOpt.get());
+                return ResponseEntity.ok("Gate opened for truck with license plate: " + licensePlate);
+            } else {
+                return ResponseEntity.status(404).body("No valid appointment found for truck with license plate: " + licensePlate);
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
