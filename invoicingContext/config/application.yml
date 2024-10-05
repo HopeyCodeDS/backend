@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8091}
+  port: ${PORT:8191}
   servlet:
     context-path: /invoicingContext
 

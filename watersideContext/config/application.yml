@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8091}
+  port: ${PORT:8194}
   servlet:
     context-path: /watersideContext
 
