@@ -25,9 +25,12 @@ Content-Type: application/json
 
 
 ### Get Appointment by Seller ID and Material Type
-GET http://localhost:8192/landsideContext/api/appointments/supplier/123e4567-e89b-12d3-a456-426614174000/material/Iron%20Ore  // Replace with actual UUID
+GET http://localhost:8192/landsideContext/api/appointments/supplier/b78c50cd-a93b-4881-a37a-bc79408ef9d5/material/Iron%20Ore  // Replace with actual UUID
 Content-Type: application/json
 
 
 ### Recognize a truck license plate
 GET http://localhost:8192/landsideContext/trucks/open/ABC-123
+
+### Get a weighing bridge number
+GET http://localhost:8192/landsideContext/weighing-bridge/ABC-123
