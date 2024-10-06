@@ -34,3 +34,7 @@ GET http://localhost:8192/landsideContext/trucks/open/ABC-123
 
 ### Get a weighing bridge number
 GET http://localhost:8192/landsideContext/weighing-bridge/ABC-123
+
+### Weigh Truck and Assign Warehouse number
+POST http://localhost:8192/landsideContext/weighing-bridge/weigh/ABC-123?weight=12000
+
