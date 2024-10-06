@@ -21,8 +21,9 @@ public class Truck {
         this.materialType = materialType;
     }
 
-    public Truck(String licensePlate, MaterialType material) {
+    public Truck(String licensePlate, LocalDateTime arrivalWindow, MaterialType material) {
         this.licensePlate = new LicensePlate(licensePlate);
+        this.arrivalWindow = arrivalWindow;
         this.materialType = material;
     }
 

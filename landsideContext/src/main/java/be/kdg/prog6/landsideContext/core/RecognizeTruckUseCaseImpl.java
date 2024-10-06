@@ -24,8 +24,9 @@ private final AppointmentRepositoryPort appointmentRepositoryPort;
 
         if (appointmentOpt.isPresent()) {
             Appointment appointment = appointmentOpt.get();
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime arrivalWindowStart =  appointment.getArrivalWindow();
+//            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = appointment.getArrivalWindow().plusMinutes(1);
+            LocalDateTime arrivalWindowStart =  appointment.getTruck().getArrivalWindow();
             LocalDateTime arrivalWindowEnd = arrivalWindowStart.plusDays(1);
 
             // Validate if the current time is within the arrival window
