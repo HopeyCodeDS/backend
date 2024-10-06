@@ -11,6 +11,7 @@ public class Appointment {
     private UUID sellerId;
     private MaterialType materialType;
     private Slot slot;
+    private String weighingBridgeNumber;
 
     public Appointment(Truck truck, LocalDateTime arrivalWindow, UUID sellerId, MaterialType materialType, Slot slot) {
         this.truck = truck;
@@ -18,6 +19,15 @@ public class Appointment {
         this.sellerId = sellerId;
         this.materialType = materialType;
         this.slot = slot;
+    }
+
+    public Appointment(Truck truck, LocalDateTime arrivalWindow, UUID sellerId, MaterialType materialType, Slot slot, String weighingBridgeNumber) {
+        this.truck = truck;
+        this.arrivalWindow = arrivalWindow;
+        this.sellerId = sellerId;
+        this.materialType = materialType;
+        this.slot = slot;
+        this.weighingBridgeNumber = weighingBridgeNumber;
     }
 
     public Truck getTruck() {
@@ -38,5 +48,12 @@ public class Appointment {
 
     public MaterialType getMaterialType() {
         return materialType;
+    }
+    public String getWeighingBridgeNumber() {
+        return weighingBridgeNumber;
+    }
+
+    public void setWeighingBridgeNumber(String weighingBridgeNumber) {
+        this.weighingBridgeNumber = weighingBridgeNumber;
     }
 }

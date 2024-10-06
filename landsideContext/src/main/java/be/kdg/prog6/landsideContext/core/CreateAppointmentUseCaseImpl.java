@@ -54,7 +54,7 @@ public class CreateAppointmentUseCaseImpl implements CreateAppointmentUseCase {
             throw new IllegalArgumentException("Material type cannot be null.");
         }
 
-        Truck truck = new Truck(command.plateNumber(), command.materialType()); // Assuming Truck constructor accepts MaterialType
+        Truck truck = new Truck(command.plateNumber(), command.arrivalWindow(), command.materialType()); // Assuming Truck constructor accepts MaterialType
 
         // Create appointment
         Appointment appointment = new Appointment(truck, command.arrivalWindow(), sellerIdObject.uuid(), command.materialType(), slot);
