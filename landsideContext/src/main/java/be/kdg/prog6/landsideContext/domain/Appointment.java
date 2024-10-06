@@ -12,6 +12,7 @@ public class Appointment {
     private MaterialType materialType;
     private Slot slot;
     private String weighingBridgeNumber;
+    private boolean weighed;
 
     public Appointment(Truck truck, LocalDateTime arrivalWindow, UUID sellerId, MaterialType materialType, Slot slot) {
         this.truck = truck;
@@ -20,7 +21,6 @@ public class Appointment {
         this.materialType = materialType;
         this.slot = slot;
     }
-
     public Appointment(Truck truck, LocalDateTime arrivalWindow, UUID sellerId, MaterialType materialType, Slot slot, String weighingBridgeNumber) {
         this.truck = truck;
         this.arrivalWindow = arrivalWindow;
@@ -28,6 +28,7 @@ public class Appointment {
         this.materialType = materialType;
         this.slot = slot;
         this.weighingBridgeNumber = weighingBridgeNumber;
+        this.weighed = false; // Initially not weighed
     }
 
     public Truck getTruck() {
@@ -55,5 +56,14 @@ public class Appointment {
 
     public void setWeighingBridgeNumber(String weighingBridgeNumber) {
         this.weighingBridgeNumber = weighingBridgeNumber;
+    }
+
+    // Method to mark the truck as weighed
+    public void markAsWeighed() {
+        this.weighed = true;
+    }
+
+    public boolean isWeighed() {
+        return weighed;
     }
 }

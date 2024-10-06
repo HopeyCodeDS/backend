@@ -3,11 +3,10 @@ package be.kdg.prog6.warehousingContext.domain;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.StorageCapacity;
 
-import java.util.List;
 import java.util.UUID;
 
 public class Warehouse {
-    // Consult my lecturer for information on using UUID for warehouseIDs
+
     public WarehouseId warehouseId;
     private StorageCapacity capacity;
     private MaterialType rawMaterial;
