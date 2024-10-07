@@ -35,6 +35,11 @@ Once the truck reaches the assigned weighing bridge, the system automatically we
 
 After being weighed, the truck is assigned to the correct conveyor belt based on the material it carries. The system generates a **Proof of Delivery Ticket (PDT)**, which includes the truck’s license plate, material, conveyor belt number, and the next weighing bridge number.
 
+### **User Story 6:**
+> _As a truck driver, I want to pass the weighing bridge and get a Weighbridge Ticket (WBT) that includes: The gross weight upon arrival, tare weight, net weight, timestamp of weighing, and truck license plate number._
+
+In this case, the truck driver needs to pass through the weighing bridge and automatically receive a Weighbridge Ticket (WBT) upon weighing. This ticket serves as an official record that documents the truck's gross weight, tare weight, and net weight, along with the timestamp and license plate number.
+
 ---
 
 ## Project Architecture
@@ -84,8 +89,8 @@ docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
 ### Clone the Repository
 
 ```githubexpressionlanguage
-git clone https://gitlab.com/kdg-ti/programming6/students/24-25/momoduopeyemi/backend.git 
-cd backend
+    git clone https://gitlab.com/kdg-ti/programming6/students/24-25/momoduopeyemi/backend.git 
+    cd backend
 ```
 
 ### Running the Application
@@ -100,7 +105,7 @@ Content-Type: application/json
 
 {
 "sellerId": "b78c50cd-a93b-4881-a37a-bc79408ef9d5",
-"plateNumber": "ABC-123",
+"plateNumber": "BE_VUB-T90",
 "materialType": "IRON_ORE",
 "arrivalWindow": "2024-11-03T09:15:00"
 }
@@ -108,21 +113,21 @@ Content-Type: application/json
 #### Open Gate on Truck Arrival (User Story 2)
 
 ```http request
-GET http://localhost:8192/landsideContext/trucks/open/ABC-123
+GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T90
 ```
 #### Get Assigned Weighing Bridge (User Story 3)
 
 ```http request
-GET http://localhost:8080/landsideContext/weighing-bridge/ABC-123
+GET http://localhost:8192/landsideContext/weighing-bridge/BE_VUB-T90
 ```
 #### Weigh Truck at the Weighing Bridge (User Story 4)
 
 ```http request
-POST http://localhost:8192/landsideContext/weighing-bridge/weigh/ABC-123?weight=12000
+POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T90&weight=12000
 ```
 #### Test Endpoint for Docking a Truck (User Story 5)
 ```http request
-POST http://localhost:8192/landsideContext/docking/dock/ABC-123
+POST http://localhost:8192/landsideContext/docking/dock/BE_VUB-T90
 Content-Type: application/json
 ```
 #### Test Endpoint for Docking a Truck (Invalid License Plate)
@@ -131,11 +136,25 @@ POST http://localhost:8192/landsideContext/docking/dock/INVALID-PLATE
 Content-Type: application/json
 ```
 
-#### Get Assigned Weighing Bridge (User Story 3)
+#### Get Assigned Weighing Bridge (User Story 5)
 
 ```http request
-GET http://localhost:8080/landsideContext/weighing-bridge/ABC-123
+GET http://localhost:8192/landsideContext/weighing-bridge/BE_VUB-T90
 ```
+
+#### Weigh a Truck and Generate Weighbridge Ticket (WBT)
+
+```http request
+POST http://localhost:8192/landsideContext/weighing-bridge/generate-ticket
+Content-Type: application/json
+
+{
+  "licensePlate": "BE_VUB-T90",
+  "grossWeight": 12000,
+  "tareWeight": 7000
+}
+```
+
 
 ### Future Features
 
