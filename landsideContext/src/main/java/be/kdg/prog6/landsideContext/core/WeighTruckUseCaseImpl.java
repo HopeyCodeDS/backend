@@ -1,6 +1,7 @@
 package be.kdg.prog6.landsideContext.core;
 
 import be.kdg.prog6.landsideContext.domain.Appointment;
+import be.kdg.prog6.landsideContext.domain.WeighBridgeTicket;
 import be.kdg.prog6.landsideContext.domain.WeighingBridge;
 import be.kdg.prog6.landsideContext.ports.in.WeighTruckUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
@@ -38,6 +39,31 @@ public class WeighTruckUseCaseImpl implements WeighTruckUseCase {
             appointmentRepositoryPort.save(appointment); // Save the updated appointment
 
             return weighingBridge.getAssignedWarehouseNumber(); // Return the warehouse number
+        }
+
+        throw new IllegalArgumentException("No appointment found for truck with license plate: " + licensePlate);
+    }
+
+    @Override
+    public WeighBridgeTicket generateWeighBridgeTicket(String licensePlate, double grossWeight, double tareWeight) {
+        Optional<Appointment> appointmentOpt = appointmentRepositoryPort.findByLicensePlate(licensePlate);
+
+        if (appointmentOpt.isPresent()) {
+            Appointment appointment = appointmentOpt.get();
+
+            // Ensure the truck hasn't been weighed already
+//            if (appointment.getTruck().isWeighed()) {
+//                throw new IllegalArgumentException("Truck has already been weighed.");
+//            }
+
+            // Generate the Weighbridge Ticket (WBT)
+            WeighBridgeTicket ticket = new WeighBridgeTicket(licensePlate, grossWeight, tareWeight);
+
+            // Mark the truck as weighed
+            appointment.getTruck().markAsWeighed();
+            appointmentRepositoryPort.save(appointment); // Save the updated appointment
+
+            return ticket;
         }
 
         throw new IllegalArgumentException("No appointment found for truck with license plate: " + licensePlate);
