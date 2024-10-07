@@ -1,7 +1,9 @@
 package be.kdg.prog6.landsideContext.adapters.in;
 
+import be.kdg.prog6.landsideContext.adapters.in.dto.WeighTruckRequestDTO;
 import be.kdg.prog6.landsideContext.core.GetWeighingBridgeNumberUseCaseImpl;
 import be.kdg.prog6.landsideContext.core.WeighTruckUseCaseImpl;
+import be.kdg.prog6.landsideContext.domain.WeighBridgeTicket;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,13 +29,21 @@ public class WeighingBridgeController {
         }
     }
 
-    @PostMapping("/weigh/{licensePlate}")
-    public ResponseEntity<String> weighTruck(@PathVariable String licensePlate, @RequestParam double weight) {
-        try {
-            String warehouseNumber = weighTruckUseCaseImpl.weighTruck(licensePlate, weight);
-            return ResponseEntity.ok("Truck weighed successfully. Assigned to: " + warehouseNumber);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(404).body(e.getMessage());
-        }
+    @PostMapping("/weigh")
+    public ResponseEntity<String> weighTruck(@RequestParam String licensePlate,
+                                             @RequestParam double weight) {
+        String warehouseNumber = weighTruckUseCaseImpl.weighTruck(licensePlate, weight);
+        return ResponseEntity.ok(warehouseNumber);
+    }
+
+
+    @PostMapping("/generate-ticket")
+    public ResponseEntity<WeighBridgeTicket> generateWeighbridgeTicket(@RequestBody WeighTruckRequestDTO request) {
+        WeighBridgeTicket ticket = weighTruckUseCaseImpl.generateWeighBridgeTicket(
+                request.getLicensePlate(),
+                request.getGrossWeight(),
+                request.getTareWeight()
+        );
+        return ResponseEntity.ok(ticket);
     }
 }
