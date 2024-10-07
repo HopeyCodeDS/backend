@@ -1,7 +1,7 @@
 package be.kdg.prog6.landsideContext.facade;
 
 import be.kdg.prog6.common.events.AppointmentCreatedEvent;
-import be.kdg.prog6.common.facades.CreateAppointmentCommand;
+import be.kdg.prog6.landsideContext.ports.in.CreateAppointmentCommand;
 import be.kdg.prog6.landsideContext.core.CreateAppointmentUseCaseImpl;
 import be.kdg.prog6.landsideContext.core.GetAppointmentUseCaseImpl;
 import be.kdg.prog6.landsideContext.domain.Appointment;
