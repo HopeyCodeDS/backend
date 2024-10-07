@@ -22,16 +22,16 @@ public class GetWeighingBridgeNumberUseCaseImpl implements GetWeighingBridgeNumb
 
         if (appointmentOpt.isPresent()) {
             Appointment appointment = appointmentOpt.get();
-            String bridgeNumber = appointment.getWeighingBridgeNumber();
+            String bridgeNumber = appointment.getTruck().getCurrentWeighingBridgeNumber();
 
             // If the bridge number is already assigned, return it
             if (bridgeNumber != null && !bridgeNumber.isEmpty()) {
                 return bridgeNumber;
             }
 
-            // Assign a new bridge number dynamically (for simplicity, we'll hardcode a bridge number)
+            // Assign a new bridge number dynamically (for simplicity, I'll hardcode a bridge number)
             bridgeNumber = assignWeighingBridge();
-            appointment.setWeighingBridgeNumber(bridgeNumber); // Update the appointment with the new bridge number
+            appointment.getTruck().setCurrentWeighingBridgeNumber(bridgeNumber);; // Update the appointment with the new bridge number
             appointmentRepositoryPort.save(appointment); // Persist the update
 
             return bridgeNumber;
