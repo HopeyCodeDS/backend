@@ -25,6 +25,7 @@ private final AppointmentRepositoryPort appointmentRepositoryPort;
         if (appointmentOpt.isPresent()) {
             Appointment appointment = appointmentOpt.get();
 //            LocalDateTime now = LocalDateTime.now();
+            // Is appointed in truck??
             LocalDateTime now = appointment.getArrivalWindow().plusMinutes(1);
             LocalDateTime arrivalWindowStart =  appointment.getTruck().getArrivalWindow();
             LocalDateTime arrivalWindowEnd = arrivalWindowStart.plusDays(1);
