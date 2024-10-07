@@ -1,34 +1,24 @@
 package be.kdg.prog6.landsideContext.domain;
 
 import be.kdg.prog6.common.domain.MaterialType;
+import be.kdg.prog6.common.domain.SellerID;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+
 
 public class Appointment {
     private Truck truck;
     private LocalDateTime arrivalWindow;
-    private UUID sellerId;
+    private SellerID sellerId;
     private MaterialType materialType;
     private Slot slot;
-    private String weighingBridgeNumber;
-    private boolean weighed;
 
-    public Appointment(Truck truck, LocalDateTime arrivalWindow, UUID sellerId, MaterialType materialType, Slot slot) {
+    public Appointment(Truck truck, LocalDateTime arrivalWindow, SellerID sellerId, MaterialType materialType, Slot slot) {
         this.truck = truck;
         this.arrivalWindow = arrivalWindow;
         this.sellerId = sellerId;
         this.materialType = materialType;
         this.slot = slot;
-    }
-    public Appointment(Truck truck, LocalDateTime arrivalWindow, UUID sellerId, MaterialType materialType, Slot slot, String weighingBridgeNumber) {
-        this.truck = truck;
-        this.arrivalWindow = arrivalWindow;
-        this.sellerId = sellerId;
-        this.materialType = materialType;
-        this.slot = slot;
-        this.weighingBridgeNumber = weighingBridgeNumber;
-        this.weighed = false; // Initially not weighed
     }
 
     public Truck getTruck() {
@@ -39,7 +29,7 @@ public class Appointment {
         return arrivalWindow;
     }
 
-    public UUID getSellerId() {
+    public SellerID getSellerId() {
         return sellerId;
     }
 
@@ -50,20 +40,5 @@ public class Appointment {
     public MaterialType getMaterialType() {
         return materialType;
     }
-    public String getWeighingBridgeNumber() {
-        return weighingBridgeNumber;
-    }
 
-    public void setWeighingBridgeNumber(String weighingBridgeNumber) {
-        this.weighingBridgeNumber = weighingBridgeNumber;
-    }
-
-    // Method to mark the truck as weighed
-    public void markAsWeighed() {
-        this.weighed = true;
-    }
-
-    public boolean isWeighed() {
-        return weighed;
-    }
 }

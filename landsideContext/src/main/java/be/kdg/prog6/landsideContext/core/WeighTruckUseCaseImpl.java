@@ -25,16 +25,16 @@ public class WeighTruckUseCaseImpl implements WeighTruckUseCase {
             Appointment appointment = appointmentOpt.get();
 
             // Ensure the truck hasn't been weighed already
-            if (appointment.isWeighed()) {
+            if (appointment.getTruck().isWeighed()) {
                 throw new IllegalArgumentException("Truck has already been weighed.");
             }
 
             // Simulate weighing on the weighing bridge
-            WeighingBridge weighingBridge = new WeighingBridge(appointment.getWeighingBridgeNumber());
+            WeighingBridge weighingBridge = new WeighingBridge(appointment.getTruck().getCurrentWeighingBridgeNumber());
             weighingBridge.scanTruckAndRegisterWeight(licensePlate, weight);
 
             // Mark the truck as weighed in the appointment
-            appointment.markAsWeighed();
+            appointment.getTruck().markAsWeighed();
             appointmentRepositoryPort.save(appointment); // Save the updated appointment
 
             return weighingBridge.getAssignedWarehouseNumber(); // Return the warehouse number

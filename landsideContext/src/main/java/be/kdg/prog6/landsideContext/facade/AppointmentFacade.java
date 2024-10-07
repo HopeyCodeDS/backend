@@ -37,7 +37,7 @@ public class AppointmentFacade {
         // Generate the event after the appointment has been created
         AppointmentCreatedEvent event = new AppointmentCreatedEvent(
                 appointment.getTruck().getLicensePlate(),
-                appointment.getSellerId(),
+                appointment.getSellerId().uuid(),
                 appointment.getMaterialType().name(),
                 appointment.getArrivalWindow()
         );
