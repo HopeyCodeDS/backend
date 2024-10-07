@@ -1,7 +1,7 @@
 package be.kdg.prog6.landsideContext.core;
 
 import be.kdg.prog6.common.domain.SellerID;
-import be.kdg.prog6.common.facades.CreateAppointmentCommand;
+import be.kdg.prog6.landsideContext.ports.in.CreateAppointmentCommand;
 import be.kdg.prog6.landsideContext.domain.Appointment;
 import be.kdg.prog6.landsideContext.domain.Calendar;
 import be.kdg.prog6.landsideContext.domain.Slot;
