@@ -57,7 +57,7 @@ public class CreateAppointmentUseCaseImpl implements CreateAppointmentUseCase {
         Truck truck = new Truck(command.plateNumber(), command.arrivalWindow(), command.materialType()); // Assuming Truck constructor accepts MaterialType
 
         // Create appointment
-        Appointment appointment = new Appointment(truck, command.arrivalWindow(), sellerIdObject.uuid(), command.materialType(), slot);
+        Appointment appointment = new Appointment(truck, command.arrivalWindow(), sellerIdObject, command.materialType(), slot);
         log.info("Appointment booked: License Plate: {}, Arrival Window: {}", command.plateNumber(), command.arrivalWindow());
 
         // Save the appointment
