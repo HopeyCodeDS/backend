@@ -31,4 +31,14 @@ public class AppointmentCreatedEvent {
     public LocalDateTime getArrivalWindow() {
         return arrivalWindow;
     }
+
+    @Override
+    public String toString() {
+        return "AppointmentCreatedEvent{" +
+                "licensePlate='" + licensePlate + '\'' +
+                ", sellerId=" + sellerId +
+                ", materialType='" + materialType + '\'' +
+                ", arrivalWindow=" + arrivalWindow +
+                '}';
+    }
 }

@@ -53,15 +53,19 @@ public class AppointmentFacade {
     }
 
     public Optional<Appointment> getAppointmentBySellerId(UUID sellerId) {
+        logger.info("Getting appointment by sellerId {}", sellerId);
         return getAppointmentUseCaseImpl.getAppointmentBySellerId(sellerId);
     }
     public Optional<Appointment> getAppointmentBySellerIdAndMaterialType(UUID sellerId, String materialType) {
+        logger.info("Getting appointment by sellerId {} and materialType {}", sellerId, materialType);
         return getAppointmentUseCaseImpl.getAppointmentBySellerIdAndMaterialType(sellerId, materialType);
     }
     public List<Appointment> getAppointmentsDuringArrivalWindow(LocalDateTime start, LocalDateTime end) {
+        logger.info("Getting appointments during arrival window from {} to {}", start, end);
         return getAppointmentUseCaseImpl.getAppointmentsDuringArrivalWindow(start, end);
     }
     public List<Appointment> getAppointmentsByTruckLicensePlate(String licensePlate) {
+        logger.info("Getting appointments by license plate {}", licensePlate);
         return getAppointmentUseCaseImpl.getAppointmentsByTruckLicensePlate(licensePlate);
     }
 

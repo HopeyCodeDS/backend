@@ -2,7 +2,11 @@ package be.kdg.prog6.landsideContext.adapters.in;
 
 
 import be.kdg.prog6.common.events.AppointmentCreatedEvent;
+<<<<<<< HEAD
 import be.kdg.prog6.landsideContext.ports.in.CreateAppointmentCommand;
+=======
+import be.kdg.prog6.common.facades.CreateAppointmentCommand;
+>>>>>>> 2c6069d096b1be52d748795ba6a27114b7edfa6a
 import be.kdg.prog6.landsideContext.facade.AppointmentFacade;
 import be.kdg.prog6.landsideContext.domain.Appointment;
 
@@ -33,12 +37,14 @@ public class AppointmentController {
     public ResponseEntity<AppointmentCreatedEvent> createAppointment(@RequestBody CreateAppointmentCommand command) {
 
         AppointmentCreatedEvent appointmentCreatedEvent = appointmentFacade.createAppointment(command);
+        log.info(appointmentCreatedEvent.toString());
         return ResponseEntity.ok(appointmentCreatedEvent);
     }
 
     @GetMapping("/supplier/{sellerId}")
     public ResponseEntity<Appointment> getAppointmentBySellerId(@PathVariable UUID sellerId) {
         Optional<Appointment> appointmentOpt = appointmentFacade.getAppointmentBySellerId(sellerId);
+        log.info("This is the SellerId: {}", sellerId);
 
         return appointmentOpt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

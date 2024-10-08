@@ -1,7 +1,10 @@
 package be.kdg.prog6.landsideContext.adapters.out;
 
 import be.kdg.prog6.landsideContext.domain.Appointment;
+import be.kdg.prog6.landsideContext.facade.AppointmentFacade;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -9,6 +12,8 @@ import java.util.*;
 
 @Repository
 public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppointmentRepositoryAdapter.class);
     // Temporarily using map to store a list of appointments for each truck
     private final Map<String, List<Appointment>> appointments = new HashMap<>();
 
@@ -23,15 +28,17 @@ public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
 
     @Override
     public Optional<Appointment> findBySellerId(UUID sellerId) {
+        logger.info("Searching for appointment that matches the seller ID: {}", sellerId);
         // Find the first appointment that matches the seller ID
         return appointments.values().stream()
                 .flatMap(List::stream) // Flatten the list of appointments
-                .filter(appointment -> appointment.getSellerId().equals(sellerId))
+                .filter(appointment -> appointment.getSellerId().uuid().equals(sellerId))// Solved the failing equality check I had before
                 .findFirst(); // Return the first matching appointment
     }
 
     @Override
     public List<Appointment> findAppointmentsDuringArrivalWindow(LocalDateTime start, LocalDateTime end) {
+        logger.info("Searching for appointment that falls between {} and {}", start, end);
         // Filter appointments within the specified arrival window
         return appointments.values().stream()
                 .flatMap(List::stream) // Flatten the list of appointments

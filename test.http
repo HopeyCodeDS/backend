@@ -12,6 +12,7 @@ Content-Type: application/json
 
 ### Get Appointment by Seller ID
 GET http://localhost:8192/landsideContext/appointments/supplier/b78c50cd-a93b-4881-a37a-bc79408ef9d5
+Accept: application/json
 Content-Type: application/json
 
 ### Get Appointments by Truck License Plate
@@ -20,12 +21,12 @@ Content-Type: application/json
 
 
 ### Get Appointments During Arrival Window
-GET http://localhost:8192/landsideContext/appointments/arrival-window?start=2024-10-01T11:00:00&end=2024-10-01T13:00:00
+GET http://localhost:8192/landsideContext/appointments/arrival-window?start=2024-10-01T11:00:00&end=2024-12-01T13:00:00
 Content-Type: application/json
 
 
 ### Get Appointment by Seller ID and Material Type
-GET http://localhost:8192/landsideContext/api/appointments/supplier/b78c50cd-a93b-4881-a37a-bc79408ef9d5/material/Iron%20Ore  // Replace with actual UUID
+GET http://localhost:8192/landsideContext/appointments/supplier/b78c50cd-a93b-4881-a37a-bc79408ef9d5/material/IRON_ORE
 Content-Type: application/json
 
 
