@@ -1,14 +1,10 @@
 package be.kdg.prog6.landsideContext.adapters.in;
 
 
-import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.events.AppointmentCreatedEvent;
 import be.kdg.prog6.common.facades.CreateAppointmentCommand;
-import be.kdg.prog6.landsideContext.core.CreateAppointmentUseCaseImpl;
 import be.kdg.prog6.landsideContext.facade.AppointmentFacade;
 import be.kdg.prog6.landsideContext.domain.Appointment;
-import be.kdg.prog6.landsideContext.facade.AppointmentFacade;
-import be.kdg.prog6.landsideContext.ports.in.CreateAppointmentUseCase;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,12 +33,14 @@ public class AppointmentController {
     public ResponseEntity<AppointmentCreatedEvent> createAppointment(@RequestBody CreateAppointmentCommand command) {
 
         AppointmentCreatedEvent appointmentCreatedEvent = appointmentFacade.createAppointment(command);
+        log.info(appointmentCreatedEvent.toString());
         return ResponseEntity.ok(appointmentCreatedEvent);
     }
 
     @GetMapping("/supplier/{sellerId}")
     public ResponseEntity<Appointment> getAppointmentBySellerId(@PathVariable UUID sellerId) {
         Optional<Appointment> appointmentOpt = appointmentFacade.getAppointmentBySellerId(sellerId);
+        log.info("This is the SellerId: {}", sellerId);
 
         return appointmentOpt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
