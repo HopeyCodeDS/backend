@@ -1,6 +1,6 @@
 package be.kdg.prog6.landsideContext.adapters.out;
 
-import be.kdg.prog6.common.events.DockingEvent;
+import be.kdg.prog6.common.commands.DockingCommand;
 import be.kdg.prog6.landsideContext.ports.out.DockTruckPublisherPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class DockTruckPublisherAdapter implements DockTruckPublisherPort {
     }
 
     @Override
-    public void publishDockingEvent(DockingEvent event) {
-        rabbitTemplate.convertAndSend("dockExchange", "dock.routingKey", event);
+    public void publishDockingEvent(DockingCommand command) {
+        rabbitTemplate.convertAndSend("dockExchange", "dock.routingKey", command);
     }
 }
