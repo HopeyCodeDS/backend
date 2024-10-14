@@ -1,6 +1,7 @@
 package be.kdg.prog6.landsideContext.facade;
 
 import be.kdg.prog6.common.events.AppointmentCreatedEvent;
+import be.kdg.prog6.landsideContext.ports.in.AppointmentFacadePort;
 import be.kdg.prog6.landsideContext.ports.in.CreateAppointmentCommand;
 import be.kdg.prog6.landsideContext.core.CreateAppointmentUseCaseImpl;
 import be.kdg.prog6.landsideContext.core.GetAppointmentUseCaseImpl;
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class AppointmentFacade {
+public class AppointmentFacade implements AppointmentFacadePort {
 
     private static final Logger logger = LoggerFactory.getLogger(AppointmentFacade.class);
 
@@ -28,6 +29,7 @@ public class AppointmentFacade {
         this.getAppointmentUseCaseImpl = getAppointmentUseCaseImpl;
     }
 
+    @Override
     public AppointmentCreatedEvent createAppointment(CreateAppointmentCommand command) {
         // Create the appointment and get the corresponding event
         Appointment appointment = createAppointmentUseCaseImpl.createAppointment(
@@ -52,18 +54,25 @@ public class AppointmentFacade {
         // Very soon I will apply dispatching logic (like RabbitMQ) here
     }
 
+    @Override
     public Optional<Appointment> getAppointmentBySellerId(UUID sellerId) {
         logger.info("Getting appointment by sellerId {}", sellerId);
         return getAppointmentUseCaseImpl.getAppointmentBySellerId(sellerId);
     }
+
+    @Override
     public Optional<Appointment> getAppointmentBySellerIdAndMaterialType(UUID sellerId, String materialType) {
         logger.info("Getting appointment by sellerId {} and materialType {}", sellerId, materialType);
         return getAppointmentUseCaseImpl.getAppointmentBySellerIdAndMaterialType(sellerId, materialType);
     }
+
+    @Override
     public List<Appointment> getAppointmentsDuringArrivalWindow(LocalDateTime start, LocalDateTime end) {
         logger.info("Getting appointments during arrival window from {} to {}", start, end);
         return getAppointmentUseCaseImpl.getAppointmentsDuringArrivalWindow(start, end);
     }
+
+    @Override
     public List<Appointment> getAppointmentsByTruckLicensePlate(String licensePlate) {
         logger.info("Getting appointments by license plate {}", licensePlate);
         return getAppointmentUseCaseImpl.getAppointmentsByTruckLicensePlate(licensePlate);
