@@ -1,34 +1,38 @@
 package be.kdg.prog6.landsideContext.domain;
 
-import java.time.LocalDateTime;
+import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
 public class Slot {
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private boolean isBooked;
+    private final LocalDateTime startTime;
+    private final LocalDateTime endTime;
+    private final List<Truck> scheduledTrucks;
+    private static final int MAXIMUM_CAPACITY = 40;
+
 
     public Slot(LocalDateTime startTime, LocalDateTime endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.isBooked = false;
+        this.scheduledTrucks = new ArrayList<>();
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public boolean isFull(){
+        return scheduledTrucks.size() >= MAXIMUM_CAPACITY;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public boolean isBooked() {
-        return isBooked;
-    }
-
-    public void bookSlot() {
-        if (isBooked) {
-            throw new IllegalStateException("Slot is already booked.");
+    public void bookSlot(Truck truck) {
+        if (isFull()){
+            throw new IllegalStateException("Cannot schedule more than 40 trucks in this time slot.");
         }
-        this.isBooked = true;
+        scheduledTrucks.add(truck);
+    }
+
+    public void recordTruckArrival(Truck truck, LocalDateTime arrivalTime) {
+        truck.setArrivalTime(arrivalTime);
+        bookSlot(truck);
     }
 }

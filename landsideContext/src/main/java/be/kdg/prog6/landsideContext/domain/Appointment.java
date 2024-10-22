@@ -2,10 +2,13 @@ package be.kdg.prog6.landsideContext.domain;
 
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.SellerID;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
+@Setter
+@Getter
 public class Appointment {
     private Truck truck;
     private LocalDateTime arrivalWindow;
@@ -19,26 +22,6 @@ public class Appointment {
         this.sellerId = sellerId;
         this.materialType = materialType;
         this.slot = slot;
-    }
-
-    public Truck getTruck() {
-        return truck;
-    }
-
-    public LocalDateTime getArrivalWindow() {
-        return arrivalWindow;
-    }
-
-    public SellerID getSellerId() {
-        return sellerId;
-    }
-
-    public Slot getSlot() {
-        return slot;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
     }
 
 }

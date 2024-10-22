@@ -5,20 +5,21 @@ import java.util.List;
 import java.util.Optional;
 
 public class Calendar {
-    private List<Slot> slots;
+    private final List<Slot> slots;
 
     public Calendar(List<Slot> slots) {
         this.slots = slots;
     }
 
-    public Optional<Slot> findAvailableSlot(LocalDateTime arrivalWindow) {
+    public Optional<Slot> findAvailableSlot(LocalDateTime arrivalTime) {
         return slots.stream()
-                .filter(slot -> !slot.isBooked() && slot.getStartTime().isBefore(arrivalWindow)
-                        && slot.getEndTime().isAfter(arrivalWindow))
+                .filter(slot -> !slot.isFull() && slot.getStartTime().isBefore(arrivalTime)
+                        && slot.getEndTime().isAfter(arrivalTime))
                 .findFirst();
     }
 
-    public void bookSlot(Slot slot) {
-        slot.bookSlot();
+    public void bookSlot(Slot slot, Truck truck) {
+        // attempting to book the slot for the truck, ensuring the slot has capacity
+        slot.bookSlot(truck);
     }
 }

@@ -1,73 +1,59 @@
 package be.kdg.prog6.landsideContext.domain;
 
 import be.kdg.prog6.common.domain.MaterialType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 public class Truck {
-    private LicensePlate licensePlate;
+    private final LicensePlate licensePlate;
+
+    @Getter
+    @Setter
     private String warehouseID;
-    private LocalDateTime arrivalWindow;
-    private MaterialType materialType;
-    private String currentWeighingBridgeNumber; // The weighing bridge number linked to this truck
+
+    @Getter
+    @Setter
+    private LocalDateTime arrivalTime;
+
+    @Getter
+    private double weight;
+
+    @Getter
+    private final MaterialType materialType;
+
+    @Getter
+    @Setter
+    private String currentWeighingBridgeNumber;
+
+    @Getter
     private String assignedConveyorBelt;
+
+    @Getter
     private boolean weighed;
 
-    public Truck(String licensePlate, LocalDateTime arrivalWindow, MaterialType material) {
+    public Truck(String licensePlate, MaterialType materialType) {
         this.licensePlate = new LicensePlate(licensePlate);
-        this.arrivalWindow = arrivalWindow;
-        this.materialType = material;
+        this.materialType = materialType;
     }
 
-    public Truck(LicensePlate licensePlate, String warehouseID, LocalDateTime arrivalWindow, MaterialType materialType, boolean weighed) {
+    public Truck(LicensePlate licensePlate, double weight) {
         this.licensePlate = licensePlate;
-        this.warehouseID = warehouseID;
-        this.arrivalWindow = arrivalWindow;
-        this.materialType = materialType;
-        this.currentWeighingBridgeNumber = null;
-        this.assignedConveyorBelt = null;
-        this.weighed = false;
+        this.weight = weight;
+        this.materialType = null; // Or initialize properly
     }
 
     public String getLicensePlate() {
         return licensePlate.plateNumber();
     }
 
-    public String getWarehouseID() {
-        return warehouseID;
+    public void assignConveyorBelt(String conveyorBelt) {
+        this.assignedConveyorBelt = conveyorBelt;
     }
 
-    public LocalDateTime getArrivalWindow() {
-        return arrivalWindow;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public String getCurrentWeighingBridgeNumber() {
-        return currentWeighingBridgeNumber;
-    }
-
-    public String getAssignedConveyorBelt() {
-        return assignedConveyorBelt;
-    }
-
-    public void setCurrentWeighingBridgeNumber(String currentWeighingBridgeNumber) {
-        this.currentWeighingBridgeNumber = currentWeighingBridgeNumber;
-    }
-
-    public void setAssignedConveyorBelt(String assignedConveyorBelt) {
-        this.assignedConveyorBelt = assignedConveyorBelt;
-    }
-
-    // Method to mark the truck as weighed
     public void markAsWeighed() {
         this.weighed = true;
-    }
-
-    public boolean isWeighed() {
-        return weighed;
     }
 
     @Override
@@ -75,12 +61,10 @@ public class Truck {
         return "Truck{" +
                 "licensePlate=" + licensePlate +
                 ", warehouseID='" + warehouseID + '\'' +
-                ", arrivalWindow=" + arrivalWindow +
+                ", arrivalTime=" + arrivalTime +
+                ", weight=" + weight +
                 ", materialType=" + materialType +
-                ", currentWeighingBridgeNumber='" + currentWeighingBridgeNumber + '\'' +
-                ", assignedConveyorBelt='" + assignedConveyorBelt + '\'' +
                 ", weighed=" + weighed +
                 '}';
     }
 }
-
