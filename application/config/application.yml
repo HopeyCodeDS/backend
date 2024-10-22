@@ -5,11 +5,13 @@ server:
 
 
 spring:
+  config:
+    additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
   jpa:
     open-in-view: false
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       show-sql: true
     defer-datasource-initialization: true
     properties:
@@ -18,7 +20,7 @@ spring:
     init:
       mode: always
   datasource:
-    url: jdbc:mysql://localhost:3306/app_db
+    url: jdbc:mysql://localhost:3306/landside
     username: user
     password: password
   logging:
@@ -30,5 +32,4 @@ spring:
     port: 5672
     username: myuser
     password: mypassword
-  config:
-    additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
+

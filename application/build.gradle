@@ -9,4 +9,6 @@ dependencies {
     implementation project(':invoicingContext')
     implementation project(':landsideContext')
     implementation project(':watersideContext')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
