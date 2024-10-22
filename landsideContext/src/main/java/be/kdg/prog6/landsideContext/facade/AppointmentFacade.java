@@ -39,7 +39,7 @@ public class AppointmentFacade implements AppointmentFacadePort {
         // Generate the event after the appointment has been created
         AppointmentCreatedEvent event = new AppointmentCreatedEvent(
                 appointment.getTruck().getLicensePlate(),
-                appointment.getSellerId().uuid(),
+                appointment.getSellerId().getUuid(),
                 appointment.getMaterialType().name(),
                 appointment.getArrivalWindow()
         );

@@ -29,7 +29,7 @@ public class DockTruckUseCaseImpl implements DockTruckUseCase {
             Appointment appointment = appointmentOpt.get();
 
             // Publish a DockingEvent via the port
-            DockingCommand command = new DockingCommand(appointment.getSellerId().uuid(), licensePlate, appointment.getMaterialType(), appointment.getTruck().getCurrentWeighingBridgeNumber());
+            DockingCommand command = new DockingCommand(appointment.getSellerId().getUuid(), licensePlate, appointment.getMaterialType(), appointment.getTruck().getCurrentWeighingBridgeNumber());
             dockTruckPublisher.publishDockingEvent(command);
 
             // Save the updated appointment
