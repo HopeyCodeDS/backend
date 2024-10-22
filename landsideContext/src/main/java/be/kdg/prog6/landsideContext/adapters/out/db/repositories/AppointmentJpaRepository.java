@@ -11,8 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AppointmentJpaRepository extends JpaRepository<AppointmentJpaEntity, UUID> {
+public interface AppointmentJpaRepository extends JpaRepository<AppointmentJpaEntity, Long> {
     Optional<AppointmentJpaEntity> findBySellerId(UUID sellerId);
     List<AppointmentJpaEntity> findByArrivalWindowBetween(LocalDateTime start, LocalDateTime end);
-    Optional<AppointmentJpaEntity> findByLicensePlate(String licensePlate);
+    Optional<AppointmentJpaEntity> findByTruck_LicensePlate(String licensePlate);
+
 }

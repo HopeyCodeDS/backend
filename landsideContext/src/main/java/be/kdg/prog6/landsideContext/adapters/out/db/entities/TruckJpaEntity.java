@@ -2,10 +2,15 @@ package be.kdg.prog6.landsideContext.adapters.out.db.entities;
 
 import be.kdg.prog6.common.domain.MaterialType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 @Entity
-@Table(name = "trucks")
+@Table(catalog = "landside", name = "trucks")
 public class TruckJpaEntity {
 
     @Id
@@ -15,8 +20,8 @@ public class TruckJpaEntity {
     @Column(name = "warehouse_id")
     private String warehouseID;
 
-    @Column(name = "arrival_window", nullable = false)
-    private LocalDateTime arrivalWindow;
+    @Column(name = "arrival_time", nullable = false)
+    private LocalDateTime arrivalTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "material_type", nullable = false)
@@ -28,63 +33,12 @@ public class TruckJpaEntity {
     @Column(name = "assigned_conveyor_belt")
     private String assignedConveyorBelt;
 
-    @Column(name = "weighed", nullable = false)
+    @Column(name = "weighed", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
     private boolean weighed = false;
 
-    // Getters and setters
-    public String getLicensePlate() {
-        return licensePlate;
+    public TruckJpaEntity() {
+        this.weighed = false; // Ensure weighed is set to false by default
     }
 
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
 
-    public String getWarehouseID() {
-        return warehouseID;
-    }
-
-    public void setWarehouseID(String warehouseID) {
-        this.warehouseID = warehouseID;
-    }
-
-    public LocalDateTime getArrivalWindow() {
-        return arrivalWindow;
-    }
-
-    public void setArrivalWindow(LocalDateTime arrivalWindow) {
-        this.arrivalWindow = arrivalWindow;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public String getCurrentWeighingBridgeNumber() {
-        return currentWeighingBridgeNumber;
-    }
-
-    public void setCurrentWeighingBridgeNumber(String currentWeighingBridgeNumber) {
-        this.currentWeighingBridgeNumber = currentWeighingBridgeNumber;
-    }
-
-    public String getAssignedConveyorBelt() {
-        return assignedConveyorBelt;
-    }
-
-    public void setAssignedConveyorBelt(String assignedConveyorBelt) {
-        this.assignedConveyorBelt = assignedConveyorBelt;
-    }
-
-    public boolean isWeighed() {
-        return weighed;
-    }
-
-    public void setWeighed(boolean weighed) {
-        this.weighed = weighed;
-    }
 }

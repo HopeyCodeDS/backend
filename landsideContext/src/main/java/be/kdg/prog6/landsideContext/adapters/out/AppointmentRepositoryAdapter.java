@@ -56,7 +56,7 @@ public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
     public List<Appointment> findAppointmentsByTruckLicensePlate(String licensePlate) {
         logger.info("Searching for appointments by truck license plate: {}", licensePlate);
         // Use JPA to find appointments by truck license plate and map them to domain objects
-        return appointmentJpaRepository.findByLicensePlate(licensePlate)
+        return appointmentJpaRepository.findByTruck_LicensePlate(licensePlate)
                 .stream()
                 .map(appointmentMapper::entityToDomain)
                 .collect(Collectors.toList());
@@ -66,7 +66,7 @@ public class AppointmentRepositoryAdapter implements AppointmentRepositoryPort {
     public Optional<Appointment> findByLicensePlate(String licensePlate) {
         logger.info("Searching for appointment by truck license plate: {}", licensePlate);
         // Use JPA to find by license plate, then map to domain object
-        return appointmentJpaRepository.findByLicensePlate(licensePlate)
+        return appointmentJpaRepository.findByTruck_LicensePlate(licensePlate)
                 .map(appointmentMapper::entityToDomain);
     }
 }

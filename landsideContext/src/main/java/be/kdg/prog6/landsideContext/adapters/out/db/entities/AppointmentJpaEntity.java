@@ -3,76 +3,47 @@ package be.kdg.prog6.landsideContext.adapters.out.db.entities;
 import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.SellerID;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+
+import java.sql.Types;
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
-@Table(name = "appointments")
+@Table(catalog = "landside", name = "appointments")
 public class AppointmentJpaEntity {
 
+    // Getters and setters
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name="appointment_id", columnDefinition = "varchar(36)")
+    @JdbcTypeCode(Types.VARCHAR)
+    private Long appointmentId;
 
+//    @ManyToOne(cascade = CascadeType.ALL)
+    @Setter
     @ManyToOne
-    @JoinColumn(name = "truck_license_plate", referencedColumnName = "license_plate", nullable = false)
+    @JoinColumn(name = "license_plate", referencedColumnName = "license_plate")
     private TruckJpaEntity truck;
 
+    @Setter
     @Column(name = "arrival_window", nullable = false)
     private LocalDateTime arrivalWindow;
 
+    @Setter
     @Embedded
+    @AttributeOverride(name = "uuid", column = @Column(name = "seller_id", columnDefinition = "CHAR(36)"))
     private SellerID sellerId;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "material_type", nullable = false)
     private MaterialType materialType;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "slot_id")
     private SlotJpaEntity slot;
 
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public TruckJpaEntity getTruck() {
-        return truck;
-    }
-
-    public void setTruck(TruckJpaEntity truck) {
-        this.truck = truck;
-    }
-
-    public LocalDateTime getArrivalWindow() {
-        return arrivalWindow;
-    }
-
-    public void setArrivalWindow(LocalDateTime arrivalWindow) {
-        this.arrivalWindow = arrivalWindow;
-    }
-
-    public SellerID getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(SellerID sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public SlotJpaEntity getSlot() {
-        return slot;
-    }
-
-    public void setSlot(SlotJpaEntity slot) {
-        this.slot = slot;
-    }
 }

@@ -6,42 +6,57 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class Truck {
-    private final LicensePlate licensePlate;
 
-    @Getter
+    private LicensePlate licensePlate;
+
     @Setter
     private String warehouseID;
 
-    @Getter
     @Setter
     private LocalDateTime arrivalTime;
 
-    @Getter
     private double weight;
 
-    @Getter
-    private final MaterialType materialType;
+    @Setter
+    private MaterialType materialType;
 
-    @Getter
     @Setter
     private String currentWeighingBridgeNumber;
 
-    @Getter
+    @Setter
     private String assignedConveyorBelt;
 
-    @Getter
+    @Setter
     private boolean weighed;
 
+    // Constructor for Truck with String licensePlate and MaterialType
     public Truck(String licensePlate, MaterialType materialType) {
         this.licensePlate = new LicensePlate(licensePlate);
         this.materialType = materialType;
     }
 
+    // Constructor for Truck with LicensePlate and weight
     public Truck(LicensePlate licensePlate, double weight) {
         this.licensePlate = licensePlate;
         this.weight = weight;
         this.materialType = null; // Or initialize properly
+    }
+
+    // Default constructor (required for mapping frameworks)
+    public Truck() {
+        this.licensePlate = null;
+        this.materialType = null;
+    }
+
+    public Truck(LicensePlate licensePlate, String warehouseID, LocalDateTime arrivalTime, double weight, MaterialType materialType, boolean weighed) {
+        this.licensePlate = licensePlate;
+        this.warehouseID = warehouseID;
+        this.arrivalTime = arrivalTime;
+        this.weight = weight;
+        this.materialType = materialType;
+        this.weighed = weighed;
     }
 
     public String getLicensePlate() {

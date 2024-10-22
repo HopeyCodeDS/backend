@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "slots")
+@Table(catalog = "landside", name = "slots")
 @Getter
 @Setter
 public class SlotJpaEntity {
