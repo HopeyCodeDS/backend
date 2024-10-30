@@ -21,17 +21,22 @@ public class PayloadDeliveryTicket {
     @Getter
     @Enumerated(EnumType.STRING)
     private MaterialType materialType;
+
     @Getter
     private String conveyorBeltNumber;
+
     @Getter
     private String weighingBridgeNumber;
+
     @Getter
     private LocalDateTime deliveryTime;
+
     private double weight;
 
     protected PayloadDeliveryTicket() {
         // Default constructor for JPA
     }
+
     public PayloadDeliveryTicket(String licensePlate, MaterialType materialType, String conveyorBeltNumber, String weighingBridgeNumber, double weight) {
         this.licensePlate = licensePlate;
         this.materialType = materialType;

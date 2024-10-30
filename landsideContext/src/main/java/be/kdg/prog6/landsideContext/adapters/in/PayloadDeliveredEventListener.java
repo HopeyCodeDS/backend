@@ -51,6 +51,7 @@ public class PayloadDeliveredEventListener {
 
     private void processPayloadReceivedEvent(PayloadReceivedEvent event) {
         log.info("Processing PayloadReceivedEvent for license plate: {}", event.getLicensePlate());
+        log.info("Processing PayloadReceivedEvent At this timestamp: {}", event.getDeliveryTime());
 
         // Reconstruct and save the PDT in Landside Context
         try {

@@ -1,43 +1,40 @@
 package be.kdg.prog6.landsideContext.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Entity
 public class WeighBridgeTicket {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Primary key
     private String licensePlate;
     private double grossWeight;
     private double tareWeight;
     private double netWeight;
     private LocalDateTime timestamp;
 
+    // Default constructor for JPA
+    public WeighBridgeTicket() {}
+
     // Constructor
     public WeighBridgeTicket(String licensePlate, double grossWeight, double tareWeight) {
         this.licensePlate = licensePlate;
         this.grossWeight = grossWeight;
         this.tareWeight = tareWeight;
-        this.netWeight = grossWeight - tareWeight;
+        this.netWeight = calculateNetWeight();
         this.timestamp = LocalDateTime.now();
     }
 
-    // Getters
-    public String getLicensePlate() {
-        return licensePlate;
-    }
 
-    public double getGrossWeight() {
-        return grossWeight;
-    }
-
-    public double getTareWeight() {
-        return tareWeight;
-    }
-
-    public double getNetWeight() {
-        return netWeight;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+    public double calculateNetWeight() { return grossWeight - tareWeight; }
 
     @Override
     public String toString() {
