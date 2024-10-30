@@ -20,15 +20,18 @@ public class TruckJpaEntity {
     @Column(name = "warehouse_id")
     private String warehouseID;
 
-    @Column(name = "arrival_time", nullable = false)
+    @Column
+    private Double weight = 0.0;
+
+    @Column(name = "arrival_time")
     private LocalDateTime arrivalTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "material_type", nullable = false)
     private MaterialType materialType;
 
-    @Column(name = "current_weighing_bridge_number")
-    private String currentWeighingBridgeNumber;
+    @Column(name = "weighing_bridge_number")
+    private String weighingBridgeNumber;
 
     @Column(name = "assigned_conveyor_belt")
     private String assignedConveyorBelt;
@@ -36,9 +39,11 @@ public class TruckJpaEntity {
     @Column(name = "weighed", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
     private boolean weighed = false;
 
-    public TruckJpaEntity() {
-        this.weighed = false; // Ensure weighed is set to false by default
-    }
+    @Column(name = "docked", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean docked = false;
 
+    public TruckJpaEntity() {
+//        this.weighed = false; // Ensure weighed is set to false by default
+    }
 
 }

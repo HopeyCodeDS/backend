@@ -9,27 +9,29 @@ import java.time.LocalDateTime;
 @Getter
 public class Truck {
 
-    private LicensePlate licensePlate;
+    private final LicensePlate licensePlate;
 
     @Setter
     private String warehouseID;
 
     @Setter
-    private LocalDateTime arrivalTime;
-
     private double weight;
 
     @Setter
     private MaterialType materialType;
 
     @Setter
-    private String currentWeighingBridgeNumber;
+    private LocalDateTime arrivalTime;
+
+    @Setter
+    private String weighingBridgeNumber;
 
     @Setter
     private String assignedConveyorBelt;
 
     @Setter
     private boolean weighed;
+    private boolean docked = false;
 
     // Constructor for Truck with String licensePlate and MaterialType
     public Truck(String licensePlate, MaterialType materialType) {
@@ -38,29 +40,50 @@ public class Truck {
     }
 
     // Constructor for Truck with LicensePlate and weight
-    public Truck(LicensePlate licensePlate, double weight) {
+    public Truck(LicensePlate licensePlate) {
         this.licensePlate = licensePlate;
-        this.weight = weight;
+        this.weight = getWeight();
         this.materialType = null; // Or initialize properly
     }
 
-    // Default constructor (required for mapping frameworks)
-    public Truck() {
-        this.licensePlate = null;
-        this.materialType = null;
-    }
 
-    public Truck(LicensePlate licensePlate, String warehouseID, LocalDateTime arrivalTime, double weight, MaterialType materialType, boolean weighed) {
+    public Truck(LicensePlate licensePlate, String warehouseID, double weight, MaterialType materialType, boolean weighed) {
         this.licensePlate = licensePlate;
         this.warehouseID = warehouseID;
-        this.arrivalTime = arrivalTime;
         this.weight = weight;
         this.materialType = materialType;
         this.weighed = weighed;
     }
 
+    public Truck(LicensePlate licensePlate, String warehouseID, double weight, MaterialType materialType, LocalDateTime arrivalTime, String weighingBridgeNumber, String assignedConveyorBelt, boolean weighed, boolean docked) {
+        this.licensePlate = licensePlate;
+        this.warehouseID = warehouseID;
+        this.weight = weight;
+        this.materialType = materialType;
+        this.arrivalTime = arrivalTime;
+        this.weighingBridgeNumber = weighingBridgeNumber;
+        this.assignedConveyorBelt = assignedConveyorBelt;
+        this.weighed = weighed;
+        this.docked = docked;
+    }
+
     public String getLicensePlate() {
+        if (licensePlate == null) {
+            throw new IllegalStateException("License plate is not set for this truck.");
+        }
         return licensePlate.plateNumber();
+    }
+    public void assignWeighingBridge(String bridgeNumber) {
+        if (bridgeNumber != null && !bridgeNumber.isEmpty()) {
+            this.weighingBridgeNumber = bridgeNumber;
+        }
+    }
+    public void assignWarehouse(String warehouseID) {
+        this.warehouseID = warehouseID;
+    }
+
+    public boolean hasAssignedWeighingBridge() {
+        return weighingBridgeNumber != null;
     }
 
     public void assignConveyorBelt(String conveyorBelt) {
@@ -71,14 +94,20 @@ public class Truck {
         this.weighed = true;
     }
 
+    public void dock() {
+        this.docked = true;
+    }
+
     @Override
     public String toString() {
         return "Truck{" +
-                "licensePlate=" + licensePlate +
+                "licensePlate=" + licensePlate + '\'' +
                 ", warehouseID='" + warehouseID + '\'' +
-                ", arrivalTime=" + arrivalTime +
-                ", weight=" + weight +
-                ", materialType=" + materialType +
+                ", weight=" + weight + '\'' +
+                ", materialType=" + materialType + '\'' +
+                ", arrivalTime=" + arrivalTime + '\'' +
+                ", bridgeNumber=" + weighingBridgeNumber + '\'' +
+                ", assignedConveyorBelt='" + assignedConveyorBelt + '\'' +
                 ", weighed=" + weighed +
                 '}';
     }
