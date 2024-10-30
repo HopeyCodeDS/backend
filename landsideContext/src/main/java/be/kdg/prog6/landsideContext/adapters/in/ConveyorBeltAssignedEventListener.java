@@ -56,11 +56,13 @@ public class ConveyorBeltAssignedEventListener {
 
     private void processConveyorBeltAssignedEvent(ConveyorBeltAssignedEvent event) {
         log.info("Processing ConveyorBeltAssignedEvent for license plate {}", event.getLicensePlate());
+        log.info("Processing ConveyorBeltAssignedEvent At this timestamp: {}", event.getAssignedAt());
 
         Optional<Truck> truckOpt = truckRepositoryPort.findTruckByLicensePlate(event.getLicensePlate());
         if (truckOpt.isPresent()) {
             Truck truck = truckOpt.get();
             truck.setAssignedConveyorBelt(event.getConveyorBeltId());
+            truck.setArrivalTime(event.getAssignedAt());
             truck.dock();  // Mark truck as docked after assigning conveyor belt
             truckRepositoryPort.save(truck);
             log.info("Truck {} updated with assigned conveyor belt {}", event.getLicensePlate(), event.getConveyorBeltId());

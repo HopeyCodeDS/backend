@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
@@ -48,9 +49,12 @@ public class DockTruckAndGeneratePDTUseCaseImpl implements DockTruckAndGenerateP
 
         // Update the truck's weight and save it in the repository
         truck.setWeight(weighingBridge.getTruckGrossWeight());
+        truck.setArrivalTime(weighingBridge.getWeighingTime());
+        truckRepositoryPort.save(truck);
 //        truck.setAssignedConveyorBelt();
 //        truckRepositoryPort.save(truck);
         log.info("Updated truck weight in repository for license plate {}", licensePlate);
+        log.info("Updated weight in repository for truck = {}", truck.toString());
 
         // Publish TruckDispatchedEvent with essential details only
         // to trigger conveyor belt assignment in Warehousing Context
@@ -61,13 +65,12 @@ public class DockTruckAndGeneratePDTUseCaseImpl implements DockTruckAndGenerateP
                 truck.getWeighingBridgeNumber(),
                 truck.getWeight(),
                 truck.getArrivalTime());
-//                LocalDateTime.now());
 
         eventPublisher.publish(event);
 
         // Mark the truck as docked and save its state
         truck.dock();
-        truckRepositoryPort.save(truck);
+//        truckRepositoryPort.save(truck);
         log.info("Truck {} status saved with docked status", licensePlate);
     }
 }
