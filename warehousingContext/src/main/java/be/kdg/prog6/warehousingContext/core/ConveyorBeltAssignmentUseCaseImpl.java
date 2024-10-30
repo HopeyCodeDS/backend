@@ -1,24 +1,27 @@
 package be.kdg.prog6.warehousingContext.core;
 
 import be.kdg.prog6.common.domain.MaterialType;
+import be.kdg.prog6.warehousingContext.domain.ConveyorBelt;
 import be.kdg.prog6.warehousingContext.ports.in.ConveyorBeltAssignmentUseCase;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConveyorBeltAssignmentUseCaseImpl implements ConveyorBeltAssignmentUseCase {
     @Override
-    public String assignConveyorBelt(MaterialType materialType) {
+    public ConveyorBelt assignConveyorBelt(MaterialType materialType) {
         switch (materialType) {
             case GYPSUM:
-                return "Conveyor-1";
+                return new ConveyorBelt("Conveyor-1", materialType);
             case IRON_ORE:
-                return "Conveyor-2";
+                return new ConveyorBelt("Conveyor-2", materialType);
             case CEMENT:
-                return "Conveyor-3";
+                return new ConveyorBelt("Conveyor-3", materialType);
             case PETCOKE:
-                return "Conveyor-4";
+                return new ConveyorBelt("Conveyor-4", materialType);
             case SLAG:
-                return "Conveyor-5";
+                return new ConveyorBelt("Conveyor-5", materialType);
             default:
-                return "Conveyor-General";
+                return new ConveyorBelt("Conveyor-General", materialType);
         }
     }
 }
