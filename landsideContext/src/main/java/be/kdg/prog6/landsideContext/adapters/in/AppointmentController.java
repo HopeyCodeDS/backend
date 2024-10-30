@@ -35,7 +35,7 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(@RequestBody CreateAppointmentCommand command) {
         Appointment appointment = createAppointmentUseCase.createAppointment(command);
-        log.info("Created appointment: {}", appointment);
+        log.info("Created appointment: {}", appointment.toString());
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }
 
@@ -62,11 +62,4 @@ public class AppointmentController {
         List<Appointment> appointments = appointmentFacade.getAppointmentsByTruckLicensePlate(licensePlate);
         return ResponseEntity.ok(appointments);
     }
-//    @GetMapping("/arrival-window")
-//    public ResponseEntity<List<Appointment>> getAppointmentsDuringArrivalWindow(
-//            @RequestParam LocalDateTime start, @RequestParam LocalDateTime end) {
-//
-//        List<Appointment> appointments = appointmentFacade.getAppointmentsDuringArrivalWindow(start, end);
-//        return ResponseEntity.ok(appointments);
-//    }
 }

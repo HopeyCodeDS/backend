@@ -14,4 +14,6 @@ public interface AppointmentRepositoryPort {
     List<Appointment> findAppointmentsDuringArrivalWindow(LocalDateTime start, LocalDateTime end);
     List<Appointment> findAppointmentsByTruckLicensePlate(String licensePlate);
     Optional<Appointment> findByLicensePlate(String licensePlate);
+
+    Appointment saveAppointment(Appointment appointment);
 }

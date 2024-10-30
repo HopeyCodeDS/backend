@@ -24,4 +24,14 @@ public class Appointment {
         this.slot = slot;
     }
 
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "truck=" + truck +
+                ", arrivalWindow=" + arrivalWindow +
+                ", sellerId=" + sellerId +
+                ", materialType=" + materialType +
+                ", slot=" + slot +
+                '}';
+    }
 }

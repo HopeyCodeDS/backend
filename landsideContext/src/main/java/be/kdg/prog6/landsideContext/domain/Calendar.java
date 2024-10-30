@@ -12,9 +12,9 @@ public class Calendar {
     }
 
     public Optional<Slot> findAvailableSlot(LocalDateTime arrivalTime) {
+        // Find a slot where the arrival time matches start time and has available capacity
         return slots.stream()
-                .filter(slot -> !slot.isFull() && slot.getStartTime().isBefore(arrivalTime)
-                        && slot.getEndTime().isAfter(arrivalTime))
+                .filter(slot -> !slot.isFull() && slot.getStartTime().isEqual(arrivalTime))
                 .findFirst();
     }
 

@@ -5,10 +5,9 @@ import be.kdg.prog6.common.domain.SellerID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
 
-import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -17,11 +16,11 @@ public class AppointmentJpaEntity {
 
     // Getters and setters
     @Id
-    @Column(name="appointment_id", columnDefinition = "varchar(36)")
-    @JdbcTypeCode(Types.VARCHAR)
-    private Long appointmentId;
+    @Column(name = "appointment_id", columnDefinition = "varchar(36)")
+    private String appointmentId = UUID.randomUUID().toString();  // Automatically generate UUID
 
-//    @ManyToOne(cascade = CascadeType.ALL)
+
+    //    @ManyToOne(cascade = CascadeType.ALL)
     @Setter
     @ManyToOne
     @JoinColumn(name = "license_plate", referencedColumnName = "license_plate")
@@ -32,9 +31,8 @@ public class AppointmentJpaEntity {
     private LocalDateTime arrivalWindow;
 
     @Setter
-    @Embedded
-    @AttributeOverride(name = "uuid", column = @Column(name = "seller_id", columnDefinition = "CHAR(36)"))
-    private SellerID sellerId;
+    @Column(name = "seller_id", length = 36, nullable = false)
+    private String sellerId;
 
     @Setter
     @Enumerated(EnumType.STRING)
@@ -42,7 +40,7 @@ public class AppointmentJpaEntity {
     private MaterialType materialType;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "slot_id")
     private SlotJpaEntity slot;
 

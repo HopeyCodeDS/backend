@@ -7,6 +7,7 @@ import be.kdg.prog6.landsideContext.core.CreateAppointmentUseCaseImpl;
 import be.kdg.prog6.landsideContext.core.GetAppointmentUseCaseImpl;
 import be.kdg.prog6.landsideContext.domain.Appointment;
 
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -55,6 +56,7 @@ public class AppointmentFacade implements AppointmentFacadePort {
     }
 
     @Override
+    @Transactional
     public Optional<Appointment> getAppointmentBySellerId(UUID sellerId) {
         logger.info("Getting appointment by sellerId {}", sellerId);
         return getAppointmentUseCaseImpl.getAppointmentBySellerId(sellerId);
@@ -73,6 +75,7 @@ public class AppointmentFacade implements AppointmentFacadePort {
     }
 
     @Override
+    @Transactional
     public List<Appointment> getAppointmentsByTruckLicensePlate(String licensePlate) {
         logger.info("Getting appointments by license plate {}", licensePlate);
         return getAppointmentUseCaseImpl.getAppointmentsByTruckLicensePlate(licensePlate);
