@@ -3,9 +3,7 @@ package be.kdg.prog6.landsideContext.adapters.out.db.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
 
-import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,10 +13,9 @@ import java.util.List;
 @Setter
 public class SlotJpaEntity {
     @Id
-    @Column(name = "slot_id", nullable = false, length = 255)
-    @JdbcTypeCode(Types.VARCHAR)
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String slotId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // This enables auto-increment
+    @Column(name = "slot_id", nullable = false)
+    private Integer slotId;
 
     @Column(nullable = false)
     private LocalDateTime startTime;

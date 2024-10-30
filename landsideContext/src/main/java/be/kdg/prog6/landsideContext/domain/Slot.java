@@ -1,18 +1,27 @@
 package be.kdg.prog6.landsideContext.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 @Getter
 public class Slot {
+    private int id;
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
     private final List<Truck> scheduledTrucks;
-    private static final int MAXIMUM_CAPACITY = 40;
+    public static final int MAXIMUM_CAPACITY = 40;
 
+    public Slot() {
+        this.id = getId();
+        this.startTime = getStartTime();
+        this.endTime = getEndTime();
+        this.scheduledTrucks = new ArrayList<>();
+    }
 
     public Slot(LocalDateTime startTime, LocalDateTime endTime) {
         this.startTime = startTime;
@@ -31,8 +40,17 @@ public class Slot {
         scheduledTrucks.add(truck);
     }
 
-    public void recordTruckArrival(Truck truck, LocalDateTime arrivalTime) {
-        truck.setArrivalTime(arrivalTime);
-        bookSlot(truck);
+//    public void recordTruckArrival(Truck truck, LocalDateTime arrivalTime) {
+//        truck.setArrivalTime(arrivalTime);
+//        bookSlot(truck);
+//    }
+
+    @Override
+    public String toString() {
+        return "Slot{" +
+                "id=" + id +
+                "startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }
