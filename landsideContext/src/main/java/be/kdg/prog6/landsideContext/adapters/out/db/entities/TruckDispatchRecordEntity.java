@@ -30,14 +30,16 @@ public class TruckDispatchRecordEntity {
     private String weighingBridgeNumber;
     private double weight;
     private LocalDateTime dispatchTime;
+    private String warehouseId;
 
-    public TruckDispatchRecordEntity(String licensePlate, MaterialType materialType, String conveyorBeltNumber, String weighingBridgeNumber, double weight, LocalDateTime dispatchTime) {
+    public TruckDispatchRecordEntity(String licensePlate, MaterialType materialType, String conveyorBeltNumber, String weighingBridgeNumber, double weight, LocalDateTime dispatchTime, String warehouseId) {
         this.licensePlate = licensePlate;
         this.materialType = materialType;
         this.conveyorBeltNumber = conveyorBeltNumber;
         this.weighingBridgeNumber = weighingBridgeNumber;
         this.weight = weight;
         this.dispatchTime = dispatchTime;
+        this.warehouseId = warehouseId;
     }
 }
 

@@ -63,28 +63,12 @@ public class ConveyorBeltAssignedEventListener {
             Truck truck = truckOpt.get();
             truck.setAssignedConveyorBelt(event.getConveyorBeltId());
             truck.setArrivalTime(event.getAssignedAt());
+            truck.setWarehouseID(event.getWarehouseId());
             truck.dock();  // Mark truck as docked after assigning conveyor belt
             truckRepositoryPort.save(truck);
-            log.info("Truck {} updated with assigned conveyor belt {}", event.getLicensePlate(), event.getConveyorBeltId());
+            log.info("Truck {} updated with assigned conveyor belt {} in warehouseId {}", event.getLicensePlate(), event.getConveyorBeltId(), event.getWarehouseId());
         } else {
             log.warn("No truck found with license plate {}", event.getLicensePlate());
         }
     }
-
-
-//    @RabbitListener(queues = "conveyorBeltAssignedQueue")
-//    public void onConveyorBeltAssigned(ConveyorBeltAssignedEvent event) {
-//        log.info("Processing ConveyorBeltAssignedEvent for license plate {}", event.getLicensePlate());
-//
-//        Optional<Truck> truckOpt = truckRepositoryPort.findTruckByLicensePlate(event.getLicensePlate());
-//        if (truckOpt.isPresent()) {
-//            Truck truck = truckOpt.get();
-//            truck.setAssignedConveyorBelt(event.getConveyorBeltId());
-//            truck.dock();  // Mark truck as docked after assigning conveyor belt
-//            truckRepositoryPort.save(truck);
-//            log.info("Truck {} updated with assigned conveyor belt {}", event.getLicensePlate(), event.getConveyorBeltId());
-//        } else {
-//            log.warn("No truck found with license plate {}", event.getLicensePlate());
-//        }
-//    }
 }

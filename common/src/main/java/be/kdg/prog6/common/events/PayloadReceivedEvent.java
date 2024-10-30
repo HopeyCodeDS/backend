@@ -18,6 +18,7 @@ public class PayloadReceivedEvent {
     private String materialType;
     private String weighingBridgeNumber;
     private double weight;
+    private String warehouseId;  // Newly added field
 
     // Default no-arg constructor
     public PayloadReceivedEvent() {}
@@ -30,7 +31,8 @@ public class PayloadReceivedEvent {
             @JsonProperty("deliveryTime") LocalDateTime deliveryTime,
             @JsonProperty("materialType") String materialType,
             @JsonProperty("weighingBridgeNumber") String weighingBridgeNumber,
-            @JsonProperty("weight") double weight
+            @JsonProperty("weight") double weight,
+            @JsonProperty("warehouseId") String warehouseId
     ) {
         this.licensePlate = licensePlate;
         this.conveyorBeltId = conveyorBeltId;
@@ -38,6 +40,7 @@ public class PayloadReceivedEvent {
         this.materialType = materialType;
         this.weighingBridgeNumber = weighingBridgeNumber;
         this.weight = weight;
+        this.warehouseId = warehouseId;
     }
 
 }

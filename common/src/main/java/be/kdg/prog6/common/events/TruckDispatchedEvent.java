@@ -12,6 +12,7 @@ public class TruckDispatchedEvent {
     private MaterialType materialType; // Change to MaterialType
     private String weighingBridgeNumber;
     private double weight;
+    private String warehouseId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS")
     private LocalDateTime timestamp;
@@ -25,56 +26,34 @@ public class TruckDispatchedEvent {
             @JsonProperty("materialType") MaterialType materialType, // Change to MaterialType
             @JsonProperty("weighingBridgeNumber") String weighingBridgeNumber,
             @JsonProperty("weight") double weight,
-            @JsonProperty("timestamp") LocalDateTime timestamp) {
+            @JsonProperty("timestamp") LocalDateTime timestamp,
+            @JsonProperty("warehouseId") String warehouseId) {
         this.licensePlate = licensePlate;
         this.materialType = materialType;
         this.weighingBridgeNumber = weighingBridgeNumber;
         this.weight = weight;
         this.timestamp = timestamp;
+        this.warehouseId = warehouseId;
     }
 
-    // Getters (no need to change getMaterialType now)
+    // Getters and Setters
+    public String getLicensePlate() { return licensePlate; }
+    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
 
+    public MaterialType getMaterialType() { return materialType; }
+    public void setMaterialType(MaterialType materialType) { this.materialType = materialType; }
 
-    public String getLicensePlate() {
-        return licensePlate;
-    }
+    public String getWeighingBridgeNumber() { return weighingBridgeNumber; }
+    public void setWeighingBridgeNumber(String weighingBridgeNumber) { this.weighingBridgeNumber = weighingBridgeNumber; }
 
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
+    public double getWeight() { return weight; }
+    public void setWeight(double weight) { this.weight = weight; }
 
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
+    public String getWarehouseId() { return warehouseId; }
+    public void setWarehouseId(String warehouseId) { this.warehouseId = warehouseId; }
 
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public String getWeighingBridgeNumber() {
-        return weighingBridgeNumber;
-    }
-
-    public void setWeighingBridgeNumber(String weighingBridgeNumber) {
-        this.weighingBridgeNumber = weighingBridgeNumber;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 
     @Override
     public String toString() {
@@ -83,6 +62,7 @@ public class TruckDispatchedEvent {
                 ", materialType=" + materialType +
                 ", weighingBridgeNumber='" + weighingBridgeNumber + '\'' +
                 ", weight=" + weight +
+                ", warehouseId='" + warehouseId + '\'' +
                 ", timestamp=" + timestamp +
                 '}';
     }

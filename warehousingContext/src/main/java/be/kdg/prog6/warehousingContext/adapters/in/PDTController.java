@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/warehousing/pdt")
+@RequestMapping("/pdt")
 public class PDTController {
 
     private static final Logger log = LoggerFactory.getLogger(PDTController.class);

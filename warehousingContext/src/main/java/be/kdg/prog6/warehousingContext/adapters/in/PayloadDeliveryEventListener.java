@@ -68,21 +68,28 @@ public class PayloadDeliveryEventListener {
         // Assign conveyor belt based on material type
         ConveyorBelt conveyorBelt = conveyorBeltAssignmentUseCase.assignConveyorBelt(event.getMaterialType());
 
+        // Get warehouse ID (assuming it is part of the ConveyorBelt assignment context)
+        String warehouseId = event.getWarehouseId(); // Get warehouse ID
+        log.info("This conveyorBelt number {} is found in warehouse {}", conveyorBelt.getBeltNumber(), warehouseId);
+
         // Create and save PayloadDeliveryTicket (optional)
         PayloadDeliveryTicket pdt = new PayloadDeliveryTicket(
                 event.getLicensePlate(),
                 event.getMaterialType(),
                 conveyorBelt.getBeltNumber(),
                 event.getWeighingBridgeNumber(),
-                event.getWeight()
+                event.getWeight(),
+                warehouseId
         );
+
         payloadDeliveryRecordRepositoryPort.save(pdt);
 
         // Publish ConveyorBeltAssignedEvent after successful assignment
         eventPublisher.publishConveyorBeltAssignedEvent(new ConveyorBeltAssignedEvent(
                 event.getLicensePlate(),
                 conveyorBelt.getBeltNumber(),
-                event.getTimestamp()
+                event.getTimestamp(),
+                event.getWarehouseId()
         ));
         log.info("Published ConveyorBeltAssignedEvent for truck with license plate {}", event.getLicensePlate());
 
@@ -93,8 +100,9 @@ public class PayloadDeliveryEventListener {
                 pdt.getDeliveryTime(),
                 pdt.getMaterialType().name(),
                 pdt.getWeighingBridgeNumber(),
-                event.getWeight()
-        ));
-        log.info("Published PayloadReceivedEvent for license plate {}", event.getLicensePlate());
+                event.getWeight(),
+                event.getWarehouseId())
+        );
+        log.info("Published PayloadReceivedEvent for license plate {} now assigned to warehouseID: {}", event.getLicensePlate(), event.getWarehouseId());
     }
 }

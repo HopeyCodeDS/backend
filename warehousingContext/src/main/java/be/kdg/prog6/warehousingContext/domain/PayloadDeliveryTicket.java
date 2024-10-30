@@ -6,10 +6,10 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-
 @Entity
 @Table(catalog = "warehouse", name = "payload_delivery_tickets")
 public class PayloadDeliveryTicket {
+
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,19 +31,25 @@ public class PayloadDeliveryTicket {
     @Getter
     private LocalDateTime deliveryTime;
 
+    @Getter
     private double weight;
+
+    @Getter
+    private String warehouseId; // New field for warehouse ID
 
     protected PayloadDeliveryTicket() {
         // Default constructor for JPA
     }
 
-    public PayloadDeliveryTicket(String licensePlate, MaterialType materialType, String conveyorBeltNumber, String weighingBridgeNumber, double weight) {
+    public PayloadDeliveryTicket(String licensePlate, MaterialType materialType, String conveyorBeltNumber,
+                                 String weighingBridgeNumber, double weight, String warehouseId) {
         this.licensePlate = licensePlate;
         this.materialType = materialType;
         this.conveyorBeltNumber = conveyorBeltNumber;
         this.weighingBridgeNumber = weighingBridgeNumber;
         this.deliveryTime = LocalDateTime.now();
         this.weight = weight;
+        this.warehouseId = warehouseId; // Assign warehouse ID
     }
 
     @Override
@@ -55,6 +61,7 @@ public class PayloadDeliveryTicket {
                 ", weighingBridgeNumber='" + weighingBridgeNumber + '\'' +
                 ", deliveryTime=" + deliveryTime +
                 ", weight=" + weight +
+                ", warehouseId=" + warehouseId +
                 '}';
     }
 }

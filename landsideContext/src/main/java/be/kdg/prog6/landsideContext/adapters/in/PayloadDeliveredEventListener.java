@@ -65,7 +65,8 @@ public class PayloadDeliveredEventListener {
                     event.getConveyorBeltId(),
                     event.getWeighingBridgeNumber(),
                     event.getWeight(),
-                    event.getDeliveryTime()
+                    event.getDeliveryTime(),
+                    event.getWarehouseId()
             );
             truckDispatchRecordRepositoryPort.save(pdt);
             log.info("Saved copy of PDT for truck with license plate: {}", event.getLicensePlate());

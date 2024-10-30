@@ -25,7 +25,8 @@ public class TruckDispatchRecordRepositoryAdapter implements TruckDispatchRecord
                 dispatchRecord.getConveyorBeltNumber(),
                 dispatchRecord.getWeighingBridgeNumber(),
                 dispatchRecord.getWeight(),
-                dispatchRecord.getDispatchTime()
+                dispatchRecord.getDispatchTime(),
+                dispatchRecord.getWarehouseId()
         );
         repository.save(entity);
     }
@@ -39,7 +40,8 @@ public class TruckDispatchRecordRepositoryAdapter implements TruckDispatchRecord
                         entity.getConveyorBeltNumber(),
                         entity.getWeighingBridgeNumber(),
                         entity.getWeight(),
-                        entity.getDispatchTime()
+                        entity.getDispatchTime(),
+                        entity.getWarehouseId()
                 ));
     }
 }

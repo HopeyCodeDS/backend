@@ -50,6 +50,7 @@ public class DockTruckAndGeneratePDTUseCaseImpl implements DockTruckAndGenerateP
         // Update the truck's weight and save it in the repository
         truck.setWeight(weighingBridge.getTruckGrossWeight());
         truck.setArrivalTime(weighingBridge.getWeighingTime());
+        truck.setWarehouseID(truck.getWarehouseID());
         truckRepositoryPort.save(truck);
 //        truck.setAssignedConveyorBelt();
 //        truckRepositoryPort.save(truck);
@@ -64,9 +65,12 @@ public class DockTruckAndGeneratePDTUseCaseImpl implements DockTruckAndGenerateP
                 truck.getMaterialType(),
                 truck.getWeighingBridgeNumber(),
                 truck.getWeight(),
-                truck.getArrivalTime());
+                truck.getArrivalTime(),
+                truck.getWarehouseID());
 
         eventPublisher.publish(event);
+
+        log.info("Events published is {}", event.toString());
 
         // Mark the truck as docked and save its state
         truck.dock();

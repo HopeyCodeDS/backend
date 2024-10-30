@@ -15,15 +15,15 @@ public class TruckDispatchRecord {
     private final String weighingBridgeNumber;
     private final double weight;
     private final LocalDateTime dispatchTime;
+    private final String warehouseId;
 
-    public TruckDispatchRecord(String licensePlate, MaterialType materialType, String conveyorBeltNumber, String weighingBridgeNumber, double weight, LocalDateTime dispatchTime) {
+    public TruckDispatchRecord(String licensePlate, MaterialType materialType, String conveyorBeltNumber, String weighingBridgeNumber, double weight, LocalDateTime dispatchTime, String warehouseId) {
         this.licensePlate = licensePlate;
         this.materialType = materialType;
         this.conveyorBeltNumber = conveyorBeltNumber;
         this.weighingBridgeNumber = weighingBridgeNumber;
         this.weight = weight;
         this.dispatchTime = dispatchTime;
+        this.warehouseId = warehouseId;
     }
-
-    // Getters and toString
 }
