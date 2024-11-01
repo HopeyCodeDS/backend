@@ -1,69 +1,35 @@
 package be.kdg.prog6.warehousingContext.domain;
 
-import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.StorageCapacity;
 
-import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Warehouse {
+    private String warehouseId;
+    private String customerId;
+    private String materialType;
+    private double capacity; // Max capacity in kt
+    private double currentLoad; // Current load in kt
 
-    public WarehouseId warehouseId;
-    private StorageCapacity capacity;
-    private MaterialType rawMaterial;
-    private double currentStock;
-
-    public record WarehouseId(UUID uuid) {
-    }
-
-    public WarehouseId getWarehouseId() {
-        return warehouseId;
-    }
-
-    public double getCapacity() {
-        return capacity.getCapacityInKiloTons();
-    }
-
-    public void setCapacity(StorageCapacity capacity) {
+    public Warehouse(String warehouseId, String customerId, String materialType, double capacity) {
+        this.warehouseId = warehouseId;
+        this.customerId = customerId;
+        this.materialType = materialType;
         this.capacity = capacity;
+        this.currentLoad = 0;
     }
 
-    public MaterialType getRawMaterial() {
-        return rawMaterial;
+    public Warehouse() {
     }
 
-    public double getCurrentStock() {
-        return currentStock;
+    public boolean addLoad(double load) {
+        this.currentLoad += load;
+        return this.currentLoad <= (this.capacity * 1.15); // Allows for 115% overflow
     }
 
-    public void setCurrentStock(double currentStock) {
-        this.currentStock = currentStock;
-    }
-
-   public double getAvailableStorageCapacity(){
-        return this.capacity.getCapacityInKiloTons();
-   }
-
-   public boolean isFull(){
-        return getCurrentStock() == getCapacity();
-   }
-   public boolean isEmpty(){
-        return getCurrentStock() == 0;
-   }
-   public boolean notFull(){
-        return getCurrentStock() == 0.8 * getCapacity() || !isFull();
-   }
-   public boolean isOverflow(){
-        return getCurrentStock() >= getCapacity();
-   }
-
-
-    @Override
-    public String toString() {
-        return "Warehouse{" +
-                "warehouseId=" + warehouseId +
-                ", capacity=" + capacity +
-                ", rawMaterial=" + rawMaterial +
-                ", currentStock=" + currentStock +
-                '}';
+    public double getOverflowPercentage() {
+        return (currentLoad / capacity) * 100;
     }
 }

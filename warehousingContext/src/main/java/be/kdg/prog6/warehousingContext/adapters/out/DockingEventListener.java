@@ -1,6 +1,6 @@
 package be.kdg.prog6.warehousingContext.adapters.out;
 
-import be.kdg.prog6.common.events.DockingEvent;
+import be.kdg.prog6.common.commands.DockingCommand;
 import be.kdg.prog6.warehousingContext.core.DockingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +17,11 @@ public class DockingEventListener {
     }
 
     @RabbitListener(queues = "dockQueue", messageConverter = "#{jackson2JsonMessageConverter}")
-    public void handleDockingEvent(DockingEvent event) {
-        // Log the event reception
-        log.info("Received Docking Event: {}", event);
+    public void handleDockingEvent(DockingCommand command) {
+        // Log the command reception
+        log.info("Received Docking Event: {}", command);
 
-        // Process the event using the DockingService
-        dockingService.processDockingEvent(event);
+        // Process the command using the DockingService
+        dockingService.processDockingEvent(command);
     }
 }

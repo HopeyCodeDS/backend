@@ -1,6 +1,6 @@
 package be.kdg.prog6.landsideContext.core;
 
-import be.kdg.prog6.common.events.DockingEvent;
+import be.kdg.prog6.common.commands.DockingCommand;
 import be.kdg.prog6.landsideContext.domain.Appointment;
 import be.kdg.prog6.landsideContext.ports.in.DockTruckUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
@@ -29,8 +29,8 @@ public class DockTruckUseCaseImpl implements DockTruckUseCase {
             Appointment appointment = appointmentOpt.get();
 
             // Publish a DockingEvent via the port
-            DockingEvent event = new DockingEvent(appointment.getSellerId().uuid(), licensePlate, appointment.getMaterialType(), appointment.getTruck().getCurrentWeighingBridgeNumber());
-            dockTruckPublisher.publishDockingEvent(event);
+            DockingCommand command = new DockingCommand(appointment.getSellerId().getUuid(), licensePlate, appointment.getMaterialType(), appointment.getTruck().getCurrentWeighingBridgeNumber());
+            dockTruckPublisher.publishDockingEvent(command);
 
             // Save the updated appointment
             appointmentRepository.save(appointment);

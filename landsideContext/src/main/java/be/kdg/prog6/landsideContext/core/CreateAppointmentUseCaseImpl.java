@@ -1,14 +1,17 @@
 package be.kdg.prog6.landsideContext.core;
 
+import be.kdg.prog6.common.domain.MaterialType;
 import be.kdg.prog6.common.domain.SellerID;
-import be.kdg.prog6.common.facades.CreateAppointmentCommand;
+import be.kdg.prog6.landsideContext.ports.in.CreateAppointmentCommand;
 import be.kdg.prog6.landsideContext.domain.Appointment;
-import be.kdg.prog6.landsideContext.domain.Calendar;
 import be.kdg.prog6.landsideContext.domain.Slot;
 import be.kdg.prog6.landsideContext.domain.Truck;
 import be.kdg.prog6.landsideContext.ports.in.CreateAppointmentUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
 import be.kdg.prog6.landsideContext.ports.out.CalendarRepositoryPort;
+import be.kdg.prog6.landsideContext.ports.out.SlotRepositoryPort;
+import be.kdg.prog6.landsideContext.ports.out.TruckRepositoryPort;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,71 +19,89 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+
 @Service
 public class CreateAppointmentUseCaseImpl implements CreateAppointmentUseCase {
 
-    public static final Logger log = LoggerFactory.getLogger(CreateAppointmentUseCaseImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(CreateAppointmentUseCaseImpl.class);
 
-    private final CalendarRepositoryPort calendarRepository;
     private final AppointmentRepositoryPort appointmentRepository;
+    private final SlotRepositoryPort slotRepository;
+    private final TruckRepositoryPort truckRepository;
+    private final CalendarRepositoryPort calendarRepository;
 
-    public CreateAppointmentUseCaseImpl(CalendarRepositoryPort calendarRepository, AppointmentRepositoryPort appointmentRepository) {
-        this.calendarRepository = calendarRepository;
+    public CreateAppointmentUseCaseImpl(AppointmentRepositoryPort appointmentRepository,
+                                        SlotRepositoryPort slotRepository,
+                                        TruckRepositoryPort truckRepository,
+                                        CalendarRepositoryPort calendarRepository) {
         this.appointmentRepository = appointmentRepository;
+        this.slotRepository = slotRepository;
+        this.truckRepository = truckRepository;
+        this.calendarRepository = calendarRepository;
     }
 
     @Override
+    @Transactional
     public Appointment createAppointment(CreateAppointmentCommand command) {
 
-        // Find available slot in the calendar repository with respect to the time.
-        Calendar calendar = calendarRepository.getCalendar();
-        Optional<Slot> availableSlot = calendar.findAvailableSlot(command.arrivalWindow());
+        // 1. Validate material type and other fields
+        validateMaterialType(command.materialType());
 
-        // If no available slot, create a new slot
-        Slot slot;
-        if (availableSlot.isEmpty()) {
-            log.info("No available slot found. Creating a new slot at the given time.");
-            slot = createNewSlot(calendar, command.arrivalWindow());  // Method to create a new slot
-        } else {
-            slot = availableSlot.get();
-            calendar.bookSlot(slot); // Book the available slot
-        }
+        // 2. Find or create truck
+        Truck truck = truckRepository.findTruckByLicensePlate(command.license_plate())
+                .orElseGet(() -> createAndSaveNewTruck(command));
 
-        // Create seller and truck
-        SellerID sellerIdObject = new SellerID(command.sellerId());
+        // 3. Find or create slot
+        Slot slot = findOrCreateSlot(command.arrivalTime());
 
-        // Validate and set MaterialType
-        if (command.materialType() == null) {
-            throw new IllegalArgumentException("Material type cannot be null.");
-        }
+        // 4. Create Appointment
+        Appointment appointment = new Appointment(
+                truck,
+                command.arrivalTime(),
+                new SellerID(command.sellerId()),
+                command.materialType(),
+                slot
+        );
 
-        Truck truck = new Truck(command.plateNumber(), command.arrivalWindow(), command.materialType()); // Assuming Truck constructor accepts MaterialType
+        // 5. Save Appointment
+        appointmentRepository.saveAppointment(appointment);
 
-        // Create appointment
-        Appointment appointment = new Appointment(truck, command.arrivalWindow(), sellerIdObject, command.materialType(), slot);
-        log.info("Appointment booked: License Plate: {}, Arrival Window: {}", command.plateNumber(), command.arrivalWindow());
-
-        // Save the appointment
-        appointmentRepository.save(appointment);
+        logger.info("Created new appointment for truck {} at arrival window {}", truck.getLicensePlate(), command.arrivalTime());
+        logger.info("Appointment created for truck {} with slot ID {}", truck.getLicensePlate(), slot.getId());
         return appointment;
     }
 
-    /**
-     * Method to create a new slot if no available slot is found
-     * @param calendar - The calendar to which the new slot should be added
-     * @param arrivalWindow - The time window when the new slot should be created
-     * @return The newly created slot
-     */
-    private Slot createNewSlot(Calendar calendar, LocalDateTime arrivalWindow) {
-        try {
-            // Assuming Slot has a constructor that takes start and end time.
-            Slot newSlot = new Slot(arrivalWindow, arrivalWindow.plusHours(1)); // Creating a 1-hour slot
-            calendar.bookSlot(newSlot); // Method to add the new slot to the calendar
-            log.info("New slot created at {}", arrivalWindow);
-            return newSlot;
-        } catch (Exception e) {
-            log.error("Unable to create a new slot at the given time: {}", arrivalWindow, e);
-            throw new IllegalStateException("No available slot at the given time.");
+    private Truck createAndSaveNewTruck(CreateAppointmentCommand command) {
+        if (command.license_plate() == null || command.license_plate().isEmpty()) {
+            throw new IllegalArgumentException("License plate cannot be null.");
+        }
+        Truck newTruck = new Truck(command.license_plate(), command.materialType());
+        truckRepository.save(newTruck);  // Persist new truck
+        logger.info("Created new truck with license plate: {}", command.license_plate());
+        return newTruck;
+    }
+
+private Slot findOrCreateSlot(LocalDateTime arrivalTime) {
+    // Check in the repository if an existing slot has the same start time and has capacity
+    Optional<Slot> availableSlot = slotRepository.findSlotByStartTime(arrivalTime)
+            .filter(slot -> slot.getScheduledTrucks().size() < Slot.MAXIMUM_CAPACITY );
+
+    // If an available slot exists, return it; otherwise, create a new one
+    if (availableSlot.isPresent()) {
+        logger.info("Reusing existing slot with start time: {}", arrivalTime);
+        return availableSlot.get();
+    } else {
+        // Create a new slot only if no existing slot is available
+        Slot newSlot = new Slot(arrivalTime, arrivalTime.plusHours(1));
+        slotRepository.saveSlot(newSlot);  // Persist the new slot with auto-incremented ID
+        logger.info("Created new slot for arrival time: {}", arrivalTime);
+        return newSlot;
+    }
+}
+
+    private void validateMaterialType(MaterialType materialType) {
+        if (materialType == null) {
+            throw new IllegalArgumentException("Material type cannot be null.");
         }
     }
 }

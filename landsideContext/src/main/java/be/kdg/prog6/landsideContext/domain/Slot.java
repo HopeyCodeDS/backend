@@ -1,34 +1,56 @@
 package be.kdg.prog6.landsideContext.domain;
 
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Setter
+@Getter
 public class Slot {
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private boolean isBooked;
+    private int id;
+    private final LocalDateTime startTime;
+    private final LocalDateTime endTime;
+    private final List<Truck> scheduledTrucks;
+    public static final int MAXIMUM_CAPACITY = 40;
+
+    public Slot() {
+        this.id = getId();
+        this.startTime = getStartTime();
+        this.endTime = getEndTime();
+        this.scheduledTrucks = new ArrayList<>();
+    }
 
     public Slot(LocalDateTime startTime, LocalDateTime endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.isBooked = false;
+        this.scheduledTrucks = new ArrayList<>();
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public boolean isFull(){
+        return scheduledTrucks.size() >= MAXIMUM_CAPACITY;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public boolean isBooked() {
-        return isBooked;
-    }
-
-    public void bookSlot() {
-        if (isBooked) {
-            throw new IllegalStateException("Slot is already booked.");
+    public void bookSlot(Truck truck) {
+        if (isFull()){
+            throw new IllegalStateException("Cannot schedule more than 40 trucks in this time slot.");
         }
-        this.isBooked = true;
+        scheduledTrucks.add(truck);
+    }
+
+//    public void recordTruckArrival(Truck truck, LocalDateTime arrivalTime) {
+//        truck.setArrivalTime(arrivalTime);
+//        bookSlot(truck);
+//    }
+
+    @Override
+    public String toString() {
+        return "Slot{" +
+                "id=" + id +
+                "startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }

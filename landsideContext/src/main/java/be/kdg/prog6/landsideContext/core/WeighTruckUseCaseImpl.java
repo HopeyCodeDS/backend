@@ -5,6 +5,8 @@ import be.kdg.prog6.landsideContext.domain.WeighBridgeTicket;
 import be.kdg.prog6.landsideContext.domain.WeighingBridge;
 import be.kdg.prog6.landsideContext.ports.in.WeighTruckUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @Service
 public class WeighTruckUseCaseImpl implements WeighTruckUseCase {
 
+    private static final Logger log = LoggerFactory.getLogger(WeighTruckUseCaseImpl.class);
     private final AppointmentRepositoryPort appointmentRepositoryPort;
 
     public WeighTruckUseCaseImpl(AppointmentRepositoryPort appointmentRepositoryPort) {
@@ -32,11 +35,13 @@ public class WeighTruckUseCaseImpl implements WeighTruckUseCase {
 
             // Simulate weighing on the weighing bridge
             WeighingBridge weighingBridge = new WeighingBridge(appointment.getTruck().getCurrentWeighingBridgeNumber());
-            weighingBridge.scanTruckAndRegisterWeight(licensePlate, weight);
+            weighingBridge.scanTruckAndRegisterWeight(licensePlate, weight, appointment.getTruck().getMaterialType());
 
             // Mark the truck as weighed in the appointment
             appointment.getTruck().markAsWeighed();
             appointmentRepositoryPort.save(appointment); // Save the updated appointment
+
+            log.info("Truck {} assigned to {}", licensePlate, weighingBridge.getAssignedWarehouseNumber());
 
             return weighingBridge.getAssignedWarehouseNumber(); // Return the warehouse number
         }

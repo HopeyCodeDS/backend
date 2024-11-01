@@ -1,7 +1,6 @@
 package be.kdg.prog6.landsideContext.adapters.in;
 
 import be.kdg.prog6.landsideContext.ports.in.DockTruckUseCase;
-import be.kdg.prog6.common.events.DockingEvent;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package be.kdg.prog6.landsideContext.adapters.in;
 
+import be.kdg.prog6.common.exception.TruckOutsideArrivalWindowException;
 import be.kdg.prog6.landsideContext.domain.Appointment;
 import be.kdg.prog6.landsideContext.ports.in.RecognizeTruckUseCase;
 import org.slf4j.Logger;
@@ -26,19 +27,14 @@ public class TruckRecognitionController {
         try {
             Optional<Appointment> appointmentOpt = recognizeTruckUseCase.recognizeTruckAndValidateArrival(licensePlate);
 
-            if (appointmentOpt.isPresent()) {
-                openGate(appointmentOpt.get());
-                return ResponseEntity.ok("Gate opened for truck with license plate: " + licensePlate);
-            } else {
-                return ResponseEntity.status(404).body("No valid appointment found for truck with license plate: " + licensePlate);
-            }
-        } catch (IllegalArgumentException e) {
+            return appointmentOpt.isPresent()
+                    ? ResponseEntity.ok("Gate opened for truck with license plate: " + licensePlate)
+                    : ResponseEntity.status(404).body("No valid appointment found for truck with license plate: " + licensePlate);
+
+        } catch (TruckOutsideArrivalWindowException e) {
+            log.warn("Truck outside arrival window: {}", e.getMessage());
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
-    private void openGate(Appointment appointment) {
-        // Logic to open the gate. I need to consult the lecturer of any better way to implement this.
-        System.out.println("Opening gate for truck with license plate: " + appointment.getTruck().getLicensePlate());
-    }
 }
