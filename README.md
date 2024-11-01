@@ -40,6 +40,12 @@ After being weighed, the truck is assigned to the correct conveyor belt based on
 
 In this case, the truck driver needs to pass through the weighing bridge and automatically receive a Weighbridge Ticket (WBT) upon weighing. This ticket serves as an official record that documents the truck's gross weight, tare weight, and net weight, along with the timestamp and license plate number.
 
+
+### **User Story :**
+> _As a warehouse manager, I want to check if trucks arrive within the scheduled arrival windows_
+
+This story implies that the warehouse manager needs real-time insights into truck arrivals and their adherence to their scheduled arrival times.
+
 ---
 
 ## Project Architecture
@@ -125,14 +131,16 @@ GET http://localhost:8192/landsideContext/weighing-bridge/BE_VUB-T90
 ```http request
 POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T90&weight=12000
 ```
-#### Test Endpoint for Docking a Truck (User Story 5)
+### Test Endpoint for Docking a Truck(Start Docking Process) - 1
+## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
 ```http request
-POST http://localhost:8192/landsideContext/docking/dock/BE_VUB-T90
+POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T95
 Content-Type: application/json
 ```
-#### Test Endpoint for Docking a Truck (Invalid License Plate)
+### Test Endpoint for Docking a Truck(Start Docking Process) - 2
+## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
 ```http request
-POST http://localhost:8192/landsideContext/docking/dock/INVALID-PLATE
+POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T92
 Content-Type: application/json
 ```
 
@@ -154,6 +162,44 @@ Content-Type: application/json
   "tareWeight": 7000
 }
 ```
+
+### Retrieve All Payload Delivery Tickets
+```http request
+GET http://localhost:8193/warehousingContext/pdt
+Content-Type: application/json
+```
+
+### Retrieve a Specific Payload Delivery Ticket by License Plate
+```http request
+GET http://localhost:8193/warehousingContext/pdt/BE_VUB-T95
+Content-Type: application/json
+```
+
+### Generate a Weigh Bridge Ticket - 1
+
+```http request
+POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
+Content-Type: application/json
+
+{
+"licensePlate": "BE_VUB-T95",
+"materialType": "IRON_ORE",
+"tareWeight": 10000,
+"weighingBridgeNumber": "Bridge-1"
+}
+```
+
+### Generate a Weigh Bridge Ticket - 2
+POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
+Content-Type: application/json
+
+{
+"licensePlate": "BE_VUB-T92",
+"tareWeight": 18000
+}
+
+
+
 
 
 ### Future Features
