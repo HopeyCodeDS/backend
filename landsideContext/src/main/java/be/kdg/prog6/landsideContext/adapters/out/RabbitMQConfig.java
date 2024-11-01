@@ -23,9 +23,10 @@ public class RabbitMQConfig {
     public static final String CONVEYOR_BELT_ASSIGNED_QUEUE_NAME = "conveyorBeltAssignedQueue";  // New queue for conveyor belt assignments
 
     // Routing keys
-//    public static final String DELIVERY_INITIATED_ROUTING_KEY = "payload.delivery.initiated";
-//    public static final String DELIVERY_COMPLETED_ROUTING_KEY = "payload.delivery.completed";
-//    public static final String CONVEYOR_BELT_ASSIGNED_ROUTING_KEY = "payload.conveyorBelt.assigned";  // Routing key for conveyor belt assignments
+
+    public static final String WAREHOUSE_EXCHANGE = "warehouse.exchange";
+    public static final String WAREHOUSE_LOAD_QUEUE = "warehouseLoadQueue";
+    public static final String WAREHOUSE_LOAD_ROUTING_KEY = "warehouse.load.status";
 
     // Define the topic exchange for payload-related events
     @Bean
@@ -33,10 +34,20 @@ public class RabbitMQConfig {
         return new TopicExchange(PAYLOAD_EXCHANGE_NAME);
     }
 
+    @Bean
+    public TopicExchange warehouseExchange() {
+        return new TopicExchange(WAREHOUSE_EXCHANGE);
+    }
+
     // Queue for initiated delivery events (Landside -> Warehousing Context)
     @Bean
     public Queue deliveryInitiatedQueue() {
         return new Queue(DELIVERY_INITIATED_QUEUE_NAME);
+    }
+
+    @Bean
+    public Queue warehouseLoadQueue() {
+        return new Queue(WAREHOUSE_LOAD_QUEUE);
     }
 
     // Queue for completed delivery events (Warehousing Context response)
@@ -73,6 +84,11 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(conveyorBeltAssignedQueue)
                 .to(payloadExchange)
                 .with("payload.conveyorBelt.assigned");
+    }
+
+    @Bean
+    public Binding warehouseLoadBinding(Queue warehouseLoadQueue, TopicExchange warehouseExchange) {
+        return BindingBuilder.bind(warehouseLoadQueue).to(warehouseExchange).with(WAREHOUSE_LOAD_ROUTING_KEY);
     }
 
     @Bean

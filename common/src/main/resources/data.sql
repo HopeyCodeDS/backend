@@ -5,28 +5,28 @@ DELETE FROM landside.trucks;
 DELETE FROM landside.slots;
 
 -- Insert trucks with all fields specified
-INSERT INTO landside.trucks (license_plate, warehouse_id, arrival_time, material_type, weighed)
+INSERT INTO landside.trucks (license_plate, material_type, weighed)
 VALUES
-    ('BE_VUB-T95', 'WH1-001', '2024-11-01 08:05:00', 'IRON_ORE', false),
-    ('BE_VUB-T91', 'WH-002', '2024-11-01 08:10:00', 'GYPSUM', false),
-    ('BE_VUB-T92', 'WH-003', '2024-11-01 08:15:00', 'CEMENT', false),
-    ('BE_VUB-T129', 'WH-004', '2024-11-01 08:55:00', 'CEMENT', false),
-    ('BE_VUB-T130', 'WH-005', '2024-11-01 09:05:00', 'IRON_ORE', false),
-    ('BE_VUB-T131', 'WH-006', '2024-11-01 09:10:00', 'GYPSUM', false),
-    ('BE_VUB-T132', 'WH-007', '2024-11-01 09:15:00', 'CEMENT', false),
-    ('BE_VUB-T169', 'WH-008', '2024-11-01 09:55:00', 'IRON_ORE', false),
-    ('BE_VUB-T170', 'WH-009', '2024-11-01 10:05:00', 'IRON_ORE', false),
-    ('BE_VUB-T171', 'WH-010', '2024-11-01 10:10:00', 'GYPSUM', false),
-    ('BE_VUB-T172', 'WH-011', '2024-11-01 10:15:00', 'CEMENT', false),
-    ('BE_VUB-T209', 'WH-012', '2024-11-01 10:55:00', 'CEMENT', false),
-    ('BE_VUB-T210', 'WH-013', '2024-11-01 11:05:00', 'IRON_ORE', false),
-    ('BE_VUB-T211', 'WH-014', '2024-11-01 11:10:00', 'GYPSUM', false),
-    ('BE_VUB-T212', 'WH-015', '2024-11-01 11:15:00', 'CEMENT', false),
-    ('BE_VUB-T249', 'WH-016', '2024-11-01 11:55:00', 'IRON_ORE', false),
-    ('BE_VUB-T250', 'WH-017', '2024-11-01 12:05:00', 'IRON_ORE', false),
-    ('BE_VUB-T251', 'WH-018', '2024-11-01 12:10:00', 'GYPSUM', false),
-    ('BE_VUB-T252', 'WH-019', '2024-11-01 12:15:00', 'CEMENT', false),
-    ('BE_VUB-T289', 'WH-020', '2024-11-01 12:55:00', 'CEMENT', false);
+    ('BE_VUB-T95',  'IRON_ORE', false),
+    ('BE_VUB-T91', 'GYPSUM', false),
+    ('BE_VUB-T92',  'CEMENT', false),
+    ('BE_VUB-T129',  'PETCOKE', false),
+    ('BE_VUB-T130', 'IRON_ORE', false),
+    ('BE_VUB-T131',  'GYPSUM', false),
+    ('BE_VUB-T132',  'CEMENT', false),
+    ('BE_VUB-T169', 'IRON_ORE', false),
+    ('BE_VUB-T170', 'IRON_ORE', false),
+    ('BE_VUB-T171',  'GYPSUM', false),
+    ('BE_VUB-T172',  'CEMENT', false),
+    ('BE_VUB-T209',  'CEMENT', false),
+    ('BE_VUB-T210', 'IRON_ORE', false),
+    ('BE_VUB-T211',  'GYPSUM', false),
+    ('BE_VUB-T212', 'CEMENT', false),
+    ('BE_VUB-T249',  'SLAG', false),
+    ('BE_VUB-T250',  'IRON_ORE', false),
+    ('BE_VUB-T251',  'GYPSUM', false),
+    ('BE_VUB-T252', 'CEMENT', false),
+    ('BE_VUB-T289', 'CEMENT', false);
 
 -- Insert slots
 INSERT INTO landside.slots (slot_id, start_time, end_time)

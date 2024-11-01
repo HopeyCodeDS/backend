@@ -4,10 +4,11 @@ POST http://localhost:8192/landsideContext/appointments
 Content-Type: application/json
 
 {
+  "license_plate": "BE_VUB-T90",
+  "arrivalTime": "2024-11-01T09:00:00",
   "sellerId": "b78c50cd-a93b-4881-a37a-bc79408ef9d5",
-  "plateNumber": "BE_VUB-T90",
-  "materialType": "IRON_ORE",
-  "arrivalWindow": "2024-11-03T09:15:00"
+  "materialType": "IRON_ORE"
+
 }
 
 ### Get Appointment by Seller ID
@@ -16,7 +17,7 @@ Accept: application/json
 Content-Type: application/json
 
 ### Get Appointments by Truck License Plate
-GET http://localhost:8192/landsideContext/appointments/truck/BE_VUB-T90
+GET http://localhost:8192/landsideContext/appointments/truck/BE_VUB-T95
 Content-Type: application/json
 
 
@@ -30,31 +31,86 @@ GET http://localhost:8192/landsideContext/appointments/supplier/b78c50cd-a93b-48
 Content-Type: application/json
 
 
-### Recognize a truck license plate
-GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T90
+### Recognize a truck license plate (Gate Opening) - 1
+GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T95
 
-### Get a weighing bridge number
-GET http://localhost:8192/landsideContext/weighing-bridge/BE_VUB-T90
+### Recognize a truck license plate (Gate Opening) - 2
+GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T92
 
-### Weigh Truck and Assign Warehouse number
-POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T90&weight=12000
+### Get a weighing bridge number to a truck - 1
+GET http://localhost:8192/landsideContext/weighing-bridge/assign-bridge/BE_VUB-T95
 
-### Test Endpoint for Docking a Truck
-POST http://localhost:8192/landsideContext/docking/dock/BE_VUB-T90
+### Get a weighing bridge number to a truck - 2
+GET http://localhost:8192/landsideContext/weighing-bridge/assign-bridge/BE_VUB-T92
+
+
+### Weigh Truck and Assign Warehouse number - 1
+POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T95&weight=25000
+
+### Weigh Truck and Assign Warehouse number - 2
+POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T92&weight=25000
+
+#-### Test Endpoint for Docking a Truck
+#POST http://localhost:8192/landsideContext/docking/dock/BE_VUB-T95
+#Content-Type: application/json
+
+### Test Endpoint for Docking a Truck(Start Docking Process) - 1
+## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
+POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T95
 Content-Type: application/json
 
-### Test Endpoint for Docking a Truck (Invalid License Plate)
-POST http://localhost:8192/landsideContext/docking/dock/INVALID-PLATE
+### Test Endpoint for Docking a Truck(Start Docking Process) - 2
+## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
+POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T92
 Content-Type: application/json
 
-### Weigh a Truck and Generate Weighbridge Ticket (WBT)
-POST http://localhost:8192/landsideContext/weighing-bridge/generate-ticket
+
+## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
+#GET http://localhost:8193/warehousingContext/pdt/BE_VUB-T95
+#Content-Type: application/json
+
+
+## Test Endpoint for Docking a Truck (Invalid License Plate)
+#POST http://localhost:8192/landsideContext/docking/dock/INVALID-PLATE
+#Content-Type: application/json
+
+
+## Weigh a Truck and Generate Weighbridge Ticket (WBT)
+#POST http://localhost:8192/landsideContext/weighing-bridge/generate-ticket
+#Content-Type: application/json
+#
+#{
+#  "licensePlate": "BE_VUB-T95",
+#  "tareWeight": 7000
+#}
+
+### Retrieve All Payload Delivery Tickets
+GET http://localhost:8193/warehousingContext/pdt
+Content-Type: application/json
+
+
+### Retrieve a Specific Payload Delivery Ticket by License Plate
+GET http://localhost:8193/warehousingContext/pdt/BE_VUB-T95
+Content-Type: application/json
+
+
+### Generate a Weigh Bridge Ticket - 1
+POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
 Content-Type: application/json
 
 {
-  "licensePlate": "BE_VUB-T90",
-  "grossWeight": 12000,
-  "tareWeight": 7000
+  "licensePlate": "BE_VUB-T95",
+  "materialType": "IRON_ORE",
+  "tareWeight": 10000,
+  "weighingBridgeNumber": "Bridge-1"
 }
 
+### Generate a Weigh Bridge Ticket - 2
+POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
+Content-Type: application/json
+
+{
+  "licensePlate": "BE_VUB-T92",
+  "tareWeight": 18000
+}
 

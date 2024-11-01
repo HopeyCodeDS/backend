@@ -54,5 +54,6 @@ public class TruckRepositoryAdapter implements TruckRepositoryPort {
 
 //        truckJpaRepository.save(truckMapper.domainToEntity(truck));
         truckJpaRepository.save(truckJpaEntity);
+        logger.info("Truck {} saved", truck.getLicensePlate());
     }
 }
