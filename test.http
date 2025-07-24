@@ -1,116 +1,116 @@
 
-### Create an Appointment
-POST http://localhost:8192/landsideContext/appointments
-Content-Type: application/json
+# ### Create an Appointment
+# POST http://localhost:8192/landsideContext/appointments
+# Content-Type: application/json
 
-{
-  "license_plate": "BE_VUB-T90",
-  "arrivalTime": "2024-11-01T09:00:00",
-  "sellerId": "b78c50cd-a93b-4881-a37a-bc79408ef9d5",
-  "materialType": "IRON_ORE"
+# {
+#   "license_plate": "BE_VUB-T90",
+#   "arrivalTime": "2024-11-01T09:30:00",
+#   "sellerId": "b78c50cd-a93b-4881-a37a-bc79408ef9d5",
+#   "materialType": "IRON_ORE"
 
-}
+# }
 
-### Get Appointment by Seller ID
-GET http://localhost:8192/landsideContext/appointments/supplier/b78c50cd-a93b-4881-a37a-bc79408ef9d5
-Accept: application/json
-Content-Type: application/json
+# ### Get Appointment by Seller ID
+# GET http://localhost:8192/landsideContext/appointments/supplier/b78c50cd-a93b-4881-a37a-bc79408ef9d5
+# Accept: application/json
+# Content-Type: application/json
 
-### Get Appointments by Truck License Plate
-GET http://localhost:8192/landsideContext/appointments/truck/BE_VUB-T95
-Content-Type: application/json
-
-
-### Get Appointments During Arrival Window
-GET http://localhost:8192/landsideContext/appointments/arrival-window?start=2024-10-01T11:00:00&end=2024-12-01T13:00:00
-Content-Type: application/json
+# ### Get Appointments by Truck License Plate
+# GET http://localhost:8192/landsideContext/appointments/truck/BE_VUB-T95
+# Content-Type: application/json
 
 
-### Get Appointment by Seller ID and Material Type
-GET http://localhost:8192/landsideContext/appointments/supplier/b78c50cd-a93b-4881-a37a-bc79408ef9d5/material/IRON_ORE
-Content-Type: application/json
+# ### Get Appointments During Arrival Window
+# GET http://localhost:8192/landsideContext/appointments/arrival-window?start=2024-10-01T11:00:00&end=2024-12-01T13:00:00
+# Content-Type: application/json
 
 
-### Recognize a truck license plate (Gate Opening) - 1
-GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T95
-
-### Recognize a truck license plate (Gate Opening) - 2
-GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T92
-
-### Get a weighing bridge number to a truck - 1
-GET http://localhost:8192/landsideContext/weighing-bridge/assign-bridge/BE_VUB-T95
-
-### Get a weighing bridge number to a truck - 2
-GET http://localhost:8192/landsideContext/weighing-bridge/assign-bridge/BE_VUB-T92
+# ### Get Appointment by Seller ID and Material Type
+# GET http://localhost:8192/landsideContext/appointments/supplier/b78c50cd-a93b-4881-a37a-bc79408ef9d5/material/IRON_ORE
+# Content-Type: application/json
 
 
-### Weigh Truck and Assign Warehouse number - 1
-POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T95&weight=25000
+# ### Recognize a truck license plate (Gate Opening) - 1
+# GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T90
 
-### Weigh Truck and Assign Warehouse number - 2
-POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T92&weight=25000
+# ### Recognize a truck license plate (Gate Opening) - 2
+# GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T92
 
-#-### Test Endpoint for Docking a Truck
-#POST http://localhost:8192/landsideContext/docking/dock/BE_VUB-T95
-#Content-Type: application/json
+# ### Get a weighing bridge number to a truck - 1
+# GET http://localhost:8192/landsideContext/weighing-bridge/assign-bridge/BE_VUB-T90
 
-### Test Endpoint for Docking a Truck(Start Docking Process) - 1
-## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
-POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T95
-Content-Type: application/json
-
-### Test Endpoint for Docking a Truck(Start Docking Process) - 2
-## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
-POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T92
-Content-Type: application/json
+# ### Get a weighing bridge number to a truck - 2
+# GET http://localhost:8192/landsideContext/weighing-bridge/assign-bridge/BE_VUB-T92
 
 
-## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
-#GET http://localhost:8193/warehousingContext/pdt/BE_VUB-T95
-#Content-Type: application/json
+# ### Weigh Truck and Assign Warehouse number - 1
+# POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T90&weight=25000
+
+# ### Weigh Truck and Assign Warehouse number - 2
+# POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T92&weight=25000
+
+# #-### Test Endpoint for Docking a Truck
+# #POST http://localhost:8192/landsideContext/docking/dock/BE_VUB-T95
+# #Content-Type: application/json
+
+# ### Test Endpoint for Docking a Truck(Start Docking Process) - 1
+# ## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
+# POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T90
+# Content-Type: application/json
+
+# ### Test Endpoint for Docking a Truck(Start Docking Process) - 2
+# ## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
+# POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T92
+# Content-Type: application/json
 
 
-## Test Endpoint for Docking a Truck (Invalid License Plate)
-#POST http://localhost:8192/landsideContext/docking/dock/INVALID-PLATE
-#Content-Type: application/json
+# ## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
+# #GET http://localhost:8193/warehousingContext/pdt/BE_VUB-T95
+# #Content-Type: application/json
 
 
-## Weigh a Truck and Generate Weighbridge Ticket (WBT)
-#POST http://localhost:8192/landsideContext/weighing-bridge/generate-ticket
-#Content-Type: application/json
-#
-#{
-#  "licensePlate": "BE_VUB-T95",
-#  "tareWeight": 7000
-#}
-
-### Retrieve All Payload Delivery Tickets
-GET http://localhost:8193/warehousingContext/pdt
-Content-Type: application/json
+# ## Test Endpoint for Docking a Truck (Invalid License Plate)
+# #POST http://localhost:8192/landsideContext/docking/dock/INVALID-PLATE
+# #Content-Type: application/json
 
 
-### Retrieve a Specific Payload Delivery Ticket by License Plate
-GET http://localhost:8193/warehousingContext/pdt/BE_VUB-T95
-Content-Type: application/json
+# ## Weigh a Truck and Generate Weighbridge Ticket (WBT)
+# #POST http://localhost:8192/landsideContext/weighing-bridge/generate-ticket
+# #Content-Type: application/json
+# #
+# #{
+# #  "licensePlate": "BE_VUB-T95",
+# #  "tareWeight": 7000
+# #}
+
+# ### Retrieve All Payload Delivery Tickets
+# GET http://localhost:8193/warehousingContext/pdt
+# Content-Type: application/json
 
 
-### Generate a Weigh Bridge Ticket - 1
-POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
-Content-Type: application/json
+# ### Retrieve a Specific Payload Delivery Ticket by License Plate
+# GET http://localhost:8193/warehousingContext/pdt/BE_VUB-T95
+# Content-Type: application/json
 
-{
-  "licensePlate": "BE_VUB-T95",
-  "materialType": "IRON_ORE",
-  "tareWeight": 10000,
-  "weighingBridgeNumber": "Bridge-1"
-}
 
-### Generate a Weigh Bridge Ticket - 2
-POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
-Content-Type: application/json
+# ### Generate a Weigh Bridge Ticket - 1
+# POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
+# Content-Type: application/json
 
-{
-  "licensePlate": "BE_VUB-T92",
-  "tareWeight": 18000
-}
+# {
+#   "licensePlate": "BE_VUB-T95",
+#   "materialType": "IRON_ORE",
+#   "tareWeight": 10000,
+#   "weighingBridgeNumber": "Bridge-1"
+# }
+
+# ### Generate a Weigh Bridge Ticket - 2
+# POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
+# Content-Type: application/json
+
+# {
+#   "licensePlate": "BE_VUB-T90",
+#   "tareWeight": 18000
+# }
 
