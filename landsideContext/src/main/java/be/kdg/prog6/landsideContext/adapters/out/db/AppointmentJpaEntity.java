@@ -1,5 +1,6 @@
 package be.kdg.prog6.landsideContext.adapters.out.db;
 
+import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,13 @@ public class AppointmentJpaEntity {
     
     @Column(name = "raw_material_storage_price_per_ton_per_day", nullable = false)
     private Double rawMaterialStoragePricePerTonPerDay;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private AppointmentStatus status;
+    
+    @Column(name = "actual_arrival_time")
+    private LocalDateTime actualArrivalTime;
     
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "truck_id")

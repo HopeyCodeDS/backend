@@ -3,7 +3,7 @@ package be.kdg.prog6.landsideContext.adapters.out.db;
 import be.kdg.prog6.landsideContext.domain.*;
 import org.springframework.stereotype.Component;
 
-@Component("appointmentDbMapper")
+@Component
 public class AppointmentMapper {
     
     public AppointmentJpaEntity toJpaEntity(Appointment appointment) {
@@ -16,6 +16,8 @@ public class AppointmentMapper {
         jpaEntity.setRawMaterialName(appointment.getRawMaterial().getName());
         jpaEntity.setRawMaterialPricePerTon(appointment.getRawMaterial().getPricePerTon());
         jpaEntity.setRawMaterialStoragePricePerTonPerDay(appointment.getRawMaterial().getStoragePricePerTonPerDay());
+        jpaEntity.setStatus(appointment.getStatus());
+        jpaEntity.setActualArrivalTime(appointment.getActualArrivalTime());
         
         // Map truck
         TruckJpaEntity truckJpaEntity = new TruckJpaEntity();
@@ -44,13 +46,19 @@ public class AppointmentMapper {
             mapTruckType(jpaEntity.getTruck().getTruckType())
         );
         
-        return new Appointment(
+        Appointment appointment = new Appointment(
             jpaEntity.getAppointmentId(),
             jpaEntity.getSellerId(),
             truck,
             rawMaterial,
             arrivalWindow
         );
+        
+        // Set status and arrival time
+        appointment.setStatus(jpaEntity.getStatus());
+        appointment.setActualArrivalTime(jpaEntity.getActualArrivalTime());
+        
+        return appointment;
     }
     
     private TruckJpaEntity.TruckType mapTruckType(Truck.TruckType domainType) {
