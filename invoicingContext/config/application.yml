@@ -1,14 +1,14 @@
 server:
   port: ${PORT:8191}
   servlet:
-    context-path: /invoicingContext
+    context-path: /invoicing
 
 
 spring:
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: myuser
-    password: mypassword
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: myuser
+#    password: mypassword
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}

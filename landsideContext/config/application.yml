@@ -1,7 +1,7 @@
 server:
-  port: ${PORT:8192}
+  port: ${PORT:8191}
   servlet:
-    context-path: /landsideContext
+    context-path: /landside
 
 spring:
   config:
@@ -10,25 +10,25 @@ spring:
     open-in-view: false
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       show-sql: true
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
-      hibernate.default_schema: landside  # Uncomment if schema exists and should be default
+      hibernate.default_schema: landside
   sql:
     init:
       mode: always
+      schema-locations: classpath:schema.sql
   datasource:
-    url: jdbc:mysql://localhost:3306/landside?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:13306/app_db?useUnicode=true&characterEncoding=utf8
     username: user
     password: password
   logging:
     level:
       org.hibernate.tool.schema: DEBUG
-      org.hibernate.SQL: DEBUG  # Add detailed logging for SQL and schema creation
+      org.hibernate.SQL: DEBUG
       org.hibernate.type: TRACE
-      org.springframework.amqp: DEBUG
-      org.springframework.rabbit: DEBUG
+      be.kdg.prog6.landsideContext: DEBUG
   rabbitmq:
     host: localhost
     port: 5672

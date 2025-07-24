@@ -5,13 +5,15 @@ server:
 
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
   jpa:
     open-in-view: false
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       show-sql: true
     defer-datasource-initialization: true
     properties:
@@ -20,7 +22,7 @@ spring:
     init:
       mode: always
   datasource:
-    url: jdbc:mysql://localhost:3306/landside
+    url: jdbc:mysql://localhost:13306/app_db
     username: user
     password: password
   logging:

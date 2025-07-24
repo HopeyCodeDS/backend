@@ -1,14 +1,17 @@
 plugins {
     id 'module-config'
 }
+
+// Disable bootJar task for common module since it's not a standalone application
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.2'
-
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
 
 }

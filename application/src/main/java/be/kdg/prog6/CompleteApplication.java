@@ -6,8 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
 @SpringBootApplication
-@ComponentScan(excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.REGEX, pattern="be.kdg.prog6.*.*Application")
+@ComponentScan(basePackages = {
+    "be.kdg.prog6.landsideContext.adapters.in.web",
+    "be.kdg.prog6.landsideContext.core",
+    "be.kdg.prog6.landsideContext.adapters.out.db"
 })
 public class CompleteApplication {
 
