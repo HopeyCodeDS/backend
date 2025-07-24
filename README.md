@@ -1,4 +1,4 @@
-# Mineral Flow System - Krystal Distribution Group
+<!-- # Mineral Flow System - Krystal Distribution Group
 
 ## Project Overview
 
@@ -215,4 +215,4 @@ Feel free to open issues or submit pull requests to contribute to the project. A
 ### License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-
+ -->

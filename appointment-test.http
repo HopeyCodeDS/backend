@@ -1,0 +1,64 @@
+#########################################################################################
+# Test the appointment scheduling endpoint with different truck types and raw materials #
+#########################################################################################
+
+### Schedule an appointment for gypsum delivery with large truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "ABC-123",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "arrivalTime": "27/07/2025 20:00"
+}
+
+
+### Schedule an appointment for iron ore delivery with medium truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-002",
+  "licensePlate": "XYZ-789",
+  "truckType": "MEDIUM",
+  "rawMaterialName": "Iron_Ore",
+  "arrivalTime": "27/07/2025 20:00"
+}
+
+### Schedule an appointment for cement delivery with small truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-003",
+  "licensePlate": "DEF-456",
+  "truckType": "SMALL",
+  "rawMaterialName": "Cement",
+  "arrivalTime": "27/07/2025 20:00"
+}
+
+###
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+"sellerId": "seller-004",
+"licensePlate": "GHI-789",
+"truckType": "LARGE",
+"rawMaterialName": "Gypsum",
+"arrivalTime": "27/07/2025 21:00"
+}
+
+###
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-005",
+  "licensePlate": "JKL-012", 
+  "truckType": "MEDIUM",
+  "rawMaterialName": "Petcoke",
+  "arrivalTime": "27/07/2025 22:00"
+}

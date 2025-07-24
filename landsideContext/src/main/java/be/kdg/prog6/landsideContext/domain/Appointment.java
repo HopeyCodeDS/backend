@@ -1,37 +1,38 @@
 package be.kdg.prog6.landsideContext.domain;
 
-import be.kdg.prog6.common.domain.MaterialType;
-import be.kdg.prog6.common.domain.SellerID;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
-@Setter
 @Getter
+@Setter
 public class Appointment {
-    private Truck truck;
-    private LocalDateTime arrivalWindow;
-    private SellerID sellerId;
-    private MaterialType materialType;
-    private Slot slot;
-
-    public Appointment(Truck truck, LocalDateTime arrivalWindow, SellerID sellerId, MaterialType materialType, Slot slot) {
-        this.truck = truck;
-        this.arrivalWindow = arrivalWindow;
+    private final UUID appointmentId;
+    private final String sellerId;
+    private final Truck truck;
+    private final RawMaterial rawMaterial;
+    private final ArrivalWindow arrivalWindow;
+    private final LocalDateTime createdAt;
+    
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    
+    public Appointment(UUID appointmentId, String sellerId, Truck truck, 
+                      RawMaterial rawMaterial, ArrivalWindow arrivalWindow) {
+        this.appointmentId = appointmentId;
         this.sellerId = sellerId;
-        this.materialType = materialType;
-        this.slot = slot;
+        this.truck = truck;
+        this.rawMaterial = rawMaterial;
+        this.arrivalWindow = arrivalWindow;
+        this.createdAt = LocalDateTime.now();
     }
-
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "truck=" + truck +
-                ", arrivalWindow=" + arrivalWindow +
-                ", sellerId=" + sellerId +
-                ", materialType=" + materialType +
-                ", slot=" + slot +
-                '}';
+    
+    public String getFormattedCreatedAt() {
+        return createdAt.format(DATE_TIME_FORMATTER);
     }
-}
+    
+    public String getFormattedArrivalWindow() {
+        return arrivalWindow.getFormattedStartTime() + " - " + arrivalWindow.getFormattedEndTime();
+    }
+} 
