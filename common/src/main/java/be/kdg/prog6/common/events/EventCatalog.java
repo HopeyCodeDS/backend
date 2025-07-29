@@ -1,0 +1,28 @@
+package be.kdg.prog6.common.events;
+
+public enum EventCatalog {
+    // Landside Context Events
+    APPOINTMENT_SCHEDULED,
+    TRUCK_ARRIVED,
+    WEIGHING_BRIDGE_ASSIGNED,
+    TRUCK_ENTERED_WEIGHING_BRIDGE,
+    TRUCK_LEFT_WEIGHING_BRIDGE,
+    
+    // Warehousing Context Events
+    WAREHOUSE_ASSIGNED,
+    PAYLOAD_DELIVERED,
+    INVENTORY_UPDATED,
+    
+    // Waterside Context Events
+    SHIP_ARRIVED,
+    SHIPPING_ORDER_RECEIVED,
+    INSPECTION_COMPLETED,
+    BUNKERING_COMPLETED,
+    SHIP_LOADED,
+    SHIP_DEPARTED,
+    
+    // Invoicing Context Events
+    STORAGE_FEE_CALCULATED,
+    COMMISSION_FEE_CALCULATED,
+    INVOICE_GENERATED
+} 
