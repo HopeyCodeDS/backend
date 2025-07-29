@@ -4,6 +4,7 @@ import be.kdg.prog6.landsideContext.adapters.in.web.dto.TruckRecognitionRequestD
 import be.kdg.prog6.landsideContext.adapters.in.web.dto.TruckRecognitionResponseDto;
 import be.kdg.prog6.landsideContext.adapters.in.web.mapper.GateMapper;
 import be.kdg.prog6.landsideContext.domain.Appointment;
+import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
 import be.kdg.prog6.landsideContext.domain.commands.RecognizeTruckCommand;
 import be.kdg.prog6.landsideContext.ports.in.RecognizeTruckUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
@@ -34,7 +35,7 @@ public class GateController {
                 Optional<Appointment> appointmentOpt = appointmentRepositoryPort
                     .findByLicensePlate(requestDto.getLicensePlate())
                     .stream()
-                    .filter(appointment -> appointment.isRecognized())
+                    .filter(appointment -> appointment.getStatus() == AppointmentStatus.ARRIVED)
                     .findFirst();
                 
                 if (appointmentOpt.isPresent()) {
@@ -45,8 +46,7 @@ public class GateController {
                         "appointmentId", appointment.getAppointmentId(),
                         "sellerId", appointment.getSellerId(),
                         "rawMaterialName", appointment.getRawMaterial().getName(),
-                        "arrivalWindow", appointment.getFormattedArrivalWindow(),
-                        "actualArrivalTime", appointment.getFormattedActualArrivalTime()
+                        "arrivalWindow", appointment.getArrivalWindow().toString()
                     ));
                 }
             }

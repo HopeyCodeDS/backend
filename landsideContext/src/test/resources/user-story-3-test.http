@@ -1,0 +1,162 @@
+### ========================================
+### USER STORY 3: Weighing Bridge Assignment
+### ========================================
+
+### Step 1: Create an appointment first (from user story 1)
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "ABC-123",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "arrivalTime": "30/08/2025 20:00"
+}
+
+
+### Step 2: Recognize truck arrival (from user story 2)
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "recognitionTime": "30/08/2025 20:15"
+}
+
+### Step 3: Assign weighing bridge to truck (USER STORY 3)
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "assignmentTime": "30/08/2025 20:20"
+}
+
+### ========================================
+### TEST SCENARIOS
+### ========================================
+
+### Test Scenario 1: Successful weighing bridge assignment
+# Prerequisites: Truck must have arrived (status = ARRIVED)
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "assignmentTime": "30/07/2025 20:20"
+}
+
+### Expected Response:
+# {
+#   "success": true,
+#   "message": "Weighing bridge assigned successfully",
+#   "bridgeNumber": "WB-001",
+#   "licensePlate": "ABC-123"
+# }
+
+### Test Scenario 2: Try to assign bridge to truck that hasn't arrived
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "XYZ-789",
+  "assignmentTime": "27/08/2025 20:20"
+}
+
+### Expected Response:
+# {
+#   "success": false,
+#   "error": "Assignment failed",
+#   "message": "No arrived appointment found for license plate: XYZ-789"
+# }
+
+### Test Scenario 3: Try to assign bridge to unknown truck
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "UNKNOWN-123",
+  "assignmentTime": "30/08/2025 20:20"
+}
+
+### Expected Response:
+# {
+#   "success": false,
+#   "error": "Assignment failed",
+#   "message": "No arrived appointment found for license plate: UNKNOWN-123"
+# }
+
+### Test Scenario 4: Multiple trucks - test bridge availability
+# First truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-002",
+  "licensePlate": "DEF-456",
+  "truckType": "MEDIUM",
+  "rawMaterialName": "Iron Ore",
+  "arrivalTime": "30/08/2025 21:00"
+}
+
+### Recognize first truck
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "DEF-456",
+  "recognitionTime": "30/08/2025 21:15"
+}
+
+### Assign bridge to first truck
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "DEF-456",
+  "assignmentTime": "30/08/2025 21:20"
+}
+
+### Second truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-003",
+  "licensePlate": "GHI-789",
+  "truckType": "SMALL",
+  "rawMaterialName": "Cement",
+  "arrivalTime": "30/08/2025 21:00"
+}
+
+### Recognize second truck
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "GHI-789",
+  "recognitionTime": "30/08/2025 21:25"
+}
+
+### Assign bridge to second truck (should get different bridge)
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "GHI-789",
+  "assignmentTime": "30/08/2025 21:30"
+}
+
+### ========================================
+### VERIFICATION ENDPOINTS
+### ========================================
+
+### Check appointment status (should show AT_WEIGHING_BRIDGE)
+GET http://localhost:8190/api/landside/appointments/ABC-123
+
+### Check available bridges
+GET http://localhost:8190/api/landside/weighing-bridge/available
+
+### Check all bridges status
+GET http://localhost:8190/api/landside/weighing-bridge/status 

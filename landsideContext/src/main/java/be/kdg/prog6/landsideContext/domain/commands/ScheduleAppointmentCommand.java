@@ -9,18 +9,15 @@ import java.util.UUID;
 public class ScheduleAppointmentCommand {
     private final UUID commandId;
     private final String sellerId;
-    private final String licensePlate;
-    private final Truck.TruckType truckType;
+    private final Truck truck;
     private final String rawMaterialName;
     private final LocalDateTime arrivalTime;
     
-    public ScheduleAppointmentCommand(String sellerId, String licensePlate, 
-                                    Truck.TruckType truckType, String rawMaterialName, 
+    public ScheduleAppointmentCommand(String sellerId, Truck truck, String rawMaterialName, 
                                     LocalDateTime arrivalTime) {
         this.commandId = UUID.randomUUID();
         this.sellerId = sellerId;
-        this.licensePlate = licensePlate;
-        this.truckType = truckType;
+        this.truck = truck;
         this.rawMaterialName = rawMaterialName;
         this.arrivalTime = arrivalTime;
     }

@@ -4,6 +4,7 @@ import be.kdg.prog6.landsideContext.domain.*;
 import be.kdg.prog6.landsideContext.domain.commands.ScheduleAppointmentCommand;
 import be.kdg.prog6.landsideContext.ports.in.ScheduleAppointmentUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
+import be.kdg.prog6.landsideContext.ports.out.AppointmentScheduledPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCase {
     
     private final AppointmentRepositoryPort appointmentRepositoryPort;
+    private final AppointmentScheduledPort appointmentScheduledPort;
     
     @Override
     public UUID scheduleAppointment(ScheduleAppointmentCommand command) {
@@ -23,12 +25,11 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         validateCommand(command);
         
         // Create domain objects
-        LicensePlate licensePlate = new LicensePlate(command.getLicensePlate());
         RawMaterial rawMaterial = RawMaterial.fromName(command.getRawMaterialName());
         ArrivalWindow arrivalWindow = new ArrivalWindow(command.getArrivalTime());
         
         // Create truck
-        Truck truck = new Truck(UUID.randomUUID(), licensePlate, command.getTruckType());
+        Truck truck = new Truck(UUID.randomUUID(), command.getTruck().getLicensePlate(), command.getTruck().getTruckType());
         
         // Check capacity (max 40 trucks per hour)
         if (!isCapacityAvailable(arrivalWindow)) {
@@ -48,6 +49,9 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         // Save appointment
         appointmentRepositoryPort.save(appointment);
         
+        // Publish event through output port
+        appointmentScheduledPort.appointmentScheduled(appointment);
+        
         return appointmentId;
     }
     
@@ -55,10 +59,13 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         if (command.getSellerId() == null || command.getSellerId().trim().isEmpty()) {
             throw new IllegalArgumentException("Seller ID is required");
         }
-        if (command.getLicensePlate() == null || command.getLicensePlate().trim().isEmpty()) {
+        if (command.getTruck() == null) {
+            throw new IllegalArgumentException("Truck is required");
+        }
+        if (command.getTruck().getLicensePlate() == null || command.getTruck().getLicensePlate().getValue().trim().isEmpty()) {
             throw new IllegalArgumentException("License plate is required");
         }
-        if (command.getTruckType() == null) {
+        if (command.getTruck().getTruckType() == null) {
             throw new IllegalArgumentException("Truck type is required");
         }
         if (command.getRawMaterialName() == null || command.getRawMaterialName().trim().isEmpty()) {

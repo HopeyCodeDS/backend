@@ -10,7 +10,8 @@ import org.springframework.context.annotation.FilterType;
     "be.kdg.prog6.landsideContext.adapters.in.web",
     "be.kdg.prog6.landsideContext.core",
     "be.kdg.prog6.landsideContext.adapters.out.db",
-    "be.kdg.prog6.landsideContext.adapters.out"
+    "be.kdg.prog6.landsideContext.adapters.out",
+    "be.kdg.prog6.landsideContext.adapters.config"
 })
 public class CompleteApplication {
 

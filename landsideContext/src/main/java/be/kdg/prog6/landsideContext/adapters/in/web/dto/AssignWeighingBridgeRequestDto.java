@@ -6,10 +6,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class TruckRecognitionRequestDto {
+public class AssignWeighingBridgeRequestDto {
     private String licensePlate;
     
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private LocalDateTime recognitionTime;
+    private LocalDateTime assignmentTime;
 }
- 

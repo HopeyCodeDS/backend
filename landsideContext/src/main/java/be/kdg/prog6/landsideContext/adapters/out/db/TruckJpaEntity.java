@@ -32,3 +32,4 @@ public class TruckJpaEntity {
         SMALL, MEDIUM, LARGE
     }
 }
+ 

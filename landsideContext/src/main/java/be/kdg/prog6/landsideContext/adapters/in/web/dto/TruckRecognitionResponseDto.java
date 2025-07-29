@@ -11,3 +11,4 @@ public class TruckRecognitionResponseDto {
     private String rawMaterialName;
     private String arrivalWindow;
 }
+ 
