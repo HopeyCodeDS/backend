@@ -13,7 +13,7 @@ spring:
     open-in-view: false
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
       show-sql: true
     defer-datasource-initialization: true
     properties:
@@ -38,4 +38,5 @@ spring:
     port: 5672
     username: myuser
     password: mypassword
+    virtual-host: /
 
