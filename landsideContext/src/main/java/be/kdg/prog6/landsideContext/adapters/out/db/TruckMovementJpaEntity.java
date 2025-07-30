@@ -30,13 +30,16 @@ public class TruckMovementJpaEntity {
     @Column(name = "current_location", nullable = false)
     private TruckLocation currentLocation;
     
-    @Column(name = "assigned_bridge_id")
-    private UUID assignedBridgeId;
+    @Column(name = "assigned_bridge_number")
+    private String assignedBridgeNumber;
     
     @Column(name = "bridge_assignment_time")
     private LocalDateTime bridgeAssignmentTime;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assigned_bridge_id", insertable = false, updatable = false)
-    private WeighingBridgeJpaEntity assignedBridge;
+    @Column(name = "truck_weight")
+    private Double truckWeight;
+    
+    @Column(name = "assigned_warehouse")
+    private String assignedWarehouse;
+    
 } 

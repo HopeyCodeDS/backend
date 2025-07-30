@@ -23,6 +23,10 @@ public class AppointmentJpaEntity {
     @Column(name = "seller_id", nullable = false)
     private String sellerId;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "truck_id", nullable = false)
+    private TruckJpaEntity truck;
+    
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
     
@@ -47,8 +51,4 @@ public class AppointmentJpaEntity {
     
     @Column(name = "actual_arrival_time")
     private LocalDateTime actualArrivalTime;
-    
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "truck_id")
-    private TruckJpaEntity truck;
 }

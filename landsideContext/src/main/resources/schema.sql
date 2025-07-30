@@ -1,5 +1,8 @@
--- Create landside schema if it doesn't exist
-CREATE SCHEMA IF NOT EXISTS landside;
+-- Drop tables in correct order to avoid foreign key constraint issues
+-- DROP TABLE IF EXISTS landside.appointments;
+-- DROP TABLE IF EXISTS landside.truck_movements;
+-- DROP TABLE IF EXISTS landside.trucks;
+-- DROP TABLE IF EXISTS landside.weighing_bridges;
 
 -- Trucks table
 CREATE TABLE IF NOT EXISTS landside.trucks (
@@ -19,25 +22,26 @@ CREATE TABLE IF NOT EXISTS landside.weighing_bridges (
     INDEX idx_is_available (is_available)
 );
 
--- Truck movements table
+-- Truck movements table (updated to match JPA entity)
 CREATE TABLE IF NOT EXISTS landside.truck_movements (
     movement_id VARCHAR(36) PRIMARY KEY,
     license_plate VARCHAR(50) NOT NULL,
     entry_time TIMESTAMP NOT NULL,
     current_location ENUM('GATE', 'WEIGHING_BRIDGE', 'WAREHOUSE', 'EXIT') NOT NULL,
-    assigned_bridge_id VARCHAR(36) NULL,
+    assigned_bridge_number VARCHAR(20) NULL,
     bridge_assignment_time TIMESTAMP NULL,
-    FOREIGN KEY (assigned_bridge_id) REFERENCES landside.weighing_bridges(bridge_id),
+    truck_weight DOUBLE NULL,
+    assigned_warehouse VARCHAR(50) NULL,
     INDEX idx_license_plate (license_plate),
     INDEX idx_current_location (current_location),
-    INDEX idx_assigned_bridge_id (assigned_bridge_id)
+    INDEX idx_assigned_bridge_number (assigned_bridge_number)
 );
 
 -- Appointments table
 CREATE TABLE IF NOT EXISTS landside.appointments (
     appointment_id VARCHAR(36) PRIMARY KEY,
     seller_id VARCHAR(255) NOT NULL,
-    license_plate VARCHAR(50) NOT NULL,
+    truck_id VARCHAR(36) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     arrival_window_start TIMESTAMP NOT NULL,
     arrival_window_end TIMESTAMP NOT NULL,
@@ -45,17 +49,18 @@ CREATE TABLE IF NOT EXISTS landside.appointments (
     raw_material_price_per_ton DOUBLE NOT NULL,
     raw_material_storage_price_per_ton_per_day DOUBLE NOT NULL,
     status ENUM('SCHEDULED', 'ARRIVED', 'CANCELLED') NOT NULL DEFAULT 'SCHEDULED',
+    actual_arrival_time TIMESTAMP NULL,
+    FOREIGN KEY (truck_id) REFERENCES landside.trucks(truck_id),
     INDEX idx_seller_id (seller_id),
-    INDEX idx_license_plate (license_plate),
     INDEX idx_arrival_window (arrival_window_start, arrival_window_end),
     INDEX idx_created_at (created_at),
     INDEX idx_status (status)
 );
 
--- Insert default weighing bridges with proper UUIDs
-INSERT IGNORE INTO landside.weighing_bridges (bridge_id, bridge_number, is_available) VALUES
+-- Insert default weighing bridges
+INSERT INTO landside.weighing_bridges (bridge_id, bridge_number, is_available) VALUES
 ('550e8400-e29b-41d4-a716-446655440001', 'WB-001', true),
 ('550e8400-e29b-41d4-a716-446655440002', 'WB-002', true),
 ('550e8400-e29b-41d4-a716-446655440003', 'WB-003', true),
 ('550e8400-e29b-41d4-a716-446655440004', 'WB-004', true),
-('550e8400-e29b-41d4-a716-446655440005', 'WB-005', true); 
+('550e8400-e29b-41d4-a716-446655440005', 'WB-005', true);

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class WeighingBridgeJpaEntity {
     
     @Id
-    @Column(name = "bridge_id")
+    @Column(name = "bridge_id", columnDefinition = "VARCHAR(36)")
     private UUID bridgeId;
     
     @Column(name = "bridge_number", nullable = false, unique = true)

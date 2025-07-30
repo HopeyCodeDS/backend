@@ -1,0 +1,15 @@
+-- Insert sample trucks data using UUID format
+INSERT INTO landside.trucks (truck_id, license_plate, truck_type, capacity_in_tons) VALUES
+(UNHEX('550e8400e29b41d4a716446655440101'), 'ABC-123', 'LARGE', 25.0),
+(UNHEX('550e8400e29b41d4a716446655440102'), 'XYZ-789', 'MEDIUM', 15.0),
+(UNHEX('550e8400e29b41d4a716446655440103'), 'DEF-456', 'SMALL', 8.0),
+(UNHEX('550e8400e29b41d4a716446655440104'), 'GHI-789', 'LARGE', 25.0),
+(UNHEX('550e8400e29b41d4a716446655440105'), 'JKL-012', 'MEDIUM', 15.0);
+
+-- Insert additional sample trucks for testing
+INSERT INTO landside.trucks (truck_id, license_plate, truck_type, capacity_in_tons) VALUES
+(UNHEX('550e8400e29b41d4a716446655440106'), 'MNO-345', 'LARGE', 25.0),
+(UNHEX('550e8400e29b41d4a716446655440107'), 'PQR-678', 'MEDIUM', 15.0),
+(UNHEX('550e8400e29b41d4a716446655440108'), 'STU-901', 'SMALL', 8.0),
+(UNHEX('550e8400e29b41d4a716446655440109'), 'VWX-234', 'LARGE', 25.0),
+(UNHEX('550e8400e29b41d4a716446655440110'), 'YZA-567', 'MEDIUM', 15.0); 

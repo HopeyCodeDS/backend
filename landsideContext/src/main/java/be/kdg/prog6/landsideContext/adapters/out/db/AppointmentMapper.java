@@ -57,7 +57,6 @@ public class AppointmentMapper {
         // Set status and arrival time
         appointment.setStatus(jpaEntity.getStatus());
         
-        
         return appointment;
     }
     

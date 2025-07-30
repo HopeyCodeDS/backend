@@ -1,0 +1,60 @@
+### ========================================
+### USER STORY 4: Register Weight and Receive Warehouse Number
+### ========================================
+
+### Step 1: Register truck weight and exit bridge
+### This triggers the async warehouse assignment process
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "weight": 18.5,
+  "rawMaterialName": "Gypsum"
+}
+
+### Expected Response:
+### {
+###   "licensePlate": "ABC-123",
+###   "status": "PROCESSING",
+###   "message": "Weight registered successfully. Warehouse assignment in progress.",
+###   "warehouseNumber": null
+### }
+
+### Step 2: Check warehouse assignment status
+### This checks if the warehouse has been assigned asynchronously
+GET http://localhost:8190/api/landside/weight-registration/status/ABC-123
+
+### Expected Response (if still processing):
+### {
+###   "licensePlate": "ABC-123",
+###   "status": "PROCESSING",
+###   "message": "Warehouse assignment in progress",
+###   "warehouseNumber": null
+### }
+
+### Expected Response (if warehouse assigned):
+### {
+###   "licensePlate": "ABC-123",
+###   "status": "COMPLETED",
+###   "message": "Warehouse assigned successfully",
+###   "warehouseNumber": "WH-001"
+### }
+
+### Step 3: Check status again (to verify warehouse assignment)
+GET http://localhost:8190/api/landside/weight-registration/status/ABC-123
+
+### ========================================
+### TEST SCENARIO EXPLANATION
+### ========================================
+### 
+### 1. Driver registers weight at weighing bridge
+### 2. System immediately returns "PROCESSING" status
+### 3. Landside Context publishes TruckLeftWeighingBridge event
+### 4. Warehousing Context receives event and assigns warehouse
+### 5. Warehousing Context publishes WarehouseAssigned event
+### 6. Landside Context receives event and updates truck movement
+### 7. Driver can check status to get warehouse number
+### 
+### This demonstrates the complete asynchronous flow
+### from weight registration to warehouse assignment. 

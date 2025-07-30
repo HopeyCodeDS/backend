@@ -2,9 +2,9 @@ package be.kdg.prog6.landsideContext.adapters.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component("landsideRabbitMQModuleTopology")
 public class RabbitMQModuleTopology {
 
     public static final String LANDSIDE_EVENTS_FAN_OUT = "landside-events";

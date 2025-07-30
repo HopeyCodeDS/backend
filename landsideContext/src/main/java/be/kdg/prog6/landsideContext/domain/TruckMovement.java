@@ -10,7 +10,9 @@ public class TruckMovement {
     private final LicensePlate licensePlate;
     private final LocalDateTime entryTime;
     private TruckLocation currentLocation;
-    private WeighingBridge assignedBridge;
+    private String assignedBridgeNumber;
+    private Double truckWeight;
+    private String assignedWarehouse;
     private LocalDateTime bridgeAssignmentTime;
     
     public TruckMovement(UUID movementId, LicensePlate licensePlate, LocalDateTime entryTime) {
@@ -20,22 +22,18 @@ public class TruckMovement {
         this.currentLocation = TruckLocation.GATE;
     }
     
-    public void assignWeighingBridge(WeighingBridge bridge) {
+    public void assignWeighingBridge(String bridgeNumber) {
         if (currentLocation != TruckLocation.GATE) {
             throw new IllegalStateException("Truck must be at gate to assign weighing bridge");
         }
         
-        if (!bridge.isAvailable()) {
-            throw new IllegalArgumentException("Weighing bridge is not available");
-        }
-        
-        this.assignedBridge = bridge;
+        this.assignedBridgeNumber = bridgeNumber;
         this.currentLocation = TruckLocation.WEIGHING_BRIDGE;
         this.bridgeAssignmentTime = LocalDateTime.now();
     }
     
     public void enterWeighingBridge() {
-        if (currentLocation != TruckLocation.GATE || assignedBridge == null) {
+        if (currentLocation != TruckLocation.GATE || assignedBridgeNumber == null) {
             throw new IllegalStateException("Truck must be at gate with assigned bridge to enter weighing bridge");
         }
         
@@ -47,6 +45,12 @@ public class TruckMovement {
             throw new IllegalStateException("Truck must be at weighing bridge to leave");
         }
         
+        this.currentLocation = TruckLocation.WAREHOUSE;
+    }
+
+    // Method to assign warehouse
+    public void assignWarehouse(String warehouseNumber) {
+        this.assignedWarehouse = warehouseNumber;
         this.currentLocation = TruckLocation.WAREHOUSE;
     }
     
@@ -67,7 +71,7 @@ public class TruckMovement {
     }
     
     public String getAssignedBridgeNumber() {
-        return assignedBridge != null ? assignedBridge.getBridgeNumber() : "Not assigned";
+        return assignedBridgeNumber != null ? assignedBridgeNumber : "Not assigned";
     }
     
     public boolean isAtGate() {
@@ -75,7 +79,7 @@ public class TruckMovement {
     }
     
     public boolean hasAssignedBridge() {
-        return assignedBridge != null;
+        return assignedBridgeNumber != null;
     }
     
     // Package-private methods for mapper use only
@@ -83,11 +87,19 @@ public class TruckMovement {
         this.currentLocation = location;
     }
     
-    public void setAssignedBridge(WeighingBridge bridge) {
-        this.assignedBridge = bridge;
+    public void setAssignedBridgeNumber(String bridgeNumber) {
+        this.assignedBridgeNumber = bridgeNumber;
     }
     
     public void setBridgeAssignmentTime(LocalDateTime time) {
         this.bridgeAssignmentTime = time;
+    }
+
+    public void recordWeighing(double truckWeight) {
+        this.truckWeight = truckWeight;
+    }
+
+    public boolean isReadyForWarehouseAssignment() {
+        return truckWeight != null;
     }
 } 

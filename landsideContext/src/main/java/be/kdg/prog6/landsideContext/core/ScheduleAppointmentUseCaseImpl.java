@@ -5,11 +5,13 @@ import be.kdg.prog6.landsideContext.domain.commands.ScheduleAppointmentCommand;
 import be.kdg.prog6.landsideContext.ports.in.ScheduleAppointmentUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentScheduledPort;
+import be.kdg.prog6.landsideContext.ports.out.TruckRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,6 +20,7 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
     
     private final AppointmentRepositoryPort appointmentRepositoryPort;
     private final AppointmentScheduledPort appointmentScheduledPort;
+    private final TruckRepositoryPort truckRepositoryPort;
     
     @Override
     public UUID scheduleAppointment(ScheduleAppointmentCommand command) {
@@ -28,8 +31,8 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         RawMaterial rawMaterial = RawMaterial.fromName(command.getRawMaterialName());
         ArrivalWindow arrivalWindow = new ArrivalWindow(command.getArrivalTime());
         
-        // Create truck
-        Truck truck = new Truck(UUID.randomUUID(), command.getTruck().getLicensePlate(), command.getTruck().getTruckType());
+        // Find or create truck
+        Truck truck = findOrCreateTruck(command.getTruck());
         
         // Check capacity (max 40 trucks per hour)
         if (!isCapacityAvailable(arrivalWindow)) {
@@ -53,6 +56,27 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         appointmentScheduledPort.appointmentScheduled(appointment);
         
         return appointmentId;
+    }
+
+    private Truck findOrCreateTruck(Truck commandTruck) {
+        // Try to find existing truck by license plate
+        Optional<Truck> existingTruck = truckRepositoryPort.findByLicensePlate(
+            commandTruck.getLicensePlate().getValue()
+        );
+        
+        if (existingTruck.isPresent()) {
+            return existingTruck.get();
+        }
+        
+        // Create new truck if not found
+        Truck newTruck = new Truck(
+            UUID.randomUUID(),
+            commandTruck.getLicensePlate(),
+            commandTruck.getTruckType()
+        );
+        
+        truckRepositoryPort.save(newTruck);
+        return newTruck;
     }
     
     private void validateCommand(ScheduleAppointmentCommand command) {

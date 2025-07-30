@@ -4,6 +4,7 @@ import be.kdg.prog6.landsideContext.domain.WeighingBridge;
 import be.kdg.prog6.landsideContext.ports.out.WeighingBridgeRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +39,23 @@ public class WeighingBridgeDatabaseAdapter implements WeighingBridgeRepositoryPo
     }
     
     @Override
+    @Transactional
     public void save(WeighingBridge weighingBridge) {
-        WeighingBridgeJpaEntity jpaEntity = weighingBridgeMapper.toJpaEntity(weighingBridge);
-        weighingBridgeJpaRepository.save(jpaEntity);
+        // Weighing bridges are pre-populated, so we should only update existing ones
+        Optional<WeighingBridgeJpaEntity> existingEntity = 
+            weighingBridgeJpaRepository.findByBridgeNumber(weighingBridge.getBridgeNumber());
+        
+        if (existingEntity.isPresent()) {
+            // Update existing entity - only the availability status
+            WeighingBridgeJpaEntity entity = existingEntity.get();
+            entity.setAvailable(weighingBridge.isAvailable());
+            weighingBridgeJpaRepository.save(entity);
+        } else {
+            // This should never happen since weighing bridges are pre-populated
+            throw new IllegalStateException(
+                "Weighing bridge with number '" + weighingBridge.getBridgeNumber() + 
+                "' not found. Weighing bridges are pre-populated and should not be created dynamically."
+            );
+        }
     }
 }
