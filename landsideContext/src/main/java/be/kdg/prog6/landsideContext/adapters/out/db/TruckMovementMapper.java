@@ -19,6 +19,10 @@ public class TruckMovementMapper {
             jpaEntity.setBridgeAssignmentTime(truckMovement.getBridgeAssignmentTime());
         }
         
+        if (truckMovement.getExitWeighbridgeNumber() != null && !truckMovement.getExitWeighbridgeNumber().equals("Not assigned")) {
+            jpaEntity.setExitWeighbridgeNumber(truckMovement.getExitWeighbridgeNumber());
+        }
+        
         jpaEntity.setTruckWeight(truckMovement.getTruckWeight());
         jpaEntity.setAssignedWarehouse(truckMovement.getAssignedWarehouse());
         
@@ -41,6 +45,10 @@ public class TruckMovementMapper {
         if (jpaEntity.getAssignedBridgeNumber() != null) {
             truckMovement.setAssignedBridgeNumber(jpaEntity.getAssignedBridgeNumber());
             truckMovement.setBridgeAssignmentTime(jpaEntity.getBridgeAssignmentTime());
+        }
+
+        if (jpaEntity.getExitWeighbridgeNumber() != null) {
+            truckMovement.setExitWeighbridgeNumber(jpaEntity.getExitWeighbridgeNumber());
         }
         
         // Add missing mappings

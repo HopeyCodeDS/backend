@@ -11,6 +11,7 @@ public class TruckMovement {
     private final LocalDateTime entryTime;
     private TruckLocation currentLocation;
     private String assignedBridgeNumber;
+    private String exitWeighbridgeNumber;
     private Double truckWeight;
     private String assignedWarehouse;
     private LocalDateTime bridgeAssignmentTime;
@@ -20,6 +21,7 @@ public class TruckMovement {
         this.licensePlate = licensePlate;
         this.entryTime = entryTime;
         this.currentLocation = TruckLocation.GATE;
+        this.exitWeighbridgeNumber = null;
     }
     
     public void assignWeighingBridge(String bridgeNumber) {
@@ -38,6 +40,18 @@ public class TruckMovement {
         }
         
         this.currentLocation = TruckLocation.WEIGHING_BRIDGE;
+    }
+
+    public void setExitWeighbridgeNumber(String exitWeighbridgeNumber) {
+        this.exitWeighbridgeNumber = exitWeighbridgeNumber;
+    }
+
+    public String getExitWeighbridgeNumber() {
+        return exitWeighbridgeNumber;
+    }
+
+    public boolean hasExitWeighbridgeNumber() {
+        return exitWeighbridgeNumber != null && !exitWeighbridgeNumber.trim().isEmpty();
     }
     
     public void leaveWeighingBridge() {
@@ -97,6 +111,7 @@ public class TruckMovement {
 
     public void recordWeighing(double truckWeight) {
         this.truckWeight = truckWeight;
+        this.currentLocation = TruckLocation.WEIGHING_BRIDGE;
     }
 
     public boolean isReadyForWarehouseAssignment() {

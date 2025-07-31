@@ -33,6 +33,9 @@ public class TruckMovementJpaEntity {
     @Column(name = "assigned_bridge_number")
     private String assignedBridgeNumber;
     
+    @Column(name = "exit_weighbridge_number")
+    private String exitWeighbridgeNumber;
+    
     @Column(name = "bridge_assignment_time")
     private LocalDateTime bridgeAssignmentTime;
     
