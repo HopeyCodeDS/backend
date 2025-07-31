@@ -7,12 +7,19 @@ import org.springframework.stereotype.Component;
 @Component("warehousingRabbitMQModuleTopology")
 public class RabbitMQModuleTopology {
 
-    public static final String WAREHOUSING_EVENTS_FAN_OUT = "warehousing-events";
+    // Change from Fanout to Topic exchange
+    public static final String WAREHOUSING_EVENTS_TOPIC = "warehousing-events";
     public static final String WAREHOUSING_QUEUE = "warehousing-queue";
+    
+    // new queue for PDT events
+    public static final String PDT_GENERATED_QUEUE = "pdt-generated-queue";
+
+    // warehouse assigned queue constant
+    public static final String WAREHOUSE_ASSIGNED_QUEUE = "warehouse-assigned-queue";
 
     @Bean
-    FanoutExchange warehousingEventsExchange() {
-        return new FanoutExchange(WAREHOUSING_EVENTS_FAN_OUT);
+    TopicExchange warehousingEventsExchange() {
+        return new TopicExchange(WAREHOUSING_EVENTS_TOPIC);
     }
 
     @Bean
@@ -21,7 +28,22 @@ public class RabbitMQModuleTopology {
     }
 
     @Bean
-    Binding warehousingEventsBinding(FanoutExchange warehousingEventsExchange, Queue warehousingQueue) {
-        return BindingBuilder.bind(warehousingQueue).to(warehousingEventsExchange);
+    Queue pdtGeneratedQueue() {
+        return new Queue(PDT_GENERATED_QUEUE);
+    }
+
+    @Bean
+    Queue warehouseAssignedQueue() {
+        return new Queue(WAREHOUSE_ASSIGNED_QUEUE);
+    }
+
+    @Bean
+    Binding warehouseAssignedBinding(TopicExchange warehousingEventsExchange, Queue warehouseAssignedQueue) {
+        return BindingBuilder.bind(warehouseAssignedQueue).to(warehousingEventsExchange).with("warehouse.assigned");
+    }
+
+    @Bean
+    Binding pdtGeneratedBinding(TopicExchange warehousingEventsExchange, Queue pdtGeneratedQueue) {
+        return BindingBuilder.bind(pdtGeneratedQueue).to(warehousingEventsExchange).with("pdt.generated");
     }
 } 

@@ -11,11 +11,22 @@ public class RabbitMQModuleTopology {
     public static final String LANDSIDE_APPOINTMENT_COMMANDS = "landside-appointment-commands";
     public static final String LANDSIDE_TRUCK_COMMANDS = "landside-truck-commands";
     public static final String LANDSIDE_WEIGHING_BRIDGE_COMMANDS = "landside-weighing-bridge-commands";
+    public static final String LANDSIDE_EXCHANGE = "landside.exchange";
     
     public static final String LANDSIDE_EVENTS_QUEUE = "landside-events-queue";
     public static final String LANDSIDE_APPOINTMENT_QUEUE = "landside-appointment-queue";
     public static final String LANDSIDE_TRUCK_QUEUE = "landside-truck-queue";
     public static final String LANDSIDE_WEIGHING_BRIDGE_QUEUE = "landside-weighing-bridge-queue";
+
+    // queue constants for warehousing events
+    public static final String WAREHOUSING_EVENTS_TOPIC = "warehousing-events";
+    public static final String WAREHOUSE_ASSIGNED_QUEUE = "warehouse-assigned-queue";
+    public static final String PDT_GENERATED_QUEUE = "pdt-generated-queue";
+
+    @Bean
+    TopicExchange landsideExchange() {
+        return new TopicExchange(LANDSIDE_EXCHANGE);
+    }
 
     @Bean
     FanoutExchange landsideEventsExchange() {
@@ -25,6 +36,31 @@ public class RabbitMQModuleTopology {
     @Bean
     Queue landsideEventsQueue() {
         return new Queue(LANDSIDE_EVENTS_QUEUE);
+    }
+
+    @Bean
+    Queue warehouseAssignedQueue() {
+        return new Queue(WAREHOUSE_ASSIGNED_QUEUE);
+    }
+
+    @Bean
+    Queue pdtGeneratedQueue() {
+        return new Queue(PDT_GENERATED_QUEUE);
+    }
+
+    @Bean
+    Binding warehouseAssignedBinding(TopicExchange warehousingEventsExchange, Queue warehouseAssignedQueue) {
+        return BindingBuilder.bind(warehouseAssignedQueue).to(warehousingEventsExchange).with("warehouse.assigned");
+    }
+
+    @Bean
+    Binding pdtGeneratedBinding(TopicExchange warehousingEventsExchange, Queue pdtGeneratedQueue) {
+        return BindingBuilder.bind(pdtGeneratedQueue).to(warehousingEventsExchange).with("pdt.generated");
+    }
+
+    @Bean
+    TopicExchange warehousingEventsExchange() {
+        return new TopicExchange(WAREHOUSING_EVENTS_TOPIC);
     }
 
     @Bean

@@ -51,7 +51,7 @@ public class PDTGeneratedAMQPPublisher implements PDTGeneratedPort {
         
         try {
             rabbitTemplate.convertAndSend(
-                RabbitMQModuleTopology.WAREHOUSING_EVENTS_FAN_OUT,
+                RabbitMQModuleTopology.WAREHOUSING_EVENTS_TOPIC,
                 "pdt.generated",
                 EventMessage.builder()
                     .eventHeader(eventHeader)
