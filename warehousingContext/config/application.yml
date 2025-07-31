@@ -16,6 +16,8 @@ spring:
    properties:
      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
      hibernate.default_schema: warehousing 
+     hibernate.connection.characterEncoding: utf8
+     hibernate.connection.useUnicode: true
   sql:
    init:
      mode: always

@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
   "licensePlate": "ABC-123",
-  "weight": 18.5,
+  "weight": 20,
   "rawMaterialName": "Gypsum"
 }
 
@@ -20,6 +20,18 @@ Content-Type: application/json
 ###   "message": "Weight registered successfully. Warehouse assignment in progress.",
 ###   "warehouseNumber": null
 ### }
+
+### Step 1.1: Register truck weight and exit bridge
+### This triggers the async warehouse assignment process
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "DEF-456",
+  "weight": 20,
+  "rawMaterialName": "Gypsum"
+}
+
 
 ### Step 2: Check warehouse assignment status
 ### This checks if the warehouse has been assigned asynchronously
@@ -41,8 +53,10 @@ GET http://localhost:8190/api/landside/weight-registration/status/ABC-123
 ###   "warehouseNumber": "WH-001"
 ### }
 
-### Step 3: Check status again (to verify warehouse assignment)
-GET http://localhost:8190/api/landside/weight-registration/status/ABC-123
+### Step 2.1: Check status again (to verify warehouse assignment)
+GET http://localhost:8190/api/landside/weight-registration/status/DEF-456
+
+
 
 ### ========================================
 ### TEST SCENARIO EXPLANATION

@@ -1,0 +1,62 @@
+### ========================================
+### USER STORY 5: Payload Delivery and PDT Generation
+### ========================================
+
+### Step 1: Deliver Payload (Simulates pressure sensor activation)
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 18.5,
+  "sellerId": "seller-001",
+  "deliveryTime": "31/08/2025 20:30"
+}
+
+### Step 2: Retrieve PDT by License Plate
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt/ABC-123
+
+### Step 3: Retrieve All PDTs
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt
+
+### Step 4: Deliver Another Payload
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "DEF-456",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "31/08/2025 20:50"
+} 
+
+
+### Step 5: Deliver Another Payload
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "XYZ-789",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "conveyorBeltNumber": "CB-02",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "31/07/2025 14:30"
+}
+
+### Step 5: Test Invalid Request (Missing License Plate)
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "conveyorBeltNumber": "WH-001-CB-GYPSUM",
+  "payloadWeight": 18.5,
+  "sellerId": "seller-001"
+}
