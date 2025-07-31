@@ -64,3 +64,15 @@ INSERT INTO landside.weighing_bridges (bridge_id, bridge_number, is_available) V
 ('550e8400-e29b-41d4-a716-446655440003', 'WB-003', true),
 ('550e8400-e29b-41d4-a716-446655440004', 'WB-004', true),
 ('550e8400-e29b-41d4-a716-446655440005', 'WB-005', true);
+
+-- Weighbridge tickets table
+CREATE TABLE IF NOT EXISTS landside.weighbridge_tickets (
+    ticket_id BINARY(16) PRIMARY KEY,
+    license_plate VARCHAR(50) NOT NULL,
+    gross_weight DOUBLE NOT NULL,
+    tare_weight DOUBLE NOT NULL,
+    net_weight DOUBLE NOT NULL,
+    weighing_time TIMESTAMP NOT NULL,
+    INDEX idx_license_plate (license_plate),
+    INDEX idx_weighing_time (weighing_time)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
