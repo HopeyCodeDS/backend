@@ -1,8 +1,10 @@
 package be.kdg.prog6.landsideContext.adapters.in.amqp;
 
+import be.kdg.prog6.common.events.EventCatalog;
 import be.kdg.prog6.common.events.EventMessage;
 import be.kdg.prog6.common.events.WarehouseAssigned;
 import be.kdg.prog6.landsideContext.core.RegisterWeightAndExitBridgeUseCaseImpl;
+import be.kdg.prog6.landsideContext.adapters.config.RabbitMQModuleTopology;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +19,17 @@ public class WarehouseAssignedAMQPListener {
     private final RegisterWeightAndExitBridgeUseCaseImpl registerWeightAndExitBridgeUseCase;
     private final ObjectMapper objectMapper;
     
-    @RabbitListener(queues = "warehousing-queue")
+    @RabbitListener(queues = RabbitMQModuleTopology.WAREHOUSE_ASSIGNED_QUEUE)
     public void handleWarehouseAssigned(EventMessage eventMessage) {
         try {
+            // Check if the event is of the correct type
+            if (eventMessage.getEventHeader().getEventType() != EventCatalog.WAREHOUSE_ASSIGNED) {
+                log.debug("Ignoring event of type: {}", eventMessage.getEventHeader().getEventType());
+                return; // Skip processing if not the right event type
+            }
+
+            log.info("Processing WAREHOUSE_ASSIGNED event: {}", eventMessage.getEventHeader().getEventID());
+
             // Parse the event body
             WarehouseAssigned event = objectMapper.readValue(
                 eventMessage.getEventBody(), 

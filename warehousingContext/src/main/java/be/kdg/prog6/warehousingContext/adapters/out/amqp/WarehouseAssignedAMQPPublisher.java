@@ -49,7 +49,7 @@ public class WarehouseAssignedAMQPPublisher implements WarehouseAssignedPort {
         
         try {
             rabbitTemplate.convertAndSend(
-                RabbitMQModuleTopology.WAREHOUSING_EVENTS_FAN_OUT, 
+                RabbitMQModuleTopology.WAREHOUSING_EVENTS_TOPIC, 
                 "warehouse.assigned", 
                 EventMessage.builder()
                     .eventHeader(eventHeader)
