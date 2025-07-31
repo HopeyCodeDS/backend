@@ -20,6 +20,19 @@ public class Warehouse {
         this.maxCapacity = 500_000.0; // 500 kt
         this.currentCapacity = 0.0;
     }
+
+    public Warehouse(UUID warehouseId, String warehouseNumber, String sellerId, RawMaterial assignedMaterial, double currentCapacity) {
+        this.warehouseId = warehouseId;
+        this.warehouseNumber = warehouseNumber;
+        this.sellerId = sellerId;
+        this.assignedMaterial = assignedMaterial;
+        this.maxCapacity = 500_000.0; // 500 kt
+        this.currentCapacity = currentCapacity;
+    }
+
+    public void setCurrentCapacity(double currentCapacity) {
+        this.currentCapacity = currentCapacity;
+    }
     
     public boolean canAcceptMaterial(RawMaterial material) {
         // If warehouse is empty, it can accept any material

@@ -31,7 +31,8 @@ public class WarehouseMapper {
             jpaEntity.getWarehouseId(),
             jpaEntity.getWarehouseNumber(),
             jpaEntity.getSellerId(),
-            rawMaterial
+            rawMaterial,
+            jpaEntity.getCurrentCapacity()
         );
     }
 }
