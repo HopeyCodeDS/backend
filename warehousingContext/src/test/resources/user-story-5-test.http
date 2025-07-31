@@ -2,7 +2,7 @@
 ### USER STORY 5: Payload Delivery and PDT Generation
 ### ========================================
 
-### Step 1: Deliver Payload (Simulates pressure sensor activation)
+### Step 1: Deliver Payload (Simulates pressure sensor activation, this generates PDT with new weighing bridge)
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 

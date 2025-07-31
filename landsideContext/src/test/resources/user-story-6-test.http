@@ -1,0 +1,72 @@
+### Generate weighbridge ticket (this validates the exit weighing bridge first before generating the WBT)
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "31/08/2025 15:30"
+}
+
+### Response should be like:
+# {
+#   "ticketId": "550e8400-e29b-41d4-a716-446655440000",
+#   "licensePlate": "ABC-123", 
+#   "grossWeight": 25000.0,
+#   "tareWeight": 8000.0,
+#   "netWeight": 17000.0,
+#   "weighingTime": "31/08/2025 15:30"
+# }
+
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "DEF-456",
+  "grossWeight": 25000.0,
+  "tareWeight": 7500.0,
+  "weighingTime": "31/08/2025 15:55"
+}
+
+### Response should be like:
+# {
+#   "ticketId": "550e8400-e29b-41d4-a716-446655440000",
+#   "licensePlate": "ABC-123", 
+#   "grossWeight": 25000.0,
+#   "tareWeight": 8000.0,
+#   "netWeight": 17000.0,
+#   "weighingTime": "31/08/2025 15:30"
+# }
+
+### Invalid weighbridge ticket (negative weights)
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "grossWeight": -1000.0,
+  "tareWeight": -500.0,
+  "weighingTime": "31/08/2025 15:30"
+}
+
+### Invalid weighbridge ticket (tare weight greater than gross weight)
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "grossWeight": 10000.0,
+  "tareWeight": 15000.0,
+  "weighingTime": "31/08/2025 15:30"
+}
+
+### Invalid weighbridge ticket (missing license plate)
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "grossWeight": 35000.0,
+  "tareWeight": 15000.0,
+  "weighingTime": "31/08/2025 15:30"
+}
