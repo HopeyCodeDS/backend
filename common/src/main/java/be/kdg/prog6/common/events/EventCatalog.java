@@ -25,5 +25,6 @@ public enum EventCatalog {
     // Invoicing Context Events
     STORAGE_FEE_CALCULATED,
     COMMISSION_FEE_CALCULATED,
-    INVOICE_GENERATED
+    INVOICE_GENERATED,
+    WEIGHBRIDGE_TICKET_GENERATED
 } 
