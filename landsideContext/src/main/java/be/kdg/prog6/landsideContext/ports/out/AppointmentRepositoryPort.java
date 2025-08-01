@@ -12,4 +12,5 @@ public interface AppointmentRepositoryPort {
     List<Appointment> findByArrivalWindow(ArrivalWindow arrivalWindow);
     List<Appointment> findBySellerId(String sellerId);
     List<Appointment> findByLicensePlate(String licensePlate);
+    List<Appointment> findAll();
 } 

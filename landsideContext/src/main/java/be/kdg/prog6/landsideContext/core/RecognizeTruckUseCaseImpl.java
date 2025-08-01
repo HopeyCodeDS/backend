@@ -49,7 +49,7 @@ public class RecognizeTruckUseCaseImpl implements RecognizeTruckUseCase {
         }
         
         // Mark appointment as arrived
-        appointment.markAsArrived();
+        appointment.markAsArrived(command.getRecognitionTime());
         
         // Save the updated appointment
         appointmentRepositoryPort.save(appointment);
