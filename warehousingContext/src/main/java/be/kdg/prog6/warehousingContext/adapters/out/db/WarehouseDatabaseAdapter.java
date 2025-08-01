@@ -42,4 +42,18 @@ public class WarehouseDatabaseAdapter implements WarehouseRepositoryPort {
         WarehouseJpaEntity jpaEntity = warehouseMapper.toJpaEntity(warehouse);
         warehouseJpaRepository.save(jpaEntity);
     }
+    
+    @Override
+    public List<Warehouse> findAll() {
+        return warehouseJpaRepository.findAll().stream()
+                .map(warehouseMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public double getTotalRawMaterialInWarehouses() {
+        return warehouseJpaRepository.findAll().stream()
+                .mapToDouble(entity -> entity.getCurrentCapacity())
+                .sum();
+    }
 }

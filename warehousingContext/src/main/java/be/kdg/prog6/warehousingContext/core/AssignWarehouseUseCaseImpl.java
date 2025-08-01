@@ -57,7 +57,7 @@ public class AssignWarehouseUseCaseImpl implements AssignWarehouseUseCase {
         // selectedWarehouse.addCapacity(command.truckWeight());
         warehouseRepositoryPort.save(selectedWarehouse);
 
-        // ✅ ADD THIS: Save warehouse assignment record
+        // ✅ Save warehouse assignment record
         WarehouseAssignment assignment = new WarehouseAssignment(
             UUID.randomUUID(),
             selectedWarehouse.getWarehouseId(),

@@ -10,4 +10,6 @@ public interface WarehouseRepositoryPort {
     Optional<Warehouse> findById(UUID warehouseId);
     Optional<Warehouse> findByWarehouseNumber(String warehouseNumber);
     void save(Warehouse warehouse);
+    List<Warehouse> findAll();
+    double getTotalRawMaterialInWarehouses();
 } 
