@@ -1,0 +1,27 @@
+### User Story 7: Get Arrival Compliance Data for Warehouse Manager
+GET http://localhost:8190/api/landside/arrival-compliance
+Content-Type: application/json
+
+### Expected Response:
+# [
+#   {
+#     "appointmentId": "uuid",
+#     "licensePlate": "ABC-123",
+#     "sellerId": "seller-1",
+#     "rawMaterial": "IRON_ORE",
+#     "scheduledArrivalTime": "27/07/2025 09:00",
+#     "actualArrivalTime": "27/07/2025 09:15",
+#     "status": "ARRIVED",
+#     "isOnTime": true
+#   },
+#   {
+#     "appointmentId": "uuid-2",
+#     "licensePlate": "XYZ-789",
+#     "sellerId": "seller-2",
+#     "rawMaterial": "COAL",
+#     "scheduledArrivalTime": "27/07/2025 10:00",
+#     "actualArrivalTime": "27/07/2025 10:30",
+#     "status": "ARRIVED",
+#     "isOnTime": false
+#   }
+# ]
