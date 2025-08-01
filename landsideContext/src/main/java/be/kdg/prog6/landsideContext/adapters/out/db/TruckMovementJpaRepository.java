@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import be.kdg.prog6.landsideContext.domain.TruckLocation;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,4 +16,10 @@ public interface TruckMovementJpaRepository extends JpaRepository<TruckMovementJ
     
     @Query("SELECT tm FROM TruckMovementJpaEntity tm WHERE tm.licensePlate = :licensePlate")
     Optional<TruckMovementJpaEntity> findByLicensePlate(@Param("licensePlate") String licensePlate);
+    
+    @Query("SELECT tm FROM TruckMovementJpaEntity tm WHERE tm.currentLocation != :exitLocation")
+    List<TruckMovementJpaEntity> findByCurrentLocationNot(@Param("exitLocation") TruckLocation exitLocation);
+    
+    @Query("SELECT COUNT(tm) FROM TruckMovementJpaEntity tm WHERE tm.currentLocation != :exitLocation")
+    long countByCurrentLocationNot(@Param("exitLocation") TruckLocation exitLocation);
 } 

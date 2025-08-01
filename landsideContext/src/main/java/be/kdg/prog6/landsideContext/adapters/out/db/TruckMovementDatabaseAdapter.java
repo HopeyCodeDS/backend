@@ -1,12 +1,15 @@
 package be.kdg.prog6.landsideContext.adapters.out.db;
 
+import be.kdg.prog6.landsideContext.domain.TruckLocation;
 import be.kdg.prog6.landsideContext.domain.TruckMovement;
 import be.kdg.prog6.landsideContext.ports.out.TruckMovementRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -31,5 +34,18 @@ public class TruckMovementDatabaseAdapter implements TruckMovementRepositoryPort
     public Optional<TruckMovement> findByLicensePlate(String licensePlate) {
         return truckMovementJpaRepository.findByLicensePlate(licensePlate)
                 .map(truckMovementMapper::toDomain);
+    }
+    
+    @Override
+    public List<TruckMovement> findAllOnSite() {
+        return truckMovementJpaRepository.findByCurrentLocationNot(TruckLocation.EXIT)
+                .stream()
+                .map(truckMovementMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public long countTrucksOnSite() {
+        return truckMovementJpaRepository.countByCurrentLocationNot(TruckLocation.EXIT);
     }
 } 

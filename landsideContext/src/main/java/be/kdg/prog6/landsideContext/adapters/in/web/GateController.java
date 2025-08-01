@@ -1,7 +1,6 @@
 package be.kdg.prog6.landsideContext.adapters.in.web;
 
 import be.kdg.prog6.landsideContext.adapters.in.web.dto.TruckRecognitionRequestDto;
-import be.kdg.prog6.landsideContext.adapters.in.web.dto.TruckRecognitionResponseDto;
 import be.kdg.prog6.landsideContext.adapters.in.web.mapper.GateMapper;
 import be.kdg.prog6.landsideContext.domain.Appointment;
 import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
