@@ -16,6 +16,7 @@ public class Appointment {
     private final ArrivalWindow arrivalWindow;
     private final LocalDateTime createdAt;
     private AppointmentStatus status;
+    private LocalDateTime actualArrivalTime; // Add this field
     
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     
@@ -28,13 +29,15 @@ public class Appointment {
         this.arrivalWindow = arrivalWindow;
         this.createdAt = LocalDateTime.now();
         this.status = AppointmentStatus.SCHEDULED;
+        this.actualArrivalTime = null; // Initially null
     }
     
-    public void markAsArrived() {
+    public void markAsArrived(LocalDateTime actualArrivalTime) {
         if (status != AppointmentStatus.SCHEDULED) {
             throw new IllegalStateException("Appointment must be in SCHEDULED status to mark as arrived");
         }
         this.status = AppointmentStatus.ARRIVED;
+        this.actualArrivalTime = actualArrivalTime; // Store the real arrival time
     }
     
     public void cancel() {
@@ -52,11 +55,22 @@ public class Appointment {
         return status == AppointmentStatus.ARRIVED;
     }
     
+    public boolean isOnTime() {
+        if (actualArrivalTime == null) {
+            return false;
+        }
+        return arrivalWindow.isWithinWindow(actualArrivalTime);
+    }
+    
     public String getFormattedCreatedAt() {
         return createdAt.format(DATE_TIME_FORMATTER);
     }
     
     public String getFormattedArrivalWindow() {
         return arrivalWindow.getFormattedStartTime() + " - " + arrivalWindow.getFormattedEndTime();
+    }
+    
+    public String getFormattedActualArrivalTime() {
+        return actualArrivalTime != null ? actualArrivalTime.format(DATE_TIME_FORMATTER) : "Not arrived";
     }
 } 

@@ -79,4 +79,20 @@ public class AppointmentDatabaseAdapter implements AppointmentRepositoryPort {
                 .map(appointmentMapper::toDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Appointment> findAll() {
+        try {
+            log.info("Finding all appointments");
+            List<AppointmentJpaEntity> jpaEntities = appointmentJpaRepository.findAll();
+            log.info("Found {} appointments", jpaEntities.size());
+            return jpaEntities.stream()
+                    .map(appointmentMapper::toDomain)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("Error finding all appointments: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
 }

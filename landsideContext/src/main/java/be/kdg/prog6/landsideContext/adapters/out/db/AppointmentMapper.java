@@ -17,7 +17,7 @@ public class AppointmentMapper {
         jpaEntity.setRawMaterialPricePerTon(appointment.getRawMaterial().getPricePerTon());
         jpaEntity.setRawMaterialStoragePricePerTonPerDay(appointment.getRawMaterial().getStoragePricePerTonPerDay());
         jpaEntity.setStatus(appointment.getStatus());
-        jpaEntity.setActualArrivalTime(appointment.getArrivalWindow().getStartTime());
+        jpaEntity.setActualArrivalTime(appointment.getActualArrivalTime());
         
         // Map truck
         TruckJpaEntity truckJpaEntity = new TruckJpaEntity();
@@ -56,6 +56,7 @@ public class AppointmentMapper {
         
         // Set status and arrival time
         appointment.setStatus(jpaEntity.getStatus());
+        appointment.setActualArrivalTime(jpaEntity.getActualArrivalTime());
         
         return appointment;
     }
