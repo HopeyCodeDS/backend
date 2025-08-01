@@ -17,6 +17,9 @@ public class RabbitMQModuleTopology {
     // warehouse assigned queue constant
     public static final String WAREHOUSE_ASSIGNED_QUEUE = "warehouse-assigned-queue";
 
+    // purchase order submitted queue constant
+    public static final String PURCHASE_ORDER_SUBMITTED_QUEUE = "purchase-order.submitted";
+
     @Bean
     TopicExchange warehousingEventsExchange() {
         return new TopicExchange(WAREHOUSING_EVENTS_TOPIC);
@@ -38,6 +41,11 @@ public class RabbitMQModuleTopology {
     }
 
     @Bean
+    Queue purchaseOrderSubmittedQueue() {
+        return new Queue(PURCHASE_ORDER_SUBMITTED_QUEUE);
+    }
+
+    @Bean
     Binding warehouseAssignedBinding(TopicExchange warehousingEventsExchange, Queue warehouseAssignedQueue) {
         return BindingBuilder.bind(warehouseAssignedQueue).to(warehousingEventsExchange).with("warehouse.assigned");
     }
@@ -46,4 +54,10 @@ public class RabbitMQModuleTopology {
     Binding pdtGeneratedBinding(TopicExchange warehousingEventsExchange, Queue pdtGeneratedQueue) {
         return BindingBuilder.bind(pdtGeneratedQueue).to(warehousingEventsExchange).with("pdt.generated");
     }
+
+    @Bean
+    Binding purchaseOrderSubmittedBinding(TopicExchange warehousingEventsExchange, Queue purchaseOrderSubmittedQueue) {
+        return BindingBuilder.bind(purchaseOrderSubmittedQueue).to(warehousingEventsExchange).with("purchase-order.submitted");
+    }
+
 } 

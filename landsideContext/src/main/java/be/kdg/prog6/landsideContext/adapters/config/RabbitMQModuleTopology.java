@@ -23,6 +23,9 @@ public class RabbitMQModuleTopology {
     public static final String WAREHOUSE_ASSIGNED_QUEUE = "warehouse-assigned-queue";
     public static final String PDT_GENERATED_QUEUE = "pdt-generated-queue";
 
+    // purchase order submitted queue constant
+    public static final String PURCHASE_ORDER_SUBMITTED_QUEUE = "purchase-order.submitted";
+
     @Bean
     TopicExchange landsideExchange() {
         return new TopicExchange(LANDSIDE_EXCHANGE);
@@ -112,4 +115,15 @@ public class RabbitMQModuleTopology {
     Binding weighingBridgeCommandBinding(TopicExchange landsideWeighingBridgeCommandExchange, Queue landsideWeighingBridgeCommandQueue) {
         return BindingBuilder.bind(landsideWeighingBridgeCommandQueue).to(landsideWeighingBridgeCommandExchange).with("weighing.bridge.command.#");
     }
+
+    @Bean
+    Queue purchaseOrderSubmittedQueue() {
+        return new Queue(PURCHASE_ORDER_SUBMITTED_QUEUE);
+    }
+
+    @Bean
+    Binding purchaseOrderSubmittedBinding(TopicExchange warehousingEventsExchange, Queue purchaseOrderSubmittedQueue) {
+        return BindingBuilder.bind(purchaseOrderSubmittedQueue).to(warehousingEventsExchange).with("purchase-order.submitted");
+    }
+
 }

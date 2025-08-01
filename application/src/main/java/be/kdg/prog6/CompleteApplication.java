@@ -19,6 +19,12 @@ import org.springframework.context.annotation.FilterType;
     "be.kdg.prog6.warehousingContext.adapters.out",
     "be.kdg.prog6.warehousingContext.adapters.config",
     "be.kdg.prog6.warehousingContext.adapters.in.amqp",
+    "be.kdg.prog6.invoicingContext.adapters.in.web",
+    "be.kdg.prog6.invoicingContext.core",
+    "be.kdg.prog6.invoicingContext.adapters.out.db",
+    "be.kdg.prog6.invoicingContext.adapters.out",
+    "be.kdg.prog6.invoicingContext.adapters.config",
+    "be.kdg.prog6.invoicingContext.adapters.in.amqp",
     "be.kdg.prog6.common.*"
 })
 

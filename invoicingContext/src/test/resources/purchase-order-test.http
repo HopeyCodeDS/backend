@@ -1,0 +1,46 @@
+ ### Submit Purchase Order
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-001",
+  "customerNumber": "CUST-001",
+  "customerName": "Steel Manufacturing Co.",
+  "orderLines": [
+    {
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 12,
+      "pricePerTon": 13.0
+    },
+    {
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 20,
+      "pricePerTon": 13.0
+    }
+  ]
+}
+
+### Expected Response
+### {
+###   "purchaseOrderId": "uuid-here",
+###   "purchaseOrderNumber": "PO-2025-001",
+###   "customerNumber": "CUST-001",
+###   "customerName": "Steel Manufacturing Co.",
+###   "orderDate": "2025-08-01T08:45:30",
+###   "status": "PENDING",
+###   "totalValue": 416.0,
+###   "orderLines": [
+###     {
+###       "rawMaterialName": "Gypsum",
+###       "amountInTons": 12.0,
+###       "pricePerTon": 13.0,
+###       "lineTotal": 156.0
+###     },
+###     {
+###       "rawMaterialName": "Gypsum", 
+###       "amountInTons": 20.0,
+###       "pricePerTon": 13.0,
+###       "lineTotal": 260.0
+###     }
+###   ]
+### }
