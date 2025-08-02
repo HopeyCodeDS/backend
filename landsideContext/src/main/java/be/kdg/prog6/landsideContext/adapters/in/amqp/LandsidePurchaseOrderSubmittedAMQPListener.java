@@ -1,9 +1,8 @@
 package be.kdg.prog6.landsideContext.adapters.in.amqp;
 
+import be.kdg.prog6.common.events.EventCatalog;
 import be.kdg.prog6.common.events.EventMessage;
 import be.kdg.prog6.common.events.PurchaseOrderSubmitted;
-import be.kdg.prog6.landsideContext.adapters.config.RabbitMQModuleTopology;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,24 +16,30 @@ public class LandsidePurchaseOrderSubmittedAMQPListener {
     
     private final ObjectMapper objectMapper;
     
-    @RabbitListener(queues = RabbitMQModuleTopology.PURCHASE_ORDER_SUBMITTED_QUEUE)
+    @RabbitListener(queues = "purchase-order.submitted.landside")
     public void handlePurchaseOrderSubmitted(EventMessage eventMessage) {
         try {
+            // Check if the event is of the correct type
+            if(!EventCatalog.PURCHASE_ORDER_SUBMITTED.equals(eventMessage.getEventHeader().getEventType())) {
+                log.debug("Ignoring event of type: {}", eventMessage.getEventHeader().getEventType());
+                return;
+            }
+
             // Deserialize the event body using shared kernel
             PurchaseOrderSubmitted event = objectMapper.readValue(
                     eventMessage.getEventBody(), 
                     PurchaseOrderSubmitted.class
             );
             
-            log.info("Received PurchaseOrderSubmitted event for PO: {} from customer: {} (Event ID: {})", 
+            log.info("Landside received PurchaseOrderSubmitted event for PO: {} from customer: {} (Event Type: {})", 
                     event.purchaseOrderNumber(), 
                     event.customerName(),
-                    eventMessage.getEventHeader().getEventID());
+                    eventMessage.getEventHeader().getEventType());
             
             // Process the purchase order for truck scheduling
             processPurchaseOrderForTruckScheduling(event);
             
-            log.info("Successfully processed PurchaseOrderSubmitted event for PO: {}", 
+            log.info("Successfully processed PurchaseOrderSubmitted event for PO in the landside context: {}", 
                     event.purchaseOrderNumber());
                     
         } catch (Exception e) {
