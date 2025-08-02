@@ -23,6 +23,9 @@ spring:
       mode: always
   datasource:
     url: jdbc:mysql://localhost:13306/app_db
+
+
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: user
     password: password
   logging:
@@ -39,4 +42,7 @@ spring:
     username: myuser
     password: mypassword
     virtual-host: /
+    listener:
+      simple:
+        missing-queues-fatal: false
 

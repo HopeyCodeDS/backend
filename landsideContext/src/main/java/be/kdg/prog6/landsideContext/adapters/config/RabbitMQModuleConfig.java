@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component("landsideRabbitMQModuleConfig")
 public class RabbitMQModuleConfig {
 
-
     @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, ObjectMapper objectMapper) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -20,13 +19,10 @@ public class RabbitMQModuleConfig {
         return rabbitTemplate;
     }
 
-
     @Bean
     Jackson2JsonMessageConverter jackson2JsonMessageConverter(ObjectMapper mapper) {
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return new Jackson2JsonMessageConverter(mapper);
     }
-
-
 }

@@ -4,6 +4,7 @@ import be.kdg.prog6.common.events.EventCatalog;
 import be.kdg.prog6.common.events.EventHeader;
 import be.kdg.prog6.common.events.EventMessage;
 import be.kdg.prog6.common.events.PurchaseOrderSubmitted;
+import be.kdg.prog6.invoicingContext.adapters.config.RabbitMQModuleTopology;
 import be.kdg.prog6.invoicingContext.domain.PurchaseOrder;
 import be.kdg.prog6.invoicingContext.ports.out.PurchaseOrderSubmittedPort;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,10 +24,7 @@ import java.util.stream.Collectors;
 public class PurchaseOrderSubmittedAMQPPublisher implements PurchaseOrderSubmittedPort {
     
     private final RabbitTemplate rabbitTemplate;
-    private final ObjectMapper objectMapper;
-    
-    private static final String EXCHANGE_NAME = "warehousing-events";
-    private static final String ROUTING_KEY = "purchase-order.submitted";       
+    private final ObjectMapper objectMapper;     
     
     @Override
     public void publishPurchaseOrderSubmitted(PurchaseOrder purchaseOrder) {
@@ -44,7 +42,7 @@ public class PurchaseOrderSubmittedAMQPPublisher implements PurchaseOrderSubmitt
                     .build();
             
             // Publish to RabbitMQ
-            rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTING_KEY, eventMessage);
+            rabbitTemplate.convertAndSend(RabbitMQModuleTopology.PURCHASE_ORDER_SUBMITTED_FAN_OUT, "purchase.order.submitted", eventMessage);
             
             log.info("Published PurchaseOrderSubmitted event for PO: {} with total value: ${}", 
                     purchaseOrder.getPurchaseOrderNumber(), purchaseOrder.getTotalValue());
