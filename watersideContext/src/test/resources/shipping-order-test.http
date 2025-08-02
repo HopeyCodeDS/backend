@@ -1,0 +1,12 @@
+ ### Submit Shipping Order
+POST http://localhost:8190/api/waterside/shipping-orders
+Content-Type: application/json
+
+{
+  "shippingOrderNumber": "SO-2025-001",
+  "purchaseOrderReference": "PO-2025-001",
+  "vesselNumber": "VESSEL-001",
+  "customerNumber": "CUST-001",
+  "estimatedArrivalDate": "2025-09-02T10:00:00",
+  "estimatedDepartureDate": "2025-09-04T16:00:00"
+}

@@ -7,25 +7,10 @@ import org.springframework.context.annotation.FilterType;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
-    "be.kdg.prog6.landsideContext.adapters.in.web",
-    "be.kdg.prog6.landsideContext.core",
-    "be.kdg.prog6.landsideContext.adapters.out.db",
-    "be.kdg.prog6.landsideContext.adapters.out",
-    "be.kdg.prog6.landsideContext.adapters.config",
-    "be.kdg.prog6.landsideContext.adapters.in.amqp",
-    "be.kdg.prog6.warehousingContext.adapters.in.web",
-    "be.kdg.prog6.warehousingContext.core",
-    "be.kdg.prog6.warehousingContext.adapters.out.db",
-    "be.kdg.prog6.warehousingContext.adapters.out",
-    "be.kdg.prog6.warehousingContext.adapters.config",
-    "be.kdg.prog6.warehousingContext.adapters.in.amqp",
-    "be.kdg.prog6.invoicingContext.adapters.in.web",
-    "be.kdg.prog6.invoicingContext.core",
-    "be.kdg.prog6.invoicingContext.adapters.out.db",
-    "be.kdg.prog6.invoicingContext.adapters.out",
-    "be.kdg.prog6.invoicingContext.adapters.config",
-    "be.kdg.prog6.invoicingContext.adapters.in.amqp",
-    "be.kdg.prog6.common.*"
+    "be.kdg.prog6.landsideContext.*",
+    "be.kdg.prog6.warehousingContext.*", 
+    "be.kdg.prog6.invoicingContext.*",
+    "be.kdg.prog6.watersideContext.*"
 })
 
 public class CompleteApplication {

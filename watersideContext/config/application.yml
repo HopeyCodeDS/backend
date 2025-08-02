@@ -21,8 +21,6 @@ spring:
   sql:
    init:
      mode: always
-    #  schema-locations: classpath:schema.sql
-    #  data-locations: classpath:data.sql
   datasource:
    url: jdbc:mysql://localhost:13306/app_db?useUnicode=true&characterEncoding=utf8
    username: user
