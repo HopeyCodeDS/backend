@@ -44,3 +44,101 @@ Content-Type: application/json
 ###     }
 ###   ]
 ### }
+
+### Submit Purchase Order 2
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-002",
+  "customerNumber": "CUST-002",
+  "customerName": "Cement Industries Ltd.",
+  "orderLines": [
+    {
+      "rawMaterialName": "Limestone",
+      "amountInTons": 25,
+      "pricePerTon": 18.5
+    },
+    {
+      "rawMaterialName": "Clay",
+      "amountInTons": 15,
+      "pricePerTon": 22.0
+    }
+  ]
+}
+
+### Submit Purchase Order 3
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-003",
+  "customerNumber": "CUST-003",
+  "customerName": "Construction Materials Corp.",
+  "orderLines": [
+    {
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 30,
+      "pricePerTon": 13.0
+    },
+    {
+      "rawMaterialName": "Limestone",
+      "amountInTons": 18,
+      "pricePerTon": 18.5
+    },
+    {
+      "rawMaterialName": "Sand",
+      "amountInTons": 40,
+      "pricePerTon": 8.5
+    }
+  ]
+}
+
+### Submit Purchase Order 4
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-004",
+  "customerNumber": "CUST-004",
+  "customerName": "Mining Solutions Inc.",
+  "orderLines": [
+    {
+      "rawMaterialName": "Iron Ore",
+      "amountInTons": 50,
+      "pricePerTon": 45.0
+    }
+  ]
+}
+
+### Submit Purchase Order 5
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-005",
+  "customerNumber": "CUST-005",
+  "customerName": "Global Trading Partners",
+  "orderLines": [
+    {
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 8,
+      "pricePerTon": 13.0
+    },
+    {
+      "rawMaterialName": "Clay",
+      "amountInTons": 12,
+      "pricePerTon": 22.0
+    },
+    {
+      "rawMaterialName": "Limestone",
+      "amountInTons": 22,
+      "pricePerTon": 18.5
+    },
+    {
+      "rawMaterialName": "Sand",
+      "amountInTons": 35,
+      "pricePerTon": 8.5
+    }
+  ]
+}

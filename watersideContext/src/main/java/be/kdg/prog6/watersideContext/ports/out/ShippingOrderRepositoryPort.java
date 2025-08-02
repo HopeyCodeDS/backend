@@ -3,6 +3,7 @@ package be.kdg.prog6.watersideContext.ports.out;
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ShippingOrderRepositoryPort {
     void save(ShippingOrder shippingOrder);
@@ -10,4 +11,5 @@ public interface ShippingOrderRepositoryPort {
     Optional<ShippingOrder> findByVesselNumber(String vesselNumber);
     List<ShippingOrder> findByStatus(ShippingOrder.ShippingOrderStatus status);
     List<ShippingOrder> findAll();
+    Optional<ShippingOrder> findById(UUID shippingOrderId);
 }

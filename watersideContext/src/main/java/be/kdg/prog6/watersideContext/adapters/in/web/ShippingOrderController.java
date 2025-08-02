@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/waterside/shipping-orders")
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class ShippingOrderController {
         log.info("Received shipping order submission request: {}", requestDto.getShippingOrderNumber());
         
         SubmitShippingOrderCommand command = new SubmitShippingOrderCommand(
+            UUID.randomUUID(),
             requestDto.getShippingOrderNumber(),
             requestDto.getPurchaseOrderReference(),
             requestDto.getVesselNumber(),

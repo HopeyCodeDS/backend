@@ -1,12 +1,15 @@
 package be.kdg.prog6.watersideContext.domain;
 
 import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+@Setter
 public class ShippingOrder {
-    private UUID shippingOrderId;
+    private final UUID shippingOrderId;
     private String shippingOrderNumber;
     private String purchaseOrderReference;
     private String vesselNumber;
@@ -19,10 +22,10 @@ public class ShippingOrder {
     private final InspectionOperation inspectionOperation;
     private final BunkeringOperation bunkeringOperation;
 
-    public ShippingOrder(String shippingOrderNumber, String purchaseOrderReference, 
+    public ShippingOrder(UUID shippingOrderId, String shippingOrderNumber, String purchaseOrderReference, 
                         String vesselNumber, String customerNumber,
                         LocalDateTime estimatedArrivalDate, LocalDateTime estimatedDepartureDate) {
-        this.shippingOrderId = UUID.randomUUID();
+        this.shippingOrderId = shippingOrderId;
         this.shippingOrderNumber = shippingOrderNumber;
         this.purchaseOrderReference = purchaseOrderReference;
         this.vesselNumber = vesselNumber;
@@ -52,7 +55,13 @@ public class ShippingOrder {
                bunkeringOperation.isCompleted();
     }
 
+    public void markAsReadyForLoading() {
+        if (this.inspectionOperation.isCompleted() && this.bunkeringOperation.isCompleted()) {
+            this.status = ShippingOrderStatus.READY_FOR_LOADING;
+        }
+    }
+
     public enum ShippingOrderStatus {
-        ARRIVED, INSPECTING, BUNKERING, LOADING, DEPARTED
+        ARRIVED, INSPECTING, BUNKERING, READY_FOR_LOADING, LOADING, DEPARTED
     }
 } 

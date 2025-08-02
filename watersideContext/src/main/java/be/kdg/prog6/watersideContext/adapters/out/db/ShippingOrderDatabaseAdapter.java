@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -46,5 +47,11 @@ public class ShippingOrderDatabaseAdapter implements ShippingOrderRepositoryPort
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public Optional<ShippingOrder> findById(UUID shippingOrderId) {
+        return jpaRepository.findById(shippingOrderId.toString())
+                .map(mapper::toDomain);
     }
 }

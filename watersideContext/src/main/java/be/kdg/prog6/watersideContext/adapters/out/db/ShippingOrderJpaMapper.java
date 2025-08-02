@@ -1,8 +1,6 @@
 package be.kdg.prog6.watersideContext.adapters.out.db;
 
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
-import be.kdg.prog6.watersideContext.domain.InspectionOperation;
-import be.kdg.prog6.watersideContext.domain.BunkeringOperation;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
 
@@ -37,8 +35,32 @@ public class ShippingOrderJpaMapper {
     }
     
     public ShippingOrder toDomain(ShippingOrderJpaEntity entity) {
-        // This would be used for retrieving shipping orders
-        // For now, we'll focus on the submission flow
-        throw new UnsupportedOperationException("Domain mapping not implemented yet");
+        ShippingOrder domain = new ShippingOrder(
+            UUID.fromString(entity.getShippingOrderId()),
+            entity.getShippingOrderNumber(),
+            entity.getPurchaseOrderReference(),
+            entity.getVesselNumber(),
+            entity.getCustomerNumber(),
+            entity.getEstimatedArrivalDate(),
+            entity.getEstimatedDepartureDate()
+        );
+        
+        if (entity.getActualArrivalDate() != null) {
+            domain.markAsArrived(entity.getActualArrivalDate());
+        }
+        
+        if (entity.getActualDepartureDate() != null) {
+            domain.markAsDeparted(entity.getActualDepartureDate());
+        }
+        
+        if (entity.getInspectionCompletedDate() != null) {
+            domain.getInspectionOperation().completeInspection(entity.getInspectorSignature());
+        }
+        
+        if (entity.getBunkeringCompletedDate() != null) {
+            domain.getBunkeringOperation().completeBunkering();
+        }
+        
+        return domain;
     }
 }

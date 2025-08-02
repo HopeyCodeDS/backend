@@ -10,7 +10,7 @@ import be.kdg.prog6.watersideContext.domain.InspectionOperation.InspectionStatus
 import be.kdg.prog6.watersideContext.domain.ShippingOrder.ShippingOrderStatus;
 
 @Entity
-@Table(schema = "waterside", name = "shipping_orders")
+@Table(catalog = "waterside", name = "shipping_orders")
 @Data
 public class ShippingOrderJpaEntity {
     @Id

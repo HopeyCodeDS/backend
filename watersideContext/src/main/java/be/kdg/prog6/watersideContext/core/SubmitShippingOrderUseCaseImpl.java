@@ -26,6 +26,7 @@ public class SubmitShippingOrderUseCaseImpl implements SubmitShippingOrderUseCas
         
         // Create shipping order
         ShippingOrder shippingOrder = new ShippingOrder(
+            command.getShippingOrderId(),
             command.getShippingOrderNumber(),
             command.getPurchaseOrderReference(),
             command.getVesselNumber(),
@@ -39,6 +40,7 @@ public class SubmitShippingOrderUseCaseImpl implements SubmitShippingOrderUseCas
         
         // Save shipping order
         shippingOrderRepositoryPort.save(shippingOrder);
+        log.info("Shipping order saved in the database");
         
         // Publish event
         shippingOrderSubmittedPort.publishShippingOrderSubmitted(shippingOrder);
