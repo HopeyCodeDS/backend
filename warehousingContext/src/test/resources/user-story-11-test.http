@@ -1,0 +1,13 @@
+ ### User Story 11: Purchase Order Fulfillment Overview
+
+### Get overall fulfillment overview
+GET http://localhost:8190/api/warehouses/purchase-orders/fulfillment-overview
+Content-Type: application/json
+
+### Get fulfilled purchase orders only
+GET http://localhost:8190/api/warehouses/purchase-orders/fulfilled
+Content-Type: application/json
+
+### Get outstanding purchase orders only
+GET http://localhost:8190/api/warehouses/purchase-orders/outstanding
+Content-Type: application/json

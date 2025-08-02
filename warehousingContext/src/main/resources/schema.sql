@@ -69,3 +69,20 @@ CREATE TABLE IF NOT EXISTS warehousing.warehouse_activities (
     INDEX idx_action (action),
     INDEX idx_material_type (material_type)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Purchase Order Fulfillment Tracking table
+CREATE TABLE IF NOT EXISTS warehousing.purchase_order_fulfillment_tracking (
+    tracking_id VARCHAR(36) PRIMARY KEY,
+    purchase_order_number VARCHAR(255) UNIQUE NOT NULL,
+    customer_number VARCHAR(255) NOT NULL,
+    customer_name VARCHAR(255) NOT NULL,
+    order_date TIMESTAMP NOT NULL,
+    total_value DOUBLE NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    fulfillment_date TIMESTAMP,
+    vessel_number VARCHAR(255),
+    INDEX idx_purchase_order_number (purchase_order_number),
+    INDEX idx_customer_number (customer_number),
+    INDEX idx_status (status),
+    INDEX idx_order_date (order_date)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
