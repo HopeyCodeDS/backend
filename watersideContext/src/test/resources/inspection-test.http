@@ -6,7 +6,7 @@ POST http://localhost:8190/api/waterside/inspections/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "242ade84-6062-41c1-8ba4-308deb72854d",
+  "shippingOrderId": "8a9082f0-a432-497c-a6af-28ea8b26f63f",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 

@@ -1,0 +1,11 @@
+### Get Outstanding Bunkering Operations
+GET http://localhost:8190/api/waterside/bunkering/outstanding
+
+### Complete Bunkering
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "8a9082f0-a432-497c-a6af-28ea8b26f63f",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+} 

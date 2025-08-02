@@ -29,6 +29,7 @@ public class ShippingOrderJpaMapper {
         // Bunkering Operation
         entity.setBunkeringPlannedDate(domain.getBunkeringOperation().getPlannedDate());
         entity.setBunkeringCompletedDate(domain.getBunkeringOperation().getCompletedDate());
+        entity.setBunkeringOfficerSignature(domain.getBunkeringOperation().getBunkeringOfficerSignature());
         entity.setBunkeringStatus(domain.getBunkeringOperation().getStatus());
         
         return entity;
@@ -58,7 +59,7 @@ public class ShippingOrderJpaMapper {
         }
         
         if (entity.getBunkeringCompletedDate() != null) {
-            domain.getBunkeringOperation().completeBunkering();
+            domain.getBunkeringOperation().completeBunkering(entity.getBunkeringOfficerSignature());
         }
         
         return domain;

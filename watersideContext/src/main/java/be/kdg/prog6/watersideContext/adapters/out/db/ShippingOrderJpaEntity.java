@@ -52,7 +52,8 @@ public class ShippingOrderJpaEntity {
     // Bunkering Operation fields
     private LocalDateTime bunkeringPlannedDate;
     private LocalDateTime bunkeringCompletedDate;
-
+    private String bunkeringOfficerSignature;
+    
     @Enumerated(EnumType.STRING)
     private BunkeringOperation.BunkeringStatus bunkeringStatus;
 }
