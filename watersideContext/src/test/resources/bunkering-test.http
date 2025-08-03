@@ -6,6 +6,24 @@ POST http://localhost:8190/api/waterside/bunkering/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "8c4f8fbb-053d-409f-bbbf-c8432aa946a6",
+  "shippingOrderId": "da5ac868-b131-40b0-ab59-d17c978da86b",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
-} 
+}
+
+### Complete Bunkering
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "aae3f76c-25d4-4a92-b6e3-b19b2e8501f8",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}
+
+### Complete Bunkering - (Invalid inspection scenario, needs validation from the foreman first)
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "33a347c6-9430-4c67-aee1-ff2abf008cde",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}

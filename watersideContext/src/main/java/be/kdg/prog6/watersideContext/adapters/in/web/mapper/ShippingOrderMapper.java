@@ -3,9 +3,8 @@ package be.kdg.prog6.watersideContext.adapters.in.web.mapper;
 import be.kdg.prog6.watersideContext.adapters.in.web.dto.ShippingOrderResponseDto;
 import be.kdg.prog6.watersideContext.adapters.in.web.dto.OutstandingInspectionDto;
 import be.kdg.prog6.watersideContext.adapters.in.web.dto.OutstandingBunkeringDto;
-import be.kdg.prog6.watersideContext.adapters.in.web.dto.CompleteBunkeringRequestDto;
 import be.kdg.prog6.watersideContext.adapters.in.web.dto.UnmatchedShippingOrderDto;
-import be.kdg.prog6.watersideContext.adapters.in.web.dto.MatchShippingOrderRequestDto;
+import be.kdg.prog6.watersideContext.adapters.in.web.dto.ShipmentArrivalDto;
 import be.kdg.prog6.watersideContext.domain.InspectionOperation;
 import be.kdg.prog6.watersideContext.domain.BunkeringOperation;
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
@@ -71,6 +70,23 @@ public class ShippingOrderMapper {
         dto.setEstimatedArrivalDate(shippingOrder.getEstimatedArrivalDate());
         dto.setActualArrivalDate(shippingOrder.getActualArrivalDate());
         dto.setStatus(shippingOrder.getStatus().name());
+        return dto;
+    }
+
+    public ShipmentArrivalDto toShipmentArrivalDto(ShippingOrder shippingOrder) {
+        ShipmentArrivalDto dto = new ShipmentArrivalDto();
+        dto.setShippingOrderId(shippingOrder.getShippingOrderId());
+        dto.setShippingOrderNumber(shippingOrder.getShippingOrderNumber());
+        dto.setPurchaseOrderReference(shippingOrder.getPurchaseOrderReference());
+        dto.setVesselNumber(shippingOrder.getVesselNumber());
+        dto.setCustomerNumber(shippingOrder.getCustomerNumber());
+        dto.setEstimatedArrivalDate(shippingOrder.getEstimatedArrivalDate());
+        dto.setActualArrivalDate(shippingOrder.getActualArrivalDate());
+        dto.setStatus(shippingOrder.getStatus().name());
+        dto.setInspectionStatus(shippingOrder.getInspectionOperation().getStatus().name());
+        dto.setBunkeringStatus(shippingOrder.getBunkeringOperation().getStatus().name());
+        dto.setForemanSignature(shippingOrder.getForemanSignature());
+        dto.setValidationDate(shippingOrder.getValidationDate());
         return dto;
     }
 }

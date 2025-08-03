@@ -1,10 +1,12 @@
 package be.kdg.prog6.watersideContext.adapters.in.web;
 
 import be.kdg.prog6.watersideContext.adapters.in.web.dto.MatchShippingOrderRequestDto;
+import be.kdg.prog6.watersideContext.adapters.in.web.dto.ShipmentArrivalDto;
 import be.kdg.prog6.watersideContext.adapters.in.web.dto.UnmatchedShippingOrderDto;
 import be.kdg.prog6.watersideContext.adapters.in.web.mapper.ShippingOrderMapper;
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
 import be.kdg.prog6.watersideContext.domain.commands.MatchShippingOrderWithPurchaseOrderCommand;
+import be.kdg.prog6.watersideContext.ports.in.GetShipmentArrivalsUseCase;
 import be.kdg.prog6.watersideContext.ports.in.GetUnmatchedShippingOrdersUseCase;
 import be.kdg.prog6.watersideContext.ports.in.MatchShippingOrderWithPurchaseOrderUseCase;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class ForemanController {
     
     private final GetUnmatchedShippingOrdersUseCase getUnmatchedShippingOrdersUseCase;
     private final MatchShippingOrderWithPurchaseOrderUseCase matchShippingOrderWithPurchaseOrderUseCase;
+    private final GetShipmentArrivalsUseCase getShipmentArrivalsUseCase;
     private final ShippingOrderMapper shippingOrderMapper;
     
     @GetMapping("/unmatched-shipping-orders")
@@ -53,6 +56,21 @@ public class ForemanController {
         UnmatchedShippingOrderDto response = shippingOrderMapper.toUnmatchedShippingOrderDto(matchedShippingOrder);
         
         log.info("Shipping order successfully matched with purchase order: {}", requestDto.getShippingOrderId());
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/shipment-arrivals")
+    public ResponseEntity<List<ShipmentArrivalDto>> getAllShipmentArrivals() {
+        log.info("Foreman requesting all shipment arrivals");
+        
+        List<ShippingOrder> shipmentArrivals = getShipmentArrivalsUseCase.getAllShipmentArrivals();
+        
+        List<ShipmentArrivalDto> response = shipmentArrivals.stream()
+                .map(shippingOrderMapper::toShipmentArrivalDto)
+                .collect(Collectors.toList());
+        
+        log.info("Returning {} shipment arrivals", response.size());
         
         return ResponseEntity.ok(response);
     }
