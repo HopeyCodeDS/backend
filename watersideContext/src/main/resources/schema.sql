@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS waterside.shipping_orders (
     estimated_departure_date TIMESTAMP NOT NULL,
     actual_arrival_date TIMESTAMP,
     actual_departure_date TIMESTAMP,
+    foreman_signature VARCHAR(255),
+    validation_date TIMESTAMP,
     status VARCHAR(20) NOT NULL,
     inspection_planned_date TIMESTAMP,
     inspection_completed_date TIMESTAMP,

@@ -28,6 +28,12 @@ public class CompleteBunkeringUseCaseImpl implements CompleteBunkeringUseCase {
         }
         
         ShippingOrder shippingOrder = shippingOrderOpt.get();
+
+        // Check if shipping order is validated before allowing bunkering
+        if (!shippingOrder.canPerformOperations()) {
+            throw new IllegalStateException("Cannot complete bunkering. Shipping order must be validated by foreman first. " +
+                    "Current status: " + shippingOrder.getStatus());
+        }
         
         // Complete the bunkering
         shippingOrder.getBunkeringOperation().completeBunkering(command.getBunkeringOfficerSignature());

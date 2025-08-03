@@ -1,0 +1,20 @@
+### Get Unmatched Shipping Orders
+GET http://localhost:8190/api/waterside/foreman/unmatched-shipping-orders
+
+### Match Shipping Order with Purchase Order
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+
+{
+  "shippingOrderId": "7e908f64-ea5e-45e8-9843-271ca03073d2",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}
+
+### Match Shipping Order with Purchase Order
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+
+{
+  "shippingOrderId": "8c4f8fbb-053d-409f-bbbf-c8432aa946a6",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}

@@ -21,6 +21,8 @@ public class ShippingOrder {
     private ShippingOrderStatus status;
     private final InspectionOperation inspectionOperation;
     private final BunkeringOperation bunkeringOperation;
+    private String foremanSignature;
+    private LocalDateTime validationDate;
 
     public ShippingOrder(UUID shippingOrderId, String shippingOrderNumber, String purchaseOrderReference, 
                         String vesselNumber, String customerNumber,
@@ -56,12 +58,32 @@ public class ShippingOrder {
     }
 
     public void markAsReadyForLoading() {
-        if (this.inspectionOperation.isCompleted() && this.bunkeringOperation.isCompleted()) {
+        // Only allow READY_FOR_LOADING if validated AND both operations completed
+        if (this.status == ShippingOrderStatus.VALIDATED && 
+            this.inspectionOperation.isCompleted() && 
+            this.bunkeringOperation.isCompleted()) {
             this.status = ShippingOrderStatus.READY_FOR_LOADING;
+        } else {
+            throw new IllegalStateException("Cannot mark as ready for loading. " +
+                "Status must be VALIDATED and both inspection and bunkering must be completed. " +
+                "Current status: " + this.status + 
+                ", Inspection completed: " + this.inspectionOperation.isCompleted() + 
+                ", Bunkering completed: " + this.bunkeringOperation.isCompleted());
         }
     }
 
+    public void markAsValidated(String foremanSignature) {
+        this.foremanSignature = foremanSignature;
+        this.validationDate = LocalDateTime.now();
+        this.status = ShippingOrderStatus.VALIDATED;
+    }
+
+    // Helper method to check if operations can be performed
+    public boolean canPerformOperations() {
+        return this.status == ShippingOrderStatus.VALIDATED;
+    }
+
     public enum ShippingOrderStatus {
-        ARRIVED, INSPECTING, BUNKERING, READY_FOR_LOADING, LOADING, DEPARTED
+        ARRIVED, VALIDATED, INSPECTING, BUNKERING, READY_FOR_LOADING, LOADING, DEPARTED
     }
 } 

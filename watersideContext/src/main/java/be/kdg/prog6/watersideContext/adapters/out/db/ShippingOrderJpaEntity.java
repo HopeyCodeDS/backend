@@ -41,6 +41,10 @@ public class ShippingOrderJpaEntity {
     @Column(nullable = false)
     private ShippingOrderStatus status;
     
+    // Foreman Validation fields
+    private String foremanSignature;
+    private LocalDateTime validationDate;
+    
     // Inspection Operation fields
     private LocalDateTime inspectionPlannedDate;
     private LocalDateTime inspectionCompletedDate;

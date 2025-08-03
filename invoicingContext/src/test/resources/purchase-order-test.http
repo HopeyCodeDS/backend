@@ -1,4 +1,4 @@
- ### Submit Purchase Order
+ ### User Story 10: Submit Purchase Order
 POST http://localhost:8190/api/invoicing/purchase-orders
 Content-Type: application/json
 

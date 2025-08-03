@@ -20,6 +20,10 @@ public class ShippingOrderJpaMapper {
         entity.setActualDepartureDate(domain.getActualDepartureDate());
         entity.setStatus(domain.getStatus());
         
+        // Foreman Validation fields
+        entity.setForemanSignature(domain.getForemanSignature());
+        entity.setValidationDate(domain.getValidationDate());
+        
         // Inspection Operation
         entity.setInspectionPlannedDate(domain.getInspectionOperation().getPlannedDate());
         entity.setInspectionCompletedDate(domain.getInspectionOperation().getCompletedDate());
@@ -46,14 +50,25 @@ public class ShippingOrderJpaMapper {
             entity.getEstimatedDepartureDate()
         );
         
+        // Set foreman validation data if exists (BEFORE setting status)
+        if (entity.getForemanSignature() != null && entity.getValidationDate() != null) {
+            domain.setForemanSignature(entity.getForemanSignature());
+            domain.setValidationDate(entity.getValidationDate());
+        }
+        
+        // Set the status from database (AFTER foreman data)
+        domain.setStatus(entity.getStatus());
+        
+        // Set actual dates (but don't overwrite status if already validated)
         if (entity.getActualArrivalDate() != null) {
-            domain.markAsArrived(entity.getActualArrivalDate());
+            domain.setActualArrivalDate(entity.getActualArrivalDate());
         }
         
         if (entity.getActualDepartureDate() != null) {
-            domain.markAsDeparted(entity.getActualDepartureDate());
+            domain.setActualDepartureDate(entity.getActualDepartureDate());
         }
         
+        // Set operation data
         if (entity.getInspectionCompletedDate() != null) {
             domain.getInspectionOperation().completeInspection(entity.getInspectorSignature());
         }

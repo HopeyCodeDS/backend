@@ -29,6 +29,12 @@ public class CompleteInspectionUseCaseImpl implements CompleteInspectionUseCase 
         
         ShippingOrder shippingOrder = shippingOrderOpt.get();
         
+        // Check if shipping order is validated before allowing inspection
+        if (!shippingOrder.canPerformOperations()) {
+            throw new IllegalStateException("Cannot complete inspection. Shipping order must be validated by foreman first. " +
+                    "Current status: " + shippingOrder.getStatus());
+        }
+        
         // Complete the inspection
         shippingOrder.getInspectionOperation().completeInspection(command.getInspectorSignature());
         
