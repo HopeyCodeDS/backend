@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -33,5 +34,12 @@ public class PDTRepositoryAdapter implements PDTRepositoryPort {
         return repository.findAll().stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public List<PayloadDeliveryTicket> findByRawMaterialOrderByDeliveryTimeAsc(String rawMaterialName) {
+        return repository.findByRawMaterialNameOrderByDeliveryTimeAsc(rawMaterialName).stream()
+            .map(mapper::toDomain)
+            .collect(Collectors.toList());
     }
 } 

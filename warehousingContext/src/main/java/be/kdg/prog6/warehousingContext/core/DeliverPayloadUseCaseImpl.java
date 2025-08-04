@@ -1,6 +1,7 @@
 package be.kdg.prog6.warehousingContext.core;
 
 import be.kdg.prog6.warehousingContext.domain.PayloadDeliveryTicket;
+import be.kdg.prog6.warehousingContext.domain.ConveyorBeltAssignmentService;
 import be.kdg.prog6.warehousingContext.domain.WarehouseActivity;
 import be.kdg.prog6.warehousingContext.domain.WarehouseActivityAction;
 import be.kdg.prog6.warehousingContext.domain.WarehouseActivityWindow;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
 import be.kdg.prog6.warehousingContext.domain.Warehouse;
+import be.kdg.prog6.warehousingContext.ports.in.ProjectWarehouseActivityUseCase;
 
 @Service
 @RequiredArgsConstructor
@@ -29,30 +31,35 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     private final PDTGeneratedPort pdtGeneratedPort;
     private final WarehouseRepositoryPort warehouseRepositoryPort;
     private final WarehouseActivityRepositoryPort warehouseActivityRepositoryPort;
+    private final ProjectWarehouseActivityUseCase projectWarehouseActivityUseCase;
+    private final ConveyorBeltAssignmentService conveyorBeltAssignmentService;
 
     @Override
     @Transactional
     public PayloadDeliveryTicket deliverPayload(DeliverPayloadCommand command) {
-        // Validate command
-        validateCommand(command);
-        
-        // Assign conveyor belt based on material type
-        String assignedConveyorBelt = assignConveyorBelt(command.rawMaterialName());
-        log.info("Assigned conveyor belt: {} for material: {}", assignedConveyorBelt, command.rawMaterialName());
-        
-        // Simulate pressure sensor activation and conveyor belt start
-        log.info("Pressure sensor activated for conveyor belt: {}", assignedConveyorBelt);
-        log.info("Starting conveyor belt: {}", assignedConveyorBelt);
+        log.info("Starting payload delivery for truck: {} with {} tons of {}", 
+            command.licensePlate(), command.payloadWeight(), command.rawMaterialName());
 
-        
-        // EVENT SOURCING: Create warehouse activity instead of direct update
+        // 1. Validate command
+        validateCommand(command);
+
+        // 2. Find and validate warehouse
         UUID warehouseId = findWarehouseId(command.warehouseNumber());
         validateWarehouseCapacity(warehouseId, command.payloadWeight(), command.rawMaterialName());
+        
+        // 3. Assign conveyor belt based on material type
+        String assignedConveyorBelt = conveyorBeltAssignmentService.assignConveyorBelt(command.rawMaterialName());
+        log.info("Assigned conveyor belt: {} for material: {}", assignedConveyorBelt, command.rawMaterialName());
+        
+        // 4. Simulate pressure sensor activation and conveyor belt start
+        log.info("Pressure sensor activated for conveyor belt: {}", assignedConveyorBelt);
+        log.info("Starting conveyor belt: {}", assignedConveyorBelt);
+        
 
         // DEBUG: Log the warehouse ID being used
         log.info("Using warehouse ID: {} for warehouse number: {}", warehouseId, command.warehouseNumber());
 
-        // Create warehouse activity
+        // 5. Create warehouse activity (event sourcing)
         WarehouseActivity activity = new WarehouseActivity(
             warehouseId,
             command.payloadWeight(),
@@ -62,22 +69,21 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
             String.format("Material delivered by truck %s", command.licensePlate())
         );
         
-        // DEBUG: Log the activity details
         log.info("Created warehouse activity: ID={}, WarehouseID={}, Amount={}, Action={}", 
             activity.getActivityId(), activity.getWarehouseId(), activity.getAmount(), activity.getAction());
         
-        // Save activity to event store
+        // 6. Save activity to event store (event sourcing)
         warehouseActivityRepositoryPort.save(activity);
 
-        // Update read model (warehouses.current_capacity)
-        updateWarehouseReadModel(warehouseId, activity);
+        // 7. Project warehouse activity to update read model
+        projectWarehouseActivityUseCase.projectWarehouseActivity(activity);
         
-        // Generate new weighing bridge number
+        // 8. Generate new weighing bridge number
         String newWeighingBridgeNumber = generateNewWeighingBridgeNumber();
         log.info("Generated new weighing bridge number: {} for truck: {}", newWeighingBridgeNumber, command.licensePlate());
 
         
-        // Generate PDT (Payload Delivery Ticket)
+        // 9. Generate PDT (Payload Delivery Ticket)
         PayloadDeliveryTicket pdt = new PayloadDeliveryTicket(
             UUID.randomUUID(),
             command.licensePlate(),
@@ -90,30 +96,36 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
             newWeighingBridgeNumber
         );
         
-        // Save PDT
+        // 10. Save PDT
         PayloadDeliveryTicket savedPdt = pdtRepositoryPort.save(pdt);
         
-        // Publish event
+        // 11. Publish event for other contexts
         pdtGeneratedPort.pdtGenerated(savedPdt);
         
         log.info("Payload delivery ticket generated: {} for truck: {}", 
                 savedPdt.getPdtId(), command.licensePlate());
-        
+
         return savedPdt;
     }
 
-
-    // conveyor belt assignment method
-    private String assignConveyorBelt(String rawMaterialName) {
-        return switch (rawMaterialName.toLowerCase()) {
-            case "gypsum" -> "Conveyor-1";
-            case "iron ore" -> "Conveyor-2";
-            case "cement" -> "Conveyor-3";
-            case "petcoke" -> "Conveyor-4";
-            case "slag" -> "Conveyor-5";
-            default -> "Conveyor-General";
-        };
+    private void validateCommand(DeliverPayloadCommand command) {
+        if (command.licensePlate() == null || command.licensePlate().trim().isEmpty()) {
+            throw new IllegalArgumentException("License plate is required");
+        }
+        if (command.rawMaterialName() == null || command.rawMaterialName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Raw material name is required");
+        }
+        if (command.warehouseNumber() == null || command.warehouseNumber().trim().isEmpty()) {
+            throw new IllegalArgumentException("Warehouse number is required");
+        }
+        if (command.payloadWeight() <= 0) {
+            throw new IllegalArgumentException("Payload weight must be greater than 0");
+        }
+        if (command.sellerId() == null || command.sellerId().trim().isEmpty()) {
+            throw new IllegalArgumentException("Seller ID is required");
+        }
     }
+
 
     private UUID findWarehouseId(String warehouseNumber) {
         log.info("Looking up warehouse ID for warehouse number: {}", warehouseNumber);
@@ -123,12 +135,6 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         
         if (warehouseOpt.isEmpty()) {
             log.error("Warehouse not found for warehouse number: {}", warehouseNumber);
-            
-            // Let's try to find all warehouses to see what's available
-            List<Warehouse> allWarehouses = warehouseRepositoryPort.findAvailableWarehouses("seller-001", "Gypsum");
-            log.info("Available warehouses for seller-001 and Gypsum: {}", 
-                allWarehouses.stream().map(w -> w.getWarehouseNumber() + ":" + w.getWarehouseId()).toList());
-            
             throw new IllegalStateException("Warehouse not found: " + warehouseNumber);
         }
         
@@ -144,6 +150,8 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     }
 
     private void validateWarehouseCapacity(UUID warehouseId, double payloadWeight, String materialType) {
+        log.info("Validating warehouse capacity for warehouse: {}, payload: {} tons", warehouseId, payloadWeight);
+        
         // Get warehouse activity window
         List<WarehouseActivity> activities = warehouseActivityRepositoryPort.findByWarehouseId(warehouseId);
         WarehouseActivityWindow activityWindow = new WarehouseActivityWindow();
@@ -161,60 +169,9 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         log.info("Warehouse {} capacity validated. Current: {} tons, Adding: {} tons", 
             warehouseId, activityWindow.getCurrentCapacity(), payloadWeight);
     }
-    
-    private void validateCommand(DeliverPayloadCommand command) {
-        if (command.licensePlate() == null || command.licensePlate().trim().isEmpty()) {
-            throw new IllegalArgumentException("License plate is required");
-        }
-        if (command.rawMaterialName() == null || command.rawMaterialName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Raw material name is required");
-        }
-        if (command.warehouseNumber() == null || command.warehouseNumber().trim().isEmpty()) {
-            throw new IllegalArgumentException("Warehouse number is required");
-        }
-        if (command.payloadWeight() <= 0) {
-            throw new IllegalArgumentException("Payload weight must be greater than 0");
-        }
-    }
 
     private String generateNewWeighingBridgeNumber() {
         // Simple logic: generate a new bridge number
         return "WB-" + (int)(Math.random() * 10 + 1);
     }
-
-    // Update read model
-private void updateWarehouseReadModel(UUID warehouseId, WarehouseActivity activity) {
-    try {
-        Optional<Warehouse> warehouseOpt = warehouseRepositoryPort.findById(warehouseId);
-        if (warehouseOpt.isPresent()) {
-            Warehouse warehouse = warehouseOpt.get();
-            
-            // Calculate new capacity based on activity
-            double capacityChange = 0.0;
-            switch (activity.getAction()) {
-                case MATERIAL_DELIVERED:
-                    capacityChange = activity.getAmount();
-                    break;
-                case MATERIAL_SHIPPED:
-                    capacityChange = -activity.getAmount();
-                    break;
-                case CAPACITY_ADJUSTMENT:
-                    capacityChange = activity.getAmount();
-                    break;
-            }
-            
-            // Update warehouse capacity
-            double newCapacity = warehouse.getCurrentCapacity() + capacityChange;
-            warehouse.setCurrentCapacity(newCapacity);
-            
-            // Save updated warehouse
-            warehouseRepositoryPort.save(warehouse);
-            
-            log.info("Updated warehouse {} read model: capacity changed by {} to {}", 
-                warehouseId, capacityChange, newCapacity);
-        }
-    } catch (Exception e) {
-        log.error("Failed to update warehouse read model for warehouse {}: {}", warehouseId, e.getMessage());
-    }
-}
 } 

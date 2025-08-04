@@ -8,14 +8,14 @@ POST http://localhost:8190/api/landside/weight-registration/register
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC-123",
-  "weight": 20,
+  "licensePlate": "TRK-001",
+  "weight": 25000.0,
   "rawMaterialName": "Gypsum"
 }
 
 ### Expected Response:
 ### {
-###   "licensePlate": "ABC-123",
+###   "licensePlate": "TRK-001",
 ###   "status": "PROCESSING",
 ###   "message": "Weight registered successfully. Warehouse assignment in progress.",
 ###   "warehouseNumber": null
@@ -27,19 +27,19 @@ POST http://localhost:8190/api/landside/weight-registration/register
 Content-Type: application/json
 
 {
-  "licensePlate": "DEF-456",
-  "weight": 20,
+  "licensePlate": "TRK-002",
+  "weight": 25000.0,
   "rawMaterialName": "Gypsum"
 }
 
 
 ### Step 2: Check warehouse assignment status
 ### This checks if the warehouse has been assigned asynchronously
-GET http://localhost:8190/api/landside/weight-registration/status/ABC-123
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-001
 
 ### Expected Response (if still processing):
 ### {
-###   "licensePlate": "ABC-123",
+###   "licensePlate": "TRK-001",
 ###   "status": "PROCESSING",
 ###   "message": "Warehouse assignment in progress",
 ###   "warehouseNumber": null
@@ -47,14 +47,14 @@ GET http://localhost:8190/api/landside/weight-registration/status/ABC-123
 
 ### Expected Response (if warehouse assigned):
 ### {
-###   "licensePlate": "ABC-123",
+###   "licensePlate": "TRK-001",
 ###   "status": "COMPLETED",
 ###   "message": "Warehouse assigned successfully",
 ###   "warehouseNumber": "WH-001"
 ### }
 
 ### Step 2.1: Check status again (to verify warehouse assignment)
-GET http://localhost:8190/api/landside/weight-registration/status/DEF-456
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-002
 
 
 

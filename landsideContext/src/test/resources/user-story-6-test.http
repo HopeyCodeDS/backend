@@ -3,7 +3,7 @@ POST http://localhost:8190/api/landside/weighbridge-ticket/generate
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC-123",
+  "licensePlate": "TRK-001",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
   "weighingTime": "31/08/2025 15:30"
@@ -23,7 +23,7 @@ POST http://localhost:8190/api/landside/weighbridge-ticket/generate
 Content-Type: application/json
 
 {
-  "licensePlate": "DEF-456",
+  "licensePlate": "TRK-002",
   "grossWeight": 25000.0,
   "tareWeight": 7500.0,
   "weighingTime": "31/08/2025 15:55"
@@ -44,7 +44,7 @@ POST http://localhost:8190/api/landside/weighbridge-ticket/generate
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC-123",
+  "licensePlate": "TRK-001",
   "grossWeight": -1000.0,
   "tareWeight": -500.0,
   "weighingTime": "31/08/2025 15:30"
@@ -55,7 +55,7 @@ POST http://localhost:8190/api/landside/weighbridge-ticket/generate
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC-123",
+  "licensePlate": "TRK-001",
   "grossWeight": 10000.0,
   "tareWeight": 15000.0,
   "weighingTime": "31/08/2025 15:30"

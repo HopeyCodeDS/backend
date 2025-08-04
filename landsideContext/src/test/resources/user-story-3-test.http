@@ -8,11 +8,12 @@ Content-Type: application/json
 
 {
   "sellerId": "seller-001",
-  "licensePlate": "ABC-123",
+  "licensePlate": "TRK-001",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
-  "arrivalTime": "30/08/2025 20:00"
+  "arrivalTime": "30/08/2025 06:00"
 }
+
 
 ### Step 1.1: Create an appointment for the another truck
 POST http://localhost:8190/api/landside/appointments
@@ -20,10 +21,10 @@ Content-Type: application/json
 
 {
   "sellerId": "seller-001",
-  "licensePlate": "DEF-456",
+  "licensePlate": "TRK-002",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
-  "arrivalTime": "30/08/2025 20:10"
+  "arrivalTime": "30/08/2025 06:10"
 }
 
 
@@ -32,8 +33,8 @@ POST http://localhost:8190/api/landside/gate/recognize
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC-123",
-  "recognitionTime": "30/08/2025 20:15"
+  "licensePlate": "TRK-001",
+  "recognitionTime": "30/08/2025 06:15"
 }
 
 ### Step 2.1: Recognize truck arrival (from user story 2)
@@ -41,8 +42,8 @@ POST http://localhost:8190/api/landside/gate/recognize
 Content-Type: application/json
 
 {
-  "licensePlate": "DEF-456",
-  "recognitionTime": "30/08/2025 20:20"
+  "licensePlate": "TRK-002",
+  "recognitionTime": "30/08/2025 06:20"
 }
 
 ### Step 3: Assign weighing bridge to truck (USER STORY 3)
@@ -50,8 +51,8 @@ POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC-123",
-  "assignmentTime": "30/08/2025 20:20"
+  "licensePlate": "TRK-001",
+  "assignmentTime": "30/08/2025 06:20"
 }
 
 ### Step 3.1: Assign weighing bridge to truck (USER STORY 3)
@@ -59,7 +60,7 @@ POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
 
 {
-  "licensePlate": "DEF-456",
+  "licensePlate": "TRK-002",
   "assignmentTime": "30/08/2025 20:30"
 }
 
@@ -73,7 +74,7 @@ POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC-123",
+  "licensePlate": "TRK-001",
   "assignmentTime": "30/07/2025 20:20"
 }
 
@@ -124,7 +125,7 @@ Content-Type: application/json
 
 {
   "sellerId": "seller-002",
-  "licensePlate": "DEF-456",
+  "licensePlate": "TRK-002",
   "truckType": "MEDIUM",
   "rawMaterialName": "Iron Ore",
   "arrivalTime": "30/08/2025 21:00"
@@ -135,7 +136,7 @@ POST http://localhost:8190/api/landside/gate/recognize
 Content-Type: application/json
 
 {
-  "licensePlate": "DEF-456",
+  "licensePlate": "TRK-002",
   "recognitionTime": "30/08/2025 21:15"
 }
 
@@ -144,7 +145,7 @@ POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
 
 {
-  "licensePlate": "DEF-456",
+  "licensePlate": "TRK-002",
   "assignmentTime": "30/08/2025 21:20"
 }
 
@@ -154,7 +155,7 @@ Content-Type: application/json
 
 {
   "sellerId": "seller-003",
-  "licensePlate": "GHI-789",
+  "licensePlate": "TRK-003",
   "truckType": "SMALL",
   "rawMaterialName": "Cement",
   "arrivalTime": "30/08/2025 21:00"
@@ -165,7 +166,7 @@ POST http://localhost:8190/api/landside/gate/recognize
 Content-Type: application/json
 
 {
-  "licensePlate": "GHI-789",
+  "licensePlate": "TRK-003",
   "recognitionTime": "30/08/2025 21:25"
 }
 
@@ -174,7 +175,7 @@ POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
 
 {
-  "licensePlate": "GHI-789",
+  "licensePlate": "TRK-003",
   "assignmentTime": "30/08/2025 21:30"
 }
 
@@ -183,7 +184,7 @@ Content-Type: application/json
 ### ========================================
 
 ### Check appointment status (should show AT_WEIGHING_BRIDGE)
-GET http://localhost:8190/api/landside/appointments/ABC-123
+GET http://localhost:8190/api/landside/appointments/TRK-001
 
 ### Check available bridges
 GET http://localhost:8190/api/landside/weighing-bridge/available

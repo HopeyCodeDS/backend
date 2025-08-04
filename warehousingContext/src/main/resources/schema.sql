@@ -86,3 +86,13 @@ CREATE TABLE IF NOT EXISTS warehousing.purchase_order_fulfillment_tracking (
     INDEX idx_status (status),
     INDEX idx_order_date (order_date)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Warehouse Projections table
+CREATE TABLE IF NOT EXISTS warehousing.warehouse_projections (
+    warehouse_id BINARY(16) PRIMARY KEY,
+    warehouse_number VARCHAR(20) NOT NULL,
+    seller_id VARCHAR(255) NOT NULL,
+    assigned_material VARCHAR(100) NOT NULL,
+    max_capacity DOUBLE NOT NULL,
+    current_capacity DOUBLE NOT NULL
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

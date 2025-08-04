@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface PayloadDeliveryTicketRepository extends JpaRepository<PayloadDeliveryTicketJpaEntity, UUID> {
     Optional<PayloadDeliveryTicketJpaEntity> findByLicensePlate(String licensePlate);
     List<PayloadDeliveryTicketJpaEntity> findAll();
+    List<PayloadDeliveryTicketJpaEntity> findByRawMaterialNameOrderByDeliveryTimeAsc(String rawMaterialName);
 } 

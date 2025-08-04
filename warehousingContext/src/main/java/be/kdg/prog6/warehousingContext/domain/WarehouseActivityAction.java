@@ -2,6 +2,7 @@ package be.kdg.prog6.warehousingContext.domain;
 
 public enum WarehouseActivityAction {
     MATERIAL_DELIVERED("Material Delivered"),
+    LOADING_VESSEL("Loading Vessel"),
     MATERIAL_SHIPPED("Material Shipped"),
     CAPACITY_ADJUSTMENT("Capacity Adjustment");
     

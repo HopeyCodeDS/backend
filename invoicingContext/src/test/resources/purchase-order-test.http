@@ -55,14 +55,14 @@ Content-Type: application/json
   "customerName": "Cement Industries Ltd.",
   "orderLines": [
     {
-      "rawMaterialName": "Limestone",
+      "rawMaterialName": "Iron Ore",
       "amountInTons": 25,
-      "pricePerTon": 18.5
+      "pricePerTon": 110.0
     },
     {
-      "rawMaterialName": "Clay",
+      "rawMaterialName": "Cement",
       "amountInTons": 15,
-      "pricePerTon": 22.0
+      "pricePerTon": 95.0
     }
   ]
 }
@@ -82,14 +82,14 @@ Content-Type: application/json
       "pricePerTon": 13.0
     },
     {
-      "rawMaterialName": "Limestone",
+      "rawMaterialName": "Iron Ore",
       "amountInTons": 18,
-      "pricePerTon": 18.5
+      "pricePerTon": 110.0
     },
     {
-      "rawMaterialName": "Sand",
+      "rawMaterialName": "Slag",
       "amountInTons": 40,
-      "pricePerTon": 8.5
+      "pricePerTon": 160.0
     }
   ]
 }
@@ -106,7 +106,7 @@ Content-Type: application/json
     {
       "rawMaterialName": "Iron Ore",
       "amountInTons": 50,
-      "pricePerTon": 45.0
+      "pricePerTon": 110.0
     }
   ]
 }
@@ -126,19 +126,19 @@ Content-Type: application/json
       "pricePerTon": 13.0
     },
     {
-      "rawMaterialName": "Clay",
+      "rawMaterialName": "Cement",
       "amountInTons": 12,
-      "pricePerTon": 22.0
+      "pricePerTon": 95.0
     },
     {
-      "rawMaterialName": "Limestone",
+      "rawMaterialName": "Iron Ore",
       "amountInTons": 22,
-      "pricePerTon": 18.5
+      "pricePerTon": 110.0
     },
     {
-      "rawMaterialName": "Sand",
+      "rawMaterialName": "Slag",
       "amountInTons": 35,
-      "pricePerTon": 8.5
+      "pricePerTon": 160.0
     }
   ]
 }

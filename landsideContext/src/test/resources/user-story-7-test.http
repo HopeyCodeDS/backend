@@ -6,7 +6,7 @@ Content-Type: application/json
 # [
 #   {
 #     "appointmentId": "uuid",
-#     "licensePlate": "ABC-123",
+#     "licensePlate": "TRK-001",
 #     "sellerId": "seller-1",
 #     "rawMaterial": "IRON_ORE",
 #     "scheduledArrivalTime": "27/07/2025 09:00",
@@ -16,7 +16,7 @@ Content-Type: application/json
 #   },
 #   {
 #     "appointmentId": "uuid-2",
-#     "licensePlate": "XYZ-789",
+#     "licensePlate": "TRK-002",
 #     "sellerId": "seller-2",
 #     "rawMaterial": "COAL",
 #     "scheduledArrivalTime": "27/07/2025 10:00",

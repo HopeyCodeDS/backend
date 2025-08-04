@@ -6,7 +6,7 @@ POST http://localhost:8190/api/waterside/foreman/match-shipping-order
 Content-Type: application/json
 
 {
-  "shippingOrderId": "da5ac868-b131-40b0-ab59-d17c978da86b",
+  "shippingOrderId": "49e8bc94-130c-45b3-b4ea-0233d0156f50",
   "foremanSignature": "Foreman_Michael_Johnson"
 }
 
@@ -15,7 +15,7 @@ POST http://localhost:8190/api/waterside/foreman/match-shipping-order
 Content-Type: application/json
 
 {
-  "shippingOrderId": "aae3f76c-25d4-4a92-b6e3-b19b2e8501f8",
+  "shippingOrderId": "394a506d-f5b3-424b-be5d-cd52ecdcc8a8",
   "foremanSignature": "Foreman_Michael_Johnson"
 }
 
