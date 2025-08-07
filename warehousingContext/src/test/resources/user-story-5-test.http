@@ -1,8 +1,9 @@
 ### ========================================
 ### USER STORY 5: Payload Delivery and PDT Generation
+### (Simulates pressure sensor activation, this generates PDT with new weighing bridge)
 ### ========================================
 
-### Step 1: Deliver Payload (Simulates pressure sensor activation, this generates PDT with new weighing bridge) -
+### Deliver Payload  - truck 1
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
@@ -12,11 +13,11 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 08:00"
+  "deliveryTime": "31/08/2025 07:00"
 }
 
 
-### Step 1.1: Deliver Payload 2
+### Deliver Payload  - truck 2
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
@@ -26,12 +27,11 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 08:05"
+  "deliveryTime": "31/08/2025 07:05"
 }
 
 
-### Step 1.2: Deliver Payload 3
-
+### Deliver Payload  - truck 3
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
@@ -41,11 +41,10 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 08:10"
+  "deliveryTime": "31/08/2025 07:10"
 }
 
-### Step 1.3: Deliver Payload 4
-
+### Deliver Payload  - truck 4
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
@@ -55,23 +54,26 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-02",
   "payloadWeight": 25,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 08:16"
+  "deliveryTime": "31/08/2025 07:16"
 }
 
-### Step 1.4: Deliver Payload 5
+### Deliver Payload  - truck 5
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
 {
   "licensePlate": "TRK-005",
-  "rawMaterialName": "Gypsum",
-  "warehouseNumber": "Warehouse-01",
-  "payloadWeight": 25.0,
+  "rawMaterialName": "Cement",
+  "warehouseNumber": "Warehouse-03",
+  "payloadWeight": 23.0,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 08:20"
+  "deliveryTime": "31/08/2025 07:20"
 } 
 
-### Step 1.5: Deliver Payload 6
+### Retrieve All PDTs
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt
+
+### Deliver Payload  - truck 6
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
@@ -81,10 +83,10 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "seller-002",
-  "deliveryTime": "31/08/2025 08:25"
+  "deliveryTime": "31/08/2025 07:25"
 }
 
-### Step 1.6: Deliver Payload 7
+### Deliver Payload  - truck 7
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
@@ -94,10 +96,10 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-02",
   "payloadWeight": 25.0,
   "sellerId": "seller-002",
-  "deliveryTime": "31/08/2025 08:30"
+  "deliveryTime": "31/08/2025 07:30"
 }
 
-### Step 1.7: Deliver Payload 8
+### Deliver Payload  - truck 8
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
@@ -107,11 +109,11 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-02",
   "payloadWeight": 25.0,
   "sellerId": "seller-003",
-  "deliveryTime": "31/08/2025 08:33"
+  "deliveryTime": "31/08/2025 07:33"
 }
 
 
-### Step 1.8: Deliver Payload 9
+### Deliver Payload  - truck 9
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 
@@ -121,10 +123,10 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-03",
   "payloadWeight": 25.0,
   "sellerId": "seller-003",
-  "deliveryTime": "31/08/2025 08:40"
+  "deliveryTime": "31/08/2025 07:40"
 }
 
-### Step 1.9: Deliver Payload 10
+### Deliver Payload  - truck 10
 POST http://localhost:8190/api/warehousing/payload-delivery/deliver
 Content-Type: application/json
 {
@@ -133,14 +135,17 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-03",
   "payloadWeight": 25.0,
   "sellerId": "seller-004",
-  "deliveryTime": "31/08/2025 08:41"
+  "deliveryTime": "31/08/2025 07:41"
 }
 
-### Retrieve PDT by License Plate
+### Retrieve PDT by License Plate - truck 1
 GET http://localhost:8190/api/warehousing/payload-delivery/pdt/TRK-001
 
-### Retrieve All PDTs
-GET http://localhost:8190/api/warehousing/payload-delivery/pdt
+### Retrieve PDT by License Plate - truck 2
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt/TRK-002
+
+### Retrieve PDT by License Plate - truck 3
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt/TRK-003
 
 
 ### Test Invalid Request (Missing License Plate)

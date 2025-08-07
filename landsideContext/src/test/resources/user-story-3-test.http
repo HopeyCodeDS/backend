@@ -2,7 +2,8 @@
 ### USER STORY 3: Weighing Bridge Assignment
 ### ========================================
 
-### Step 1: Create an appointment first (from user story 1)
+### APPOINTMENT SCHEDULING (User story 1)
+### Appointment 1: Create an appointment first
 POST http://localhost:8190/api/landside/appointments
 Content-Type: application/json
 
@@ -15,7 +16,7 @@ Content-Type: application/json
 }
 
 
-### Step 1.1: Create an appointment for the another truck
+### Appointment 2: Create an appointment for the another truck
 POST http://localhost:8190/api/landside/appointments
 Content-Type: application/json
 
@@ -28,7 +29,44 @@ Content-Type: application/json
 }
 
 
-### Step 2: Recognize truck arrival (from user story 2)
+### Appointment 3: Create an appointment for the another truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-003",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "arrivalTime": "30/08/2025 06:15"
+} 
+
+### Appointment 4: Create an appointment for the another truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-004",
+  "truckType": "LARGE",
+  "rawMaterialName": "Iron Ore",
+  "arrivalTime": "30/08/2025 06:20"
+} 
+
+### Appointment 5: Create an appointment for the another truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-005",
+  "truckType": "LARGE",
+  "rawMaterialName": "Cement",
+  "arrivalTime": "30/08/2025 06:25"
+} 
+
+### RECOGNITION (User story 2)
+### Recognize truck arrival 1
 POST http://localhost:8190/api/landside/gate/recognize
 Content-Type: application/json
 
@@ -37,7 +75,7 @@ Content-Type: application/json
   "recognitionTime": "30/08/2025 06:15"
 }
 
-### Step 2.1: Recognize truck arrival (from user story 2)
+### Recognize truck arrival 2
 POST http://localhost:8190/api/landside/gate/recognize
 Content-Type: application/json
 
@@ -46,7 +84,35 @@ Content-Type: application/json
   "recognitionTime": "30/08/2025 06:20"
 }
 
-### Step 3: Assign weighing bridge to truck (USER STORY 3)
+### Recognize truck arrival 3
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "recognitionTime": "30/08/2025 06:22"
+}
+
+### Recognize truck arrival 4
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "recognitionTime": "30/08/2025 06:27"
+}
+
+### Recognize truck arrival 5
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "recognitionTime": "30/08/2025 06:30"
+}
+
+
+### Assign weighing bridge to truck 1
 POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
 
@@ -55,14 +121,43 @@ Content-Type: application/json
   "assignmentTime": "30/08/2025 06:20"
 }
 
-### Step 3.1: Assign weighing bridge to truck (USER STORY 3)
+### Assign weighing bridge to truck 2
 POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
 
 {
   "licensePlate": "TRK-002",
-  "assignmentTime": "30/08/2025 20:30"
+  "assignmentTime": "30/08/2025 06:30"
 }
+
+### Assign weighing bridge to truck 3
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "assignmentTime": "30/08/2025 06:34"
+}
+
+### Assign weighing bridge to truck 4
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "assignmentTime": "30/08/2025 06:38"
+}
+
+### Assign weighing bridge to truck 5
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "assignmentTime": "30/08/2025 06:42"
+}
+
+###-----------------------------------------------------------------------------------
 
 ### ========================================
 ### TEST SCENARIOS

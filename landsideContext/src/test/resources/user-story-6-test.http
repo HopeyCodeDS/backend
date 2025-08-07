@@ -1,4 +1,9 @@
-### Generate weighbridge ticket (this validates the exit weighing bridge first before generating the WBT)
+### ========================================
+### USER STORY 6: Generate Weighbridge Ticket
+### (This validates the exit weighing bridge first before generating the WBT)
+### ========================================
+
+### Generate weighbridge ticket - truck 1
 POST http://localhost:8190/api/landside/weighbridge-ticket/generate
 Content-Type: application/json
 
@@ -6,7 +11,7 @@ Content-Type: application/json
   "licensePlate": "TRK-001",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
-  "weighingTime": "31/08/2025 15:30"
+  "weighingTime": "31/08/2025 08:00"
 }
 
 ### Response should be like:
@@ -16,28 +21,56 @@ Content-Type: application/json
 #   "grossWeight": 25000.0,
 #   "tareWeight": 8000.0,
 #   "netWeight": 17000.0,
-#   "weighingTime": "31/08/2025 15:30"
+#   "weighingTime": "31/08/2025 08:00"
 # }
 
+### Generate weighbridge ticket - truck 2
 POST http://localhost:8190/api/landside/weighbridge-ticket/generate
 Content-Type: application/json
 
 {
   "licensePlate": "TRK-002",
   "grossWeight": 25000.0,
-  "tareWeight": 7500.0,
-  "weighingTime": "31/08/2025 15:55"
+  "tareWeight": 8000.0,
+  "weighingTime": "31/08/2025 08:05"
 }
 
-### Response should be like:
-# {
-#   "ticketId": "550e8400-e29b-41d4-a716-446655440000",
-#   "licensePlate": "ABC-123", 
-#   "grossWeight": 25000.0,
-#   "tareWeight": 8000.0,
-#   "netWeight": 17000.0,
-#   "weighingTime": "31/08/2025 15:30"
-# }
+### Generate weighbridge ticket - truck 3
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "31/08/2025 08:10"
+}
+
+### Generate weighbridge ticket - truck 4
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "31/08/2025 08:15"
+}
+
+### Generate weighbridge ticket - truck 5
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "31/08/2025 08:20"
+}
+
+
+###-----------------------------------------------------------------------------------
+
 
 ### Invalid weighbridge ticket (negative weights)
 POST http://localhost:8190/api/landside/weighbridge-ticket/generate
@@ -47,7 +80,7 @@ Content-Type: application/json
   "licensePlate": "TRK-001",
   "grossWeight": -1000.0,
   "tareWeight": -500.0,
-  "weighingTime": "31/08/2025 15:30"
+  "weighingTime": "31/08/2025 08:10"
 }
 
 ### Invalid weighbridge ticket (tare weight greater than gross weight)

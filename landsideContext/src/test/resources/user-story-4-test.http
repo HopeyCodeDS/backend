@@ -2,7 +2,7 @@
 ### USER STORY 4: Register Weight and Receive Warehouse Number
 ### ========================================
 
-### Step 1: Register truck weight and exit bridge
+### Register truck weight and exit bridge - truck 1
 ### This triggers the async warehouse assignment process
 POST http://localhost:8190/api/landside/weight-registration/register
 Content-Type: application/json
@@ -13,16 +13,7 @@ Content-Type: application/json
   "rawMaterialName": "Gypsum"
 }
 
-### Expected Response:
-### {
-###   "licensePlate": "TRK-001",
-###   "status": "PROCESSING",
-###   "message": "Weight registered successfully. Warehouse assignment in progress.",
-###   "warehouseNumber": null
-### }
-
-### Step 1.1: Register truck weight and exit bridge
-### This triggers the async warehouse assignment process
+### Register truck weight and exit bridge - truck 2
 POST http://localhost:8190/api/landside/weight-registration/register
 Content-Type: application/json
 
@@ -33,28 +24,51 @@ Content-Type: application/json
 }
 
 
-### Step 2: Check warehouse assignment status
-### This checks if the warehouse has been assigned asynchronously
+### Register truck weight and exit bridge - truck 3
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+### Register truck weight and exit bridge - truck 4
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "weight": 25000.0,
+  "rawMaterialName": "Iron Ore"
+}
+
+### Register truck weight and exit bridge - truck 5
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "weight": 25000.0,
+  "rawMaterialName": "Cement"
+}
+
+
+### Check warehouse assignment status - truck 1
 GET http://localhost:8190/api/landside/weight-registration/status/TRK-001
 
-### Expected Response (if still processing):
-### {
-###   "licensePlate": "TRK-001",
-###   "status": "PROCESSING",
-###   "message": "Warehouse assignment in progress",
-###   "warehouseNumber": null
-### }
-
-### Expected Response (if warehouse assigned):
-### {
-###   "licensePlate": "TRK-001",
-###   "status": "COMPLETED",
-###   "message": "Warehouse assigned successfully",
-###   "warehouseNumber": "WH-001"
-### }
-
-### Step 2.1: Check status again (to verify warehouse assignment)
+### Check warehouse assignment status - truck 2
 GET http://localhost:8190/api/landside/weight-registration/status/TRK-002
+
+### Check warehouse assignment status - truck 3
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-003
+
+### Check warehouse assignment status - truck 4
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-004
+
+### Check warehouse assignment status - truck 5
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-005
 
 
 
