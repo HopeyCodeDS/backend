@@ -10,6 +10,8 @@ public record PurchaseOrderSubmitted(
     @JsonProperty("purchaseOrderNumber") String purchaseOrderNumber,
     @JsonProperty("customerNumber") String customerNumber,
     @JsonProperty("customerName") String customerName,
+    @JsonProperty("sellerId") String sellerId,
+    @JsonProperty("sellerName") String sellerName,
     @JsonProperty("totalValue") double totalValue,
     @JsonProperty("orderLines") List<PurchaseOrderLine> orderLines,
     @JsonProperty("submittedAt") LocalDateTime submittedAt
