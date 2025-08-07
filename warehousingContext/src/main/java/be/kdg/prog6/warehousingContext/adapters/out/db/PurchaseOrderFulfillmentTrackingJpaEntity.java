@@ -4,8 +4,7 @@ import be.kdg.prog6.warehousingContext.domain.PurchaseOrderFulfillmentTracking.F
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
-import java.util.UUID;
-import org.hibernate.annotations.UuidGenerator;
+
 @Entity
 @Table(catalog = "warehousing", name = "purchase_order_fulfillment_tracking")
 @Data

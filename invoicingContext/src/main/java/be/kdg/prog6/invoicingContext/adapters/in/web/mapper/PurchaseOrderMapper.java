@@ -16,6 +16,7 @@ public class PurchaseOrderMapper {
         List<SubmitPurchaseOrderCommand.PurchaseOrderLineCommand> orderLines = 
                 requestDto.getOrderLines().stream()
                         .map(line -> new SubmitPurchaseOrderCommand.PurchaseOrderLineCommand(
+                                line.getLineNumber(),
                                 line.getRawMaterialName(),
                                 line.getAmountInTons(),
                                 line.getPricePerTon()))
@@ -25,6 +26,9 @@ public class PurchaseOrderMapper {
                 requestDto.getPurchaseOrderNumber(),
                 requestDto.getCustomerNumber(),
                 requestDto.getCustomerName(),
+                requestDto.getSellerId(),
+                requestDto.getSellerName(),
+                requestDto.getOrderDate(),
                 orderLines
         );
     }
@@ -35,6 +39,8 @@ public class PurchaseOrderMapper {
         responseDto.setPurchaseOrderNumber(purchaseOrder.getPurchaseOrderNumber());
         responseDto.setCustomerNumber(purchaseOrder.getCustomerNumber());
         responseDto.setCustomerName(purchaseOrder.getCustomerName());
+        responseDto.setSellerId(purchaseOrder.getSellerId());
+        responseDto.setSellerName(purchaseOrder.getSellerName());
         responseDto.setOrderDate(purchaseOrder.getOrderDate());
         responseDto.setStatus(purchaseOrder.getStatus().name());
         responseDto.setTotalValue(purchaseOrder.getTotalValue());
@@ -52,6 +58,7 @@ public class PurchaseOrderMapper {
             be.kdg.prog6.invoicingContext.domain.PurchaseOrderLine line) {
         PurchaseOrderResponseDto.PurchaseOrderLineResponseDto lineDto = 
                 new PurchaseOrderResponseDto.PurchaseOrderLineResponseDto();
+        lineDto.setLineNumber(line.getLineNumber());
         lineDto.setRawMaterialName(line.getRawMaterialName());
         lineDto.setAmountInTons(line.getAmountInTons());
         lineDto.setPricePerTon(line.getPricePerTon());

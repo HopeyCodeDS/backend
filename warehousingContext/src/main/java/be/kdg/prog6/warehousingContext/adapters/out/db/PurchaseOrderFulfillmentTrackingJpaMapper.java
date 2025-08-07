@@ -1,5 +1,7 @@
 package be.kdg.prog6.warehousingContext.adapters.out.db;
 
+import java.util.UUID;
+
 import be.kdg.prog6.warehousingContext.domain.PurchaseOrderFulfillmentTracking;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +24,15 @@ public class PurchaseOrderFulfillmentTrackingJpaMapper {
     
     public PurchaseOrderFulfillmentTracking toDomain(PurchaseOrderFulfillmentTrackingJpaEntity entity) {
         PurchaseOrderFulfillmentTracking domain = new PurchaseOrderFulfillmentTracking(
+            UUID.fromString(entity.getTrackingId()),
             entity.getPurchaseOrderNumber(),
             entity.getCustomerNumber(),
             entity.getCustomerName(),
             entity.getTotalValue(),
-            entity.getOrderDate()
+            entity.getOrderDate(),
+            entity.getStatus(),
+            entity.getFulfillmentDate(),
+            entity.getVesselNumber()
         );
         
         if (PurchaseOrderFulfillmentTracking.FulfillmentStatus.FULFILLED.equals(entity.getStatus())) {

@@ -22,6 +22,9 @@ public class PurchaseOrderLineJpaEntity {
     @JoinColumn(name = "purchase_order_id", nullable = false)
     private PurchaseOrderJpaEntity purchaseOrder;
     
+    @Column(name = "line_number", nullable = false)
+    private int lineNumber;
+    
     @Column(name = "raw_material_name", nullable = false)
     private String rawMaterialName;
     

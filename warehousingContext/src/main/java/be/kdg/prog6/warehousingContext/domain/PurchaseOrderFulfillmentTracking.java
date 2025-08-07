@@ -16,6 +16,7 @@ public class PurchaseOrderFulfillmentTracking {
     private LocalDateTime fulfillmentDate;
     private String vesselNumber; // Ship that fulfilled the order
 
+    // Constructor for new instances
     public PurchaseOrderFulfillmentTracking(String purchaseOrderNumber, String customerNumber, 
                                            String customerName, double totalValue, LocalDateTime orderDate) {
         this.trackingId = UUID.randomUUID();
@@ -27,6 +28,21 @@ public class PurchaseOrderFulfillmentTracking {
         this.status = FulfillmentStatus.OUTSTANDING;
         this.fulfillmentDate = null;
         this.vesselNumber = null;
+    }
+
+    // Constructor for reconstructing from database
+    public PurchaseOrderFulfillmentTracking(UUID trackingId, String purchaseOrderNumber, String customerNumber, 
+                                           String customerName, double totalValue, LocalDateTime orderDate,
+                                           FulfillmentStatus status, LocalDateTime fulfillmentDate, String vesselNumber) {
+        this.trackingId = trackingId;
+        this.purchaseOrderNumber = purchaseOrderNumber;
+        this.customerNumber = customerNumber;
+        this.customerName = customerName;
+        this.orderDate = orderDate;
+        this.totalValue = totalValue;
+        this.status = status;
+        this.fulfillmentDate = fulfillmentDate;
+        this.vesselNumber = vesselNumber;
     }
 
     public void markAsFulfilled(String vesselNumber) {

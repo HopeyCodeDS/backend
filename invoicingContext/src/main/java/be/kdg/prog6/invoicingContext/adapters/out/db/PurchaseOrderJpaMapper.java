@@ -17,6 +17,8 @@ public class PurchaseOrderJpaMapper {
         jpaEntity.setPurchaseOrderNumber(purchaseOrder.getPurchaseOrderNumber());
         jpaEntity.setCustomerNumber(purchaseOrder.getCustomerNumber());
         jpaEntity.setCustomerName(purchaseOrder.getCustomerName());
+        jpaEntity.setSellerId(purchaseOrder.getSellerId());
+        jpaEntity.setSellerName(purchaseOrder.getSellerName());
         jpaEntity.setOrderDate(purchaseOrder.getOrderDate());
         jpaEntity.setStatus(purchaseOrder.getStatus());
         jpaEntity.setTotalValue(purchaseOrder.getTotalValue());
@@ -30,23 +32,30 @@ public class PurchaseOrderJpaMapper {
         return jpaEntity;
     }
     
+    //Using the reconstruction constructor with exisiting ID and status
     public PurchaseOrder toDomain(PurchaseOrderJpaEntity jpaEntity) {
         List<PurchaseOrderLine> orderLines = jpaEntity.getOrderLines().stream()
                 .map(this::toLineDomain)
                 .collect(Collectors.toList());
         
         return new PurchaseOrder(
+                jpaEntity.getPurchaseOrderId(),
                 jpaEntity.getPurchaseOrderNumber(),
                 jpaEntity.getCustomerNumber(),
                 jpaEntity.getCustomerName(),
+                jpaEntity.getSellerId(),
+                jpaEntity.getSellerName(),
+                jpaEntity.getOrderDate(),
+                jpaEntity.getStatus(),
                 orderLines
         );
     }
     
     private PurchaseOrderLineJpaEntity toLineJpaEntity(PurchaseOrderLine line, PurchaseOrderJpaEntity purchaseOrder) {
         PurchaseOrderLineJpaEntity lineEntity = new PurchaseOrderLineJpaEntity();
-        lineEntity.setLineId(UUID.randomUUID());
+        lineEntity.setLineId(line.getLineId());
         lineEntity.setPurchaseOrder(purchaseOrder);
+        lineEntity.setLineNumber(line.getLineNumber());
         lineEntity.setRawMaterialName(line.getRawMaterialName());
         lineEntity.setAmountInTons(line.getAmountInTons());
         lineEntity.setPricePerTon(line.getPricePerTon());
@@ -55,6 +64,8 @@ public class PurchaseOrderJpaMapper {
     
     private PurchaseOrderLine toLineDomain(PurchaseOrderLineJpaEntity lineEntity) {
         return new PurchaseOrderLine(
+                lineEntity.getLineId(),
+                lineEntity.getLineNumber(),
                 lineEntity.getRawMaterialName(),
                 lineEntity.getAmountInTons(),
                 lineEntity.getPricePerTon()
