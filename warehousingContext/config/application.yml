@@ -9,10 +9,10 @@ spring:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
   jpa:
    open-in-view: false
-   generate-ddl: true
+   generate-ddl: false
    hibernate:
-     ddl-auto: create
-     show-sql: true
+     ddl-auto: none
+     defer-datasource-initialization: false
    properties:
      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
      hibernate.default_schema: warehousing 

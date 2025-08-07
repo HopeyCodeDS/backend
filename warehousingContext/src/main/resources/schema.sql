@@ -1,9 +1,20 @@
 -- Create warehousing schema if it doesn't exist
 DROP SCHEMA IF EXISTS warehousing;
-DROP TABLE IF EXISTS warehousing.warehouses;
+
+-- Drop foreign key constraints first
+SET FOREIGN_KEY_CHECKS = 0;
+-- Drop tables in correct order (child tables first, then parent tables)
+DROP TABLE IF EXISTS warehousing.purchase_order_material_requirements;
 DROP TABLE IF EXISTS warehousing.warehouse_assignments;
 DROP TABLE IF EXISTS warehousing.payload_delivery_tickets;
 DROP TABLE IF EXISTS warehousing.warehouse_activities;
+DROP TABLE IF EXISTS warehousing.warehouse_projections;
+DROP TABLE IF EXISTS warehousing.purchase_order_fulfillment_tracking;
+DROP TABLE IF EXISTS warehousing.warehouses;
+
+-- Re-enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
+
 CREATE SCHEMA IF NOT EXISTS warehousing;
 
 -- Warehouses table
@@ -95,4 +106,20 @@ CREATE TABLE IF NOT EXISTS warehousing.warehouse_projections (
     assigned_material VARCHAR(100) NOT NULL,
     max_capacity DOUBLE NOT NULL,
     current_capacity DOUBLE NOT NULL
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Purchase Order Material Requirements table
+CREATE TABLE IF NOT EXISTS warehousing.purchase_order_material_requirements (
+    requirement_id VARCHAR(36) PRIMARY KEY,
+    purchase_order_number VARCHAR(255) NOT NULL,
+    raw_material_name VARCHAR(100) NOT NULL,
+    required_amount_in_tons DOUBLE NOT NULL,
+    price_per_ton DOUBLE NOT NULL,
+    total_value DOUBLE NOT NULL,
+    fulfilled_amount_in_tons DOUBLE NOT NULL DEFAULT 0.0,
+    remaining_amount_in_tons DOUBLE NOT NULL,
+    INDEX idx_purchase_order_number (purchase_order_number),
+    INDEX idx_raw_material_name (raw_material_name),
+    INDEX idx_remaining_amount (remaining_amount_in_tons)
+    -- FOREIGN KEY (purchase_order_number) REFERENCES warehousing.purchase_order_fulfillment_tracking(purchase_order_number)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
