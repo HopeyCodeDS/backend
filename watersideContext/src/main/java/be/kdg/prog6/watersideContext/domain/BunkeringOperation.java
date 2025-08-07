@@ -1,18 +1,30 @@
 package be.kdg.prog6.watersideContext.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
 public class BunkeringOperation {
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime plannedDate;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime completedDate;
     private BunkeringStatus status;
     private String bunkeringOfficerSignature;
 
     public BunkeringOperation() {
-        this.plannedDate = LocalDateTime.now().plusHours(4); // Planned bunkering 4 hours after actual arrival date of the vessel
+        // Default constructor
         this.status = BunkeringStatus.PLANNED;
+    }
+
+    public BunkeringOperation(LocalDateTime actualArrivalDate) {
+        this.plannedDate = actualArrivalDate.plusHours(4); // Planned bunkering 4 hours after actual arrival date of the vessel
+        this.status = BunkeringStatus.PLANNED;
+    }
+
+    public void setPlannedDate(LocalDateTime actualArrivalDate) {
+        this.plannedDate = actualArrivalDate.plusHours(4); // Planned bunkering 4 hours after actual arrival date of the vessel
     }
 
     public void completeBunkering(String bunkeringOfficerSignature) {
@@ -27,5 +39,9 @@ public class BunkeringOperation {
 
     public enum BunkeringStatus {
         PLANNED, IN_PROGRESS, COMPLETED
+    }
+
+    public String getStatusDescription() {
+        return isCompleted() ? "COMPLETED" : "PENDING";
     }
 } 

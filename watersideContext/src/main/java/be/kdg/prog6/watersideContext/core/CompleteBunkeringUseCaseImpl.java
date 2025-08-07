@@ -2,7 +2,10 @@ package be.kdg.prog6.watersideContext.core;
 
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
 import be.kdg.prog6.watersideContext.domain.commands.CompleteBunkeringCommand;
+import be.kdg.prog6.common.events.ShipReadyForLoadingEvent;
+// import be.kdg.prog6.watersideContext.domain.events.ShipReadyForLoadingEvent;
 import be.kdg.prog6.watersideContext.ports.in.CompleteBunkeringUseCase;
+import be.kdg.prog6.watersideContext.ports.out.ShipReadyForLoadingEventPublisherPort;
 import be.kdg.prog6.watersideContext.ports.out.ShippingOrderRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +19,7 @@ import java.util.Optional;
 public class CompleteBunkeringUseCaseImpl implements CompleteBunkeringUseCase {
     
     private final ShippingOrderRepositoryPort shippingOrderRepositoryPort;
+    private final ShipReadyForLoadingEventPublisherPort shipReadyForLoadingEventPublisherPort;
     
     @Override
     public ShippingOrder completeBunkering(CompleteBunkeringCommand command) {
@@ -41,6 +45,15 @@ public class CompleteBunkeringUseCaseImpl implements CompleteBunkeringUseCase {
         // Update shipping order status if inspection is also completed
         if (shippingOrder.getInspectionOperation().isCompleted()) {
             shippingOrder.markAsReadyForLoading();
+
+            // PUBLISH EVENT for automatic loading
+            ShipReadyForLoadingEvent event = new ShipReadyForLoadingEvent(
+                shippingOrder.getShippingOrderId(),
+                shippingOrder.getPurchaseOrderReference(),
+                shippingOrder.getVesselNumber(),
+                shippingOrder.getCustomerNumber()
+            );
+            shipReadyForLoadingEventPublisherPort.publishShipReadyForLoadingEvent(event);
         }
         
         // Save the updated shipping order

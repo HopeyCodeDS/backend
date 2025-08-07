@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class GetShipCaptainOperationsOverviewUseCaseImpl implements GetShipCapta
     private final ShippingOrderRepositoryPort shippingOrderRepositoryPort;
     
     @Override
-    public ShipCaptainOperationsOverview getOperationsOverview(String vesselNumber) {
+    public ShipCaptainOperationsOverview getVesselOperations(String vesselNumber) {
         log.info("Ship captain requesting operations overview for vessel: {}", vesselNumber);
         
         Optional<ShippingOrder> shippingOrderOpt = shippingOrderRepositoryPort.findByVesselNumber(vesselNumber);
@@ -29,14 +31,11 @@ public class GetShipCaptainOperationsOverviewUseCaseImpl implements GetShipCapta
         
         ShippingOrder shippingOrder = shippingOrderOpt.get();
         
-        String inspectionStatus = shippingOrder.getInspectionOperation().isCompleted() ? "COMPLETED" : "PENDING";
-        String bunkeringStatus = shippingOrder.getBunkeringOperation().isCompleted() ? "COMPLETED" : "PENDING";
-        
         ShipCaptainOperationsOverview overview = new ShipCaptainOperationsOverview(
             shippingOrder.getShippingOrderId(),
             vesselNumber,
-            inspectionStatus,
-            bunkeringStatus,
+            shippingOrder.getInspectionOperation().getStatusDescription(),
+            shippingOrder.getBunkeringOperation().getStatusDescription(),
             shippingOrder.getInspectionOperation().getCompletedDate(),
             shippingOrder.getBunkeringOperation().getCompletedDate()
         );
@@ -45,5 +44,27 @@ public class GetShipCaptainOperationsOverviewUseCaseImpl implements GetShipCapta
             vesselNumber, overview.isCanLeavePort());
         
         return overview;
+    }
+
+    @Override
+    public List<ShipCaptainOperationsOverview> getAllVesselsOperations() {
+        log.info("Ship captain requesting operations overview for all vessels");
+
+        List<ShippingOrder> shippingOrders = shippingOrderRepositoryPort.findAll();
+        return shippingOrders.stream()
+            .map(this::mapToOperationOverview)
+            .collect(Collectors.toList());
+    }
+
+    // Helper method to map shipping order to operation overview
+    private ShipCaptainOperationsOverview mapToOperationOverview(ShippingOrder shippingOrder) {
+        return new ShipCaptainOperationsOverview(
+            shippingOrder.getShippingOrderId(),
+            shippingOrder.getVesselNumber(),
+            shippingOrder.getInspectionOperation().getStatusDescription(),
+            shippingOrder.getBunkeringOperation().getStatusDescription(),
+            shippingOrder.getInspectionOperation().getCompletedDate(),
+            shippingOrder.getBunkeringOperation().getCompletedDate()
+        );
     }
 } 

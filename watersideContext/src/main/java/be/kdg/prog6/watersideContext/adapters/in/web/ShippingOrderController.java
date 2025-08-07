@@ -33,7 +33,8 @@ public class ShippingOrderController {
             requestDto.getVesselNumber(),
             requestDto.getCustomerNumber(),
             requestDto.getEstimatedArrivalDate(),
-            requestDto.getEstimatedDepartureDate()
+            requestDto.getEstimatedDepartureDate(),
+            requestDto.getActualArrivalDate()
         );
         
         ShippingOrder shippingOrder = submitShippingOrderUseCase.submitShippingOrder(command);

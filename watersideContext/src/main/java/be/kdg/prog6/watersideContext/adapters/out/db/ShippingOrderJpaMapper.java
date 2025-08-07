@@ -47,7 +47,8 @@ public class ShippingOrderJpaMapper {
             entity.getVesselNumber(),
             entity.getCustomerNumber(),
             entity.getEstimatedArrivalDate(),
-            entity.getEstimatedDepartureDate()
+            entity.getEstimatedDepartureDate(),
+            entity.getActualArrivalDate()
         );
         
         // Set foreman validation data if exists (BEFORE setting status)
