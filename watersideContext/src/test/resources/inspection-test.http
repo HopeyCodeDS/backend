@@ -1,12 +1,12 @@
-### Get Outstanding Inspections
+### Get Outstanding Inspections - User story 13
 GET http://localhost:8190/api/waterside/inspections/outstanding
 
-### Complete Inspection - Use actual shipping order ID from the application logs
+### Complete Inspection - Using actual shipping order ID from the application logs
 POST http://localhost:8190/api/waterside/inspections/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "49e8bc94-130c-45b3-b4ea-0233d0156f50",
+  "shippingOrderId": "23076a2b-6706-45e4-a2a0-bf65ab1d2f2d",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 
@@ -15,7 +15,7 @@ POST http://localhost:8190/api/waterside/inspections/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "394a506d-f5b3-424b-be5d-cd52ecdcc8a8",
+  "shippingOrderId": "a311e449-4bf9-4b5b-b568-7cbf48dff8a4",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 

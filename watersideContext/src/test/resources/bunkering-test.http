@@ -1,21 +1,21 @@
-### Get Outstanding Bunkering Operations
+### Get Outstanding Bunkering Operations - User story 14
 GET http://localhost:8190/api/waterside/bunkering/outstanding
 
-### Complete Bunkering
+### Complete Bunkering for Vessel 1
 POST http://localhost:8190/api/waterside/bunkering/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "49e8bc94-130c-45b3-b4ea-0233d0156f50",
+  "shippingOrderId": "23076a2b-6706-45e4-a2a0-bf65ab1d2f2d",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
 
-### Complete Bunkering
+### Complete Bunkering for Vessel 2
 POST http://localhost:8190/api/waterside/bunkering/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "394a506d-f5b3-424b-be5d-cd52ecdcc8a8",
+  "shippingOrderId": "a311e449-4bf9-4b5b-b568-7cbf48dff8a4",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
 
@@ -24,6 +24,6 @@ POST http://localhost:8190/api/waterside/bunkering/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "33a347c6-9430-4c67-aee1-ff2abf008cde",
+  "shippingOrderId": "17988197-c27c-4d28-87cb-60b412409946",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
