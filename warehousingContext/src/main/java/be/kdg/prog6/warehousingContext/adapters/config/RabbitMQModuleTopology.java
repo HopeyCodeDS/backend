@@ -9,6 +9,7 @@ public class RabbitMQModuleTopology {
 
     // Change from Fanout to Topic exchange
     public static final String WAREHOUSING_EVENTS_TOPIC = "warehousing-events";
+    public static final String PURCHASE_ORDER_SUBMITTED_FAN_OUT = "purchase-order-submitted-events";
     public static final String WAREHOUSING_QUEUE = "warehousing-queue";
     
     // new queue for PDT events
@@ -17,12 +18,25 @@ public class RabbitMQModuleTopology {
     // warehouse assigned queue constant
     public static final String WAREHOUSE_ASSIGNED_QUEUE = "warehouse-assigned-queue";
 
+    // PO matched with SO queue - listening to waterside context
+    public static final String PO_MATCHED_WITH_SO_QUEUE = "po-matched-with-so-warehousing";
+
     // purchase order submitted queue constant
-    public static final String PURCHASE_ORDER_SUBMITTED_QUEUE = "purchase-order.submitted";
+    public static final String PURCHASE_ORDER_SUBMITTED_QUEUE = "purchase-order.submitted.warehousing";
+    public static final String PO_MATCHED_WITH_SO_FAN_OUT = "po-matched-with-so-fan-out";
+
+    // Ship loaded event constants
+    public static final String SHIP_LOADED_FAN_OUT = "ship.loaded";
+    public static final String SHIP_LOADED_QUEUE = "ship.loaded.queue";
 
     @Bean
     TopicExchange warehousingEventsExchange() {
         return new TopicExchange(WAREHOUSING_EVENTS_TOPIC);
+    }
+
+    @Bean
+    FanoutExchange purchaseOrderSubmittedFanOutExchange() {
+        return new FanoutExchange(PURCHASE_ORDER_SUBMITTED_FAN_OUT);
     }
 
     @Bean
@@ -46,6 +60,16 @@ public class RabbitMQModuleTopology {
     }
 
     @Bean
+    FanoutExchange poMatchedWithSoFanOutExchange() {
+        return new FanoutExchange(PO_MATCHED_WITH_SO_FAN_OUT);
+    }
+
+    @Bean
+    Queue poMatchedWithSoQueue() {
+        return new Queue(PO_MATCHED_WITH_SO_QUEUE);
+    }
+    
+    @Bean
     Binding warehouseAssignedBinding(TopicExchange warehousingEventsExchange, Queue warehouseAssignedQueue) {
         return BindingBuilder.bind(warehouseAssignedQueue).to(warehousingEventsExchange).with("warehouse.assigned");
     }
@@ -56,8 +80,29 @@ public class RabbitMQModuleTopology {
     }
 
     @Bean
-    Binding purchaseOrderSubmittedBinding(TopicExchange warehousingEventsExchange, Queue purchaseOrderSubmittedQueue) {
-        return BindingBuilder.bind(purchaseOrderSubmittedQueue).to(warehousingEventsExchange).with("purchase-order.submitted");
+    Binding purchaseOrderSubmittedBinding(FanoutExchange purchaseOrderSubmittedFanOutExchange, Queue purchaseOrderSubmittedQueue) {
+        return BindingBuilder.bind(purchaseOrderSubmittedQueue).to(purchaseOrderSubmittedFanOutExchange);
     }
 
+    @Bean
+    Binding poMatchedWithSoBinding(FanoutExchange poMatchedWithSoFanOutExchange, Queue poMatchedWithSoQueue) {
+        return BindingBuilder.bind(poMatchedWithSoQueue)
+                .to(poMatchedWithSoFanOutExchange);
+    }
+
+    @Bean
+    FanoutExchange shipLoadedFanOutExchange() {
+        return new FanoutExchange(SHIP_LOADED_FAN_OUT);
+    }
+
+    @Bean
+    Queue shipLoadedQueue() {
+        return new Queue(SHIP_LOADED_QUEUE);
+    }
+
+    @Bean
+    Binding shipLoadedBinding(FanoutExchange shipLoadedFanOutExchange, Queue shipLoadedQueue) {
+        return BindingBuilder.bind(shipLoadedQueue)
+                .to(shipLoadedFanOutExchange);
+    }
 } 
