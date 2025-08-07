@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -32,11 +30,12 @@ public class SubmitShippingOrderUseCaseImpl implements SubmitShippingOrderUseCas
             command.getVesselNumber(),
             command.getCustomerNumber(),
             command.getEstimatedArrivalDate(),
-            command.getEstimatedDepartureDate()
+            command.getEstimatedDepartureDate(),
+            command.getActualArrivalDate()
         );
         
         // Mark as arrived
-        shippingOrder.markAsArrived(LocalDateTime.now());
+        shippingOrder.markAsArrived(command.getActualArrivalDate());
         
         // Save shipping order
         shippingOrderRepositoryPort.save(shippingOrder);

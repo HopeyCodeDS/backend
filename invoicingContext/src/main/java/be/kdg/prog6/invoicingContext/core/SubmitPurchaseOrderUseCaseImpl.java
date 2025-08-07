@@ -28,6 +28,7 @@ public class SubmitPurchaseOrderUseCaseImpl implements SubmitPurchaseOrderUseCas
         // Convert command lines to domain lines
         List<PurchaseOrderLine> orderLines = command.getOrderLines().stream()
                 .map(line -> new PurchaseOrderLine(
+                        line.getLineNumber(),
                         line.getRawMaterialName(),
                         line.getAmountInTons(),
                         line.getPricePerTon()))
@@ -38,6 +39,9 @@ public class SubmitPurchaseOrderUseCaseImpl implements SubmitPurchaseOrderUseCas
                 command.getPurchaseOrderNumber(),
                 command.getCustomerNumber(),
                 command.getCustomerName(),
+                command.getSellerId(),
+                command.getSellerName(),
+                command.getOrderDate(),
                 orderLines
         );
 
