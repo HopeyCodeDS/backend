@@ -13,6 +13,7 @@ public enum EventCatalog {
     PAYLOAD_DELIVERED,
     INVENTORY_UPDATED,
     PDT_GENERATED,
+    WAREHOUSE_ACTIVITY,
     
     // Waterside Context Events
     SHIP_ARRIVED,

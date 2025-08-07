@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record WarehouseAssigned(
+public record WarehouseAssignmentEvent(
         @JsonProperty("assignmentId") UUID assignmentId,
         @JsonProperty("licensePlate") String licensePlate,
         @JsonProperty("warehouseNumber") String warehouseNumber,

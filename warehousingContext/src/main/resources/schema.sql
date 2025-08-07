@@ -38,14 +38,15 @@ CREATE TABLE IF NOT EXISTS warehousing.warehouse_assignments (
     assignment_id BINARY(16) PRIMARY KEY,
     warehouse_id BINARY(16) NOT NULL,
     license_plate VARCHAR(50) NOT NULL,
-    truck_weight DOUBLE NOT NULL,
+    warehouse_number VARCHAR(20) NOT NULL,
     raw_material_name VARCHAR(100) NOT NULL,
+    seller_id VARCHAR(255) NOT NULL,
+    truck_weight DOUBLE NOT NULL,
     assignment_time TIMESTAMP NOT NULL,
-    status ENUM('ASSIGNED', 'COMPLETED', 'CANCELLED') NOT NULL DEFAULT 'ASSIGNED',
     INDEX idx_warehouse_id (warehouse_id),
     INDEX idx_license_plate (license_plate),
     INDEX idx_assignment_time (assignment_time),
-    INDEX idx_status (status)
+    INDEX idx_seller_id (seller_id)
 )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Payload Delivery Tickets table

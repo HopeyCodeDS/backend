@@ -6,7 +6,7 @@ POST http://localhost:8190/api/waterside/bunkering/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "23076a2b-6706-45e4-a2a0-bf65ab1d2f2d",
+  "shippingOrderId": "2fcd7c3b-27bc-473e-8ff1-9e0b93b6f22e",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
 
@@ -15,7 +15,7 @@ POST http://localhost:8190/api/waterside/bunkering/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "a311e449-4bf9-4b5b-b568-7cbf48dff8a4",
+  "shippingOrderId": "31fbe5a8-c8a9-4424-8ebe-43fe27231da8",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
 

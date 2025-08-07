@@ -40,7 +40,7 @@ public class CommissionFeeCalculatedEventAMQPPublisher implements CommissionFeeC
             throw new RuntimeException("Failed to serialize commission fee calculated event", e);
         }
         
-        rabbitTemplate.convertAndSend(RabbitMQModuleTopology.INVOICING_EVENTS_FAN_OUT, "commission.fee.calculated", eventMessage);
+        rabbitTemplate.convertAndSend(RabbitMQModuleTopology.INVOICING_EVENTS_TOPIC, "commission.fee.calculated", eventMessage);
         
         log.info("Successfully published commission fee calculated event: ${} for PO: {}", 
             event.commissionAmount(), event.purchaseOrderNumber());

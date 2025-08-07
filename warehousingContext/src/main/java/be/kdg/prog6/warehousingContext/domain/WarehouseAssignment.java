@@ -3,6 +3,10 @@ package be.kdg.prog6.warehousingContext.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+
+@Getter
 public class WarehouseAssignment {
     private final UUID assignmentId;
     private final UUID warehouseId;
@@ -11,6 +15,7 @@ public class WarehouseAssignment {
     private final String rawMaterialName;
     private final String sellerId;
     private final double truckWeight;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime assignedAt;
 
     public WarehouseAssignment(UUID assignmentId, UUID warehouseId, String licensePlate, 
@@ -25,14 +30,4 @@ public class WarehouseAssignment {
         this.truckWeight = truckWeight;
         this.assignedAt = assignedAt;
     }
-
-    // Getters
-    public UUID getAssignmentId() { return assignmentId; }
-    public UUID getWarehouseId() { return warehouseId; }
-    public String getLicensePlate() { return licensePlate; }
-    public String getWarehouseNumber() { return warehouseNumber; }
-    public String getRawMaterialName() { return rawMaterialName; }
-    public String getSellerId() { return sellerId; }
-    public double getTruckWeight() { return truckWeight; }
-    public LocalDateTime getAssignedAt() { return assignedAt; }
 } 

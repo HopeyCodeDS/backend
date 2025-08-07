@@ -12,6 +12,10 @@ public class RabbitMQModuleTopology {
     public static final String PURCHASE_ORDER_SUBMITTED_FAN_OUT = "purchase-order-submitted-events";
     public static final String WAREHOUSING_QUEUE = "warehousing-queue";
     
+    // Direct exchange for warehouse activity events
+    public static final String WAREHOUSE_ACTIVITY_DIRECT = "warehouse-activity-direct";
+    public static final String WAREHOUSE_ACTIVITY_QUEUE = "warehouse-activity-queue";
+
     // new queue for PDT events
     public static final String PDT_GENERATED_QUEUE = "pdt-generated-queue";
 
@@ -42,6 +46,16 @@ public class RabbitMQModuleTopology {
     @Bean
     Queue warehousingQueue() {
         return new Queue(WAREHOUSING_QUEUE);
+    }
+
+    @Bean
+    DirectExchange warehouseActivityDirectExchange() {
+        return new DirectExchange(WAREHOUSE_ACTIVITY_DIRECT);
+    }
+
+    @Bean
+    Queue warehouseActivityQueue() {
+        return new Queue(WAREHOUSE_ACTIVITY_QUEUE);
     }
 
     @Bean
@@ -104,5 +118,12 @@ public class RabbitMQModuleTopology {
     Binding shipLoadedBinding(FanoutExchange shipLoadedFanOutExchange, Queue shipLoadedQueue) {
         return BindingBuilder.bind(shipLoadedQueue)
                 .to(shipLoadedFanOutExchange);
+    }
+
+    @Bean
+    Binding warehouseActivityBinding(DirectExchange warehouseActivityDirectExchange, Queue warehouseActivityQueue) {
+        return BindingBuilder.bind(warehouseActivityQueue)
+                .to(warehouseActivityDirectExchange)
+                .with("warehouse.activity");
     }
 } 

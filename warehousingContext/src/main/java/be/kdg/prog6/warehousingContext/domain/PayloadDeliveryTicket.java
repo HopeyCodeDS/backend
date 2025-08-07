@@ -1,5 +1,7 @@
 package be.kdg.prog6.warehousingContext.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,6 +14,7 @@ public class PayloadDeliveryTicket {
     private final String warehouseNumber;
     private final String conveyorBeltNumber;
     private final double payloadWeight;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime deliveryTime;
     private final String sellerId;
     private final String newWeighingBridgeNumber;

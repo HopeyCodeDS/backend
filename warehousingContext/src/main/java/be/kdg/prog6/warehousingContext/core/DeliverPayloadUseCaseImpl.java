@@ -1,5 +1,6 @@
 package be.kdg.prog6.warehousingContext.core;
 
+import be.kdg.prog6.common.events.WarehouseActivityEvent;
 import be.kdg.prog6.warehousingContext.domain.PayloadDeliveryTicket;
 import be.kdg.prog6.warehousingContext.domain.ConveyorBeltAssignmentService;
 import be.kdg.prog6.warehousingContext.domain.WarehouseActivity;
@@ -9,6 +10,7 @@ import be.kdg.prog6.warehousingContext.domain.commands.DeliverPayloadCommand;
 import be.kdg.prog6.warehousingContext.ports.in.DeliverPayloadUseCase;
 import be.kdg.prog6.warehousingContext.ports.out.PDTGeneratedPort;
 import be.kdg.prog6.warehousingContext.ports.out.PDTRepositoryPort;
+import be.kdg.prog6.warehousingContext.ports.out.WarehouseActivityEventPublisherPort;
 import be.kdg.prog6.warehousingContext.ports.out.WarehouseActivityRepositoryPort;
 import be.kdg.prog6.warehousingContext.ports.out.WarehouseRepositoryPort;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     private final WarehouseActivityRepositoryPort warehouseActivityRepositoryPort;
     private final ProjectWarehouseActivityUseCase projectWarehouseActivityUseCase;
     private final ConveyorBeltAssignmentService conveyorBeltAssignmentService;
+    private final WarehouseActivityEventPublisherPort warehouseActivityEventPublisherPort;
 
     @Override
     @Transactional
@@ -71,7 +74,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         WarehouseActivity activity = new WarehouseActivity(
             warehouseId,
             command.payloadWeight(),
-            WarehouseActivityAction.MATERIAL_DELIVERED,
+            WarehouseActivityAction.PAYLOAD_DELIVERED,
             command.deliveryTime(),
             command.rawMaterialName(),
             command.licensePlate(),
@@ -83,6 +86,21 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         
         // 6. Save activity to event store (event sourcing)
         warehouseActivityRepositoryPort.save(activity);
+
+        // Publish warehouse activity event
+        WarehouseActivityEvent warehouseActivityEvent = new WarehouseActivityEvent(
+            activity.getActivityId(),
+            command.sellerId(),
+            command.warehouseNumber(),
+            WarehouseActivityAction.PAYLOAD_DELIVERED.name().toString(),
+            command.payloadWeight(),
+            command.rawMaterialName(),
+            activity.getPointInTime(),
+            activity.getLicensePlate()
+        );
+
+        log.info("Published warehouse activity event to the invoicing context to update storage volume(adding): {}", warehouseActivityEvent.toString());
+        warehouseActivityEventPublisherPort.publishWarehouseActivityEvent(warehouseActivityEvent);
 
         // 7. Project warehouse activity to update read model
         projectWarehouseActivityUseCase.projectWarehouseActivity(activity);

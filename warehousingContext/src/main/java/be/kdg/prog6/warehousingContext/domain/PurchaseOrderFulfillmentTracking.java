@@ -1,5 +1,7 @@
 package be.kdg.prog6.warehousingContext.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,9 +12,11 @@ public class PurchaseOrderFulfillmentTracking {
     private final String purchaseOrderNumber; // Reference to PO in InvoicingContext
     private final String customerNumber;
     private final String customerName;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime orderDate;
     private final double totalValue;
     private FulfillmentStatus status;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime fulfillmentDate;
     private String vesselNumber; // Ship that fulfilled the order
 

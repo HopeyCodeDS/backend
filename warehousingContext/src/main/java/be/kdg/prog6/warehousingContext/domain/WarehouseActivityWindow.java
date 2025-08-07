@@ -22,9 +22,8 @@ public class WarehouseActivityWindow {
         return activities.stream()
             .mapToDouble(activity -> {
                 switch (activity.getAction()) {
-                    case MATERIAL_DELIVERED: return activity.getAmount();
-                    case MATERIAL_SHIPPED: return -activity.getAmount();
-                    case CAPACITY_ADJUSTMENT: return activity.getAmount();
+                    case PAYLOAD_DELIVERED: return activity.getAmount();
+                    case LOADING_VESSEL: return -activity.getAmount();
                     default: return 0.0;
                 }
             })

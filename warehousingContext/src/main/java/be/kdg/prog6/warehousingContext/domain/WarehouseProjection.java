@@ -29,12 +29,10 @@ public class WarehouseProjection {
     // Domain logic
     public void applyActivity(WarehouseActivity activity) {
         switch (activity.getAction()) {
-            case MATERIAL_DELIVERED -> 
+            case PAYLOAD_DELIVERED -> 
                 this.currentCapacity += activity.getAmount();
-            case LOADING_VESSEL, MATERIAL_SHIPPED -> 
+            case LOADING_VESSEL -> 
                 this.currentCapacity -= activity.getAmount();
-            case CAPACITY_ADJUSTMENT -> 
-                this.currentCapacity += activity.getAmount();
         }
         
         // Ensure capacity doesn't go negative

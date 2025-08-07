@@ -1,6 +1,7 @@
 package be.kdg.prog6.warehousingContext.core;
 
 import be.kdg.prog6.common.events.ShipLoadedEvent;
+import be.kdg.prog6.common.events.WarehouseActivityEvent;
 import be.kdg.prog6.warehousingContext.domain.OldestStockAllocationStrategy;
 import be.kdg.prog6.warehousingContext.domain.PurchaseOrderFulfillmentTracking;
 import be.kdg.prog6.warehousingContext.domain.PayloadDeliveryTicket;
@@ -14,6 +15,7 @@ import be.kdg.prog6.warehousingContext.ports.out.PDTRepositoryPort;
 import be.kdg.prog6.warehousingContext.ports.out.PurchaseOrderFulfillmentRepositoryPort;
 import be.kdg.prog6.warehousingContext.ports.out.PurchaseOrderMaterialRequirementRepositoryPort;
 import be.kdg.prog6.warehousingContext.ports.out.ShipLoadedEventPublisherPort;
+import be.kdg.prog6.warehousingContext.ports.out.WarehouseActivityEventPublisherPort;
 import be.kdg.prog6.warehousingContext.ports.out.WarehouseActivityRepositoryPort;
 import be.kdg.prog6.warehousingContext.ports.out.WarehouseRepositoryPort;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,7 @@ public class AllocateOldestStockUseCaseImpl implements AllocateOldestStockUseCas
     private final WarehouseActivityRepositoryPort warehouseActivityRepositoryPort;
     private final ProjectWarehouseActivityUseCase projectWarehouseActivityUseCase;
     private final ShipLoadedEventPublisherPort shipLoadedEventPublisherPort;
+    private final WarehouseActivityEventPublisherPort warehouseActivityEventPublisherPort;
 
     @Override
     public List<PayloadDeliveryTicket> allocateOldestStockForLoading(String rawMaterialName, double requiredAmount) {
@@ -171,17 +174,32 @@ public class AllocateOldestStockUseCaseImpl implements AllocateOldestStockUseCas
                         
                         WarehouseActivity activity = new WarehouseActivity(
                             warehouse.getWarehouseId(),
-                            deductionAmount, // Use actual deduction amount instead of full PDT weight
+                            deductionAmount,
                             WarehouseActivityAction.LOADING_VESSEL,
                             pdt.getDeliveryTime(),
                             pdt.getRawMaterialName(),
-                            vesselNumber, // Use vessel from fulfillment tracking
+                            vesselNumber, // I am using the vessel from fulfillment tracking
                             String.format("Material loaded for shipping order %s (PO: %s) with vessel %s. Deducted %.2f tons from PDT %s", 
                                 shippingOrderId, purchaseOrderReference, vesselNumber, deductionAmount, pdt.getPdtId())
                         );
                         
                         // Save activity to event store
                         warehouseActivityRepositoryPort.save(activity);
+
+                        // Publish warehouse activity event
+                        WarehouseActivityEvent warehouseActivityEvent = new WarehouseActivityEvent(
+                            activity.getActivityId(),
+                            pdt.getSellerId(),
+                            pdt.getWarehouseNumber(),
+                            WarehouseActivityAction.LOADING_VESSEL.name().toString(),
+                            deductionAmount,
+                            pdt.getRawMaterialName(),
+                            pdt.getDeliveryTime(),
+                            vesselNumber
+                        );
+
+                        log.info("Published warehouse activity event to the invoicing context to update storage volume(subtracting): {}", warehouseActivityEvent.toString());
+                        warehouseActivityEventPublisherPort.publishWarehouseActivityEvent(warehouseActivityEvent);
                         
                         // Project activity to update read model
                         projectWarehouseActivityUseCase.projectWarehouseActivity(activity);

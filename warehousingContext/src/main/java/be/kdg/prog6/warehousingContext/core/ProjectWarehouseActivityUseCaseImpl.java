@@ -113,8 +113,8 @@ public class ProjectWarehouseActivityUseCaseImpl implements ProjectWarehouseActi
             Warehouse warehouse = warehouseOpt.get();
             
             switch (activity.getAction()) {
-                case MATERIAL_DELIVERED -> warehouse.addCapacity(activity.getAmount());
-                case LOADING_VESSEL, MATERIAL_SHIPPED -> warehouse.addCapacity(-activity.getAmount());
+                case PAYLOAD_DELIVERED -> warehouse.addCapacity(activity.getAmount());
+                case LOADING_VESSEL -> warehouse.addCapacity(-activity.getAmount());
                 default -> throw new IllegalArgumentException("Unexpected value: " + activity.getAction());
             }
             

@@ -1,5 +1,7 @@
 package be.kdg.prog6.warehousingContext.domain.commands;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +12,7 @@ public class TrackPurchaseOrderFulfillmentCommand {
     private final String customerNumber;
     private final String customerName;
     private final double totalValue;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime orderDate;
     private final List<OrderLine> orderLines;
 
