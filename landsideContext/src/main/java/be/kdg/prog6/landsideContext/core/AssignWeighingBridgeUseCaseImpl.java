@@ -71,7 +71,7 @@ public class AssignWeighingBridgeUseCaseImpl implements AssignWeighingBridgeUseC
             log.info("Found available bridge: {}", availableBridge.getBridgeNumber());
 
             // Assign the available bridge to truck movement first
-            truckMovement.assignWeighingBridge(availableBridge.getBridgeNumber());
+            truckMovement.assignWeighingBridge(availableBridge.getBridgeNumber(), command.getAssignmentTime());
             log.info("Assigned bridge {} to truck movement", availableBridge.getBridgeNumber());
 
             // Save the updated truck movement

@@ -14,15 +14,12 @@ public class GateControlAdapter implements GateControlPort {
     public void openGate() {
         log.info("🚪 Opening gate for recognized truck");
         isGateOpen = true;
-        // In a real implementation, this would send a signal to the physical gate
-        // For now, we just log the action
     }
     
     @Override
     public void closeGate() {
         log.info("🚪 Closing gate");
         isGateOpen = false;
-        // In a real implementation, this would send a signal to the physical gate
     }
     
     @Override
