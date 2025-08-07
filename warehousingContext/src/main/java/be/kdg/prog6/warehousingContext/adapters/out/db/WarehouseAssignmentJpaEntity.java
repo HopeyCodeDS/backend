@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "warehouse_assignments", schema = "warehousing")
+@Table(catalog = "warehousing", name = "warehouse_assignments")
 public class WarehouseAssignmentJpaEntity {
     
     @Id

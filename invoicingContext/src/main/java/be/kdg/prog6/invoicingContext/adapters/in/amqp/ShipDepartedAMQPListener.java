@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 import be.kdg.prog6.invoicingContext.ports.out.PurchaseOrderRepositoryPort;
-// import be.kdg.prog6.invoicingContext.core.CommissionCalculationUseCase;
+import be.kdg.prog6.invoicingContext.ports.in.CommissionCalculationUseCase;
+import be.kdg.prog6.invoicingContext.domain.commands.CalculateCommissionCommand;
 import be.kdg.prog6.invoicingContext.domain.PurchaseOrder;
 import be.kdg.prog6.common.events.ShipDepartedEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ShipDepartedAMQPListener {
     
     private final PurchaseOrderRepositoryPort purchaseOrderRepositoryPort;
-    // private final CommissionCalculationUseCase commissionCalculationUseCase;
+    private final CommissionCalculationUseCase commissionCalculationUseCase;
     private final ObjectMapper objectMapper;
 
     // This method is called when a ship departed event is received
@@ -50,8 +51,15 @@ public class ShipDepartedAMQPListener {
                 purchaseOrderRepositoryPort.save(po);
 
                 log.info("Purchase order {} marked as fulfilled in the invoicing context.", po.getPurchaseOrderNumber());
-                // Calculate commission fee
-                // commissionCalculationUseCase.calculateCommissionForFulfilledOrder(po);
+                
+                // Calculate commission fee (US-22) - This will now publish an event
+                CalculateCommissionCommand command = new CalculateCommissionCommand(
+                    po.getPurchaseOrderNumber(),
+                    po.getCustomerNumber(),
+                    po.getSellerId(),
+                    po.getTotalValue()
+                );
+                commissionCalculationUseCase.calculateCommissionForFulfilledOrder(command);
             }
         
         } catch (Exception e) {

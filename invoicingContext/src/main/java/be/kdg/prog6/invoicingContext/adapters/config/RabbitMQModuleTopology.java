@@ -11,6 +11,11 @@ public class RabbitMQModuleTopology {
     public static final String PURCHASE_ORDER_SUBMITTED_LANDSIDE_QUEUE = "purchase-order.submitted.landside";
     public static final String PURCHASE_ORDER_SUBMITTED_WAREHOUSING_QUEUE = "purchase-order.submitted.warehousing";
     public static final String PURCHASE_ORDER_SUBMITTED_WATERSIDE_QUEUE = "purchase-order.submitted.waterside";
+
+    // constants for commission fee events
+    public static final String INVOICING_EVENTS_FAN_OUT = "invoicing-events";
+    public static final String COMMISSION_FEE_CALCULATED_QUEUE = "commission.fee.calculated.queue";
+    
     
     @Bean
     FanoutExchange purchaseOrderSubmittedFanOutExchange() {
@@ -48,5 +53,21 @@ public class RabbitMQModuleTopology {
     Binding purchaseOrderSubmittedWatersideBinding(FanoutExchange purchaseOrderSubmittedFanOutExchange, Queue purchaseOrderSubmittedWatersideQueue) {
         return BindingBuilder.bind(purchaseOrderSubmittedWatersideQueue)
                 .to(purchaseOrderSubmittedFanOutExchange);
+    }
+
+    @Bean
+    FanoutExchange invoicingEventsFanOutExchange() {
+        return new FanoutExchange(INVOICING_EVENTS_FAN_OUT);
+    }
+    
+    @Bean
+    Queue commissionFeeCalculatedQueue() {
+        return new Queue(COMMISSION_FEE_CALCULATED_QUEUE);
+    }
+    
+    @Bean
+    Binding commissionFeeCalculatedBinding(FanoutExchange invoicingEventsFanOutExchange, Queue commissionFeeCalculatedQueue) {
+        return BindingBuilder.bind(commissionFeeCalculatedQueue)
+                .to(invoicingEventsFanOutExchange);
     }
 } 
