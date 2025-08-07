@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
+import java.util.List;
+import java.util.stream.Collectors;
+    
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -39,14 +41,23 @@ public class WarehousingPurchaseOrderSubmittedAMQPListener {
                     event.purchaseOrderNumber(), 
                     event.customerName(),
                     eventMessage.getEventHeader().getEventType());
+
+            // Convert order lines to command format
+            List<TrackPurchaseOrderFulfillmentCommand.OrderLine> orderLines = event.orderLines().stream()
+                    .map(line -> new TrackPurchaseOrderFulfillmentCommand.OrderLine(
+                            line.rawMaterialName(),
+                            line.amountInTons(),
+                            line.pricePerTon()))
+                    .collect(Collectors.toList());
             
-            // Track the PO for fulfillment monitoring
+            // Track the PO for fulfillment monitoring with orderlines
             TrackPurchaseOrderFulfillmentCommand command = new TrackPurchaseOrderFulfillmentCommand(
                 event.purchaseOrderNumber(),
                 event.customerNumber(),
                 event.customerName(),
                 event.totalValue(),
-                event.submittedAt()
+                event.submittedAt(),
+                orderLines
             );
             
             trackPurchaseOrderFulfillmentUseCase.trackNewPurchaseOrder(command);
@@ -75,5 +86,10 @@ public class WarehousingPurchaseOrderSubmittedAMQPListener {
         
         log.info("Planning warehousing for PO: {} - Total materials needed: {} tons", 
                 event.purchaseOrderNumber(), totalMaterialsNeeded);
+
+        // Log detailed material requirements
+        event.orderLines().forEach(line -> 
+            log.info("Material requirement for PO {}: {} tons of {} at ${}/ton", 
+                event.purchaseOrderNumber(), line.amountInTons(), line.rawMaterialName(), line.pricePerTon()));
     }
 } 

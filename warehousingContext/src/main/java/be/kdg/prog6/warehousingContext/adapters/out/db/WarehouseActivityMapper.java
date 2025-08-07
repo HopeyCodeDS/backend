@@ -24,6 +24,7 @@ public class WarehouseActivityMapper {
             entity.getWarehouseId(),
             entity.getAmount(),
             entity.getAction(),
+            entity.getPointInTime(),
             entity.getMaterialType(),
             entity.getLicensePlate(),
             entity.getDescription()

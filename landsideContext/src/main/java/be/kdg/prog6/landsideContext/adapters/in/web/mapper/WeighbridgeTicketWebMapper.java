@@ -13,7 +13,8 @@ public class WeighbridgeTicketWebMapper {
         return new GenerateWeighbridgeTicketCommand(
             dto.licensePlate(),
             dto.grossWeight(),
-            dto.tareWeight()
+            dto.tareWeight(),
+            dto.weighingTime()
         );
     }
     
@@ -24,7 +25,7 @@ public class WeighbridgeTicketWebMapper {
             ticket.getGrossWeight(),
             ticket.getTareWeight(),
             ticket.getNetWeight(),
-            ticket.getFormattedWeighingTime()
+            ticket.getWeighingTime()
         );
     }
 } 

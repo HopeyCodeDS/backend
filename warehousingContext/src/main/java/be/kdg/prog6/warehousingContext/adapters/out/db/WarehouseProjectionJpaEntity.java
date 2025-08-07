@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Entity
-@Table(name = "warehouse_projections")
+@Table(catalog = "warehousing", name = "warehouse_projections")
 @Data
 public class WarehouseProjectionJpaEntity {
     @Id

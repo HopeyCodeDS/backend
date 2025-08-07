@@ -35,7 +35,8 @@ public class GenerateWeighbridgeTicketUseCaseImpl implements GenerateWeighbridge
         WeighbridgeTicket ticket = new WeighbridgeTicket(
             command.licensePlate(),
             command.grossWeight(),
-            command.tareWeight()
+            command.tareWeight(),
+            command.weighingTime()
         );
         
         // Validate ticket
