@@ -11,8 +11,17 @@ public class InspectionOperation {
     private InspectionStatus status;
 
     public InspectionOperation() {
-        this.plannedDate = LocalDateTime.now().plusHours(2); // Planned inspection 2 hours after actual arrival date of the vessel
+        // Default constructor
         this.status = InspectionStatus.PLANNED;
+    }
+
+    public InspectionOperation(LocalDateTime actualArrivalDate) {
+        this.plannedDate = actualArrivalDate.plusHours(2); // Planned inspection 2 hours after actual arrival date of the vessel
+        this.status = InspectionStatus.PLANNED;
+    }
+
+    public void setPlannedDate(LocalDateTime actualArrivalDate) {
+        this.plannedDate = actualArrivalDate.plusHours(2); // Planned inspection 2 hours after actual arrival date of the vessel
     }
 
     public void completeInspection(String inspectorSignature) {
@@ -23,6 +32,10 @@ public class InspectionOperation {
 
     public boolean isCompleted() {
         return status == InspectionStatus.COMPLETED;
+    }
+
+    public String getStatusDescription() {
+        return isCompleted() ? "COMPLETED" : "PENDING";
     }
 
     public enum InspectionStatus {

@@ -1,8 +1,10 @@
 package be.kdg.prog6.watersideContext.core;
 
+import be.kdg.prog6.common.events.PurchaseOrderMatchedWithShippingOrderEvent;
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
 import be.kdg.prog6.watersideContext.domain.commands.MatchShippingOrderWithPurchaseOrderCommand;
 import be.kdg.prog6.watersideContext.ports.in.MatchShippingOrderWithPurchaseOrderUseCase;
+import be.kdg.prog6.watersideContext.ports.out.PurchaseOrderMatchedEventPublisherPort;
 import be.kdg.prog6.watersideContext.ports.out.PurchaseOrderValidationResult;
 import be.kdg.prog6.watersideContext.ports.out.PurchaseOrderValidationPort;
 import be.kdg.prog6.watersideContext.ports.out.ShippingOrderRepositoryPort;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -19,6 +22,7 @@ public class MatchShippingOrderWithPurchaseOrderUseCaseImpl implements MatchShip
     
     private final ShippingOrderRepositoryPort shippingOrderRepositoryPort;
     private final PurchaseOrderValidationPort purchaseOrderValidationPort;
+    private final PurchaseOrderMatchedEventPublisherPort purchaseOrderMatchedEventPublisherPort;
     
     @Override
     public ShippingOrder matchShippingOrderWithPurchaseOrder(MatchShippingOrderWithPurchaseOrderCommand command) {
@@ -57,6 +61,19 @@ public class MatchShippingOrderWithPurchaseOrderUseCaseImpl implements MatchShip
         
         // Save the updated shipping order
         shippingOrderRepositoryPort.save(shippingOrder);
+
+        // Publish event to notify WarehousingContext about the PO-SO matching
+        PurchaseOrderMatchedWithShippingOrderEvent event = new PurchaseOrderMatchedWithShippingOrderEvent(
+            shippingOrder.getPurchaseOrderReference(),
+            shippingOrder.getShippingOrderNumber(),
+            shippingOrder.getVesselNumber(),
+            shippingOrder.getCustomerNumber(),
+            LocalDateTime.now()
+        );
+
+        purchaseOrderMatchedEventPublisherPort.publishPurchaseOrderMatchedEvent(event);
+        log.info("Published PurchaseOrderMatchedWithShippingOrderEvent for PO: {} with vessel: {}", 
+                shippingOrder.getPurchaseOrderReference(), shippingOrder.getVesselNumber());
         
         log.info("Shipping order successfully matched with purchase order: {} by foreman: {}", 
                 command.getShippingOrderId(), command.getForemanSignature());

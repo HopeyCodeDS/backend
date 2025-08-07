@@ -31,7 +31,7 @@ public class TruckArrivedAMQPPublisher implements TruckArrivedPort {
 
     @Override
     public void truckArrived(Appointment appointment) {
-        log.info("Publishing event that truck has arrived");
+        log.info("Publishing event that truck with license plate {} has arrived", appointment.getTruck().getLicensePlate().getValue());
         
         var eventHeader = EventHeader.builder()
                 .eventID(UUID.randomUUID())

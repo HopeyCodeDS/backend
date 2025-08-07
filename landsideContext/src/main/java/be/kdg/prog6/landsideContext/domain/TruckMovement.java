@@ -24,14 +24,14 @@ public class TruckMovement {
         this.exitWeighbridgeNumber = null;
     }
     
-    public void assignWeighingBridge(String bridgeNumber) {
+    public void assignWeighingBridge(String bridgeNumber, LocalDateTime bridgeAssignmentTime) {
         if (currentLocation != TruckLocation.GATE) {
             throw new IllegalStateException("Truck must be at gate to assign weighing bridge");
         }
         
         this.assignedBridgeNumber = bridgeNumber;
         this.currentLocation = TruckLocation.WEIGHING_BRIDGE;
-        this.bridgeAssignmentTime = LocalDateTime.now();
+        this.bridgeAssignmentTime = bridgeAssignmentTime;
     }
     
     public void enterWeighingBridge() {

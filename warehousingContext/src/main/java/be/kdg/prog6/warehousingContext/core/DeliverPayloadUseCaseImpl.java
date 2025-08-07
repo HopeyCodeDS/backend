@@ -39,6 +39,14 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     public PayloadDeliveryTicket deliverPayload(DeliverPayloadCommand command) {
         log.info("Starting payload delivery for truck: {} with {} tons of {}", 
             command.licensePlate(), command.payloadWeight(), command.rawMaterialName());
+        System.out.println("=== MATERIAL DELIVERY OPERATION START ===");
+        System.out.printf("Truck License Plate: %s\n", command.licensePlate());
+        System.out.printf("Payload Weight: %s tons\n", command.payloadWeight());
+        System.out.printf("Raw Material: %s\n", command.rawMaterialName());
+        System.out.printf("Warehouse Number: %s\n", command.warehouseNumber());
+        System.out.printf("Seller ID: %s\n", command.sellerId());
+        System.out.printf("Delivery Time: %s\n", command.deliveryTime());
+
 
         // 1. Validate command
         validateCommand(command);
@@ -64,6 +72,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
             warehouseId,
             command.payloadWeight(),
             WarehouseActivityAction.MATERIAL_DELIVERED,
+            command.deliveryTime(),
             command.rawMaterialName(),
             command.licensePlate(),
             String.format("Material delivered by truck %s", command.licensePlate())
@@ -104,6 +113,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         
         log.info("Payload delivery ticket generated: {} for truck: {}", 
                 savedPdt.getPdtId(), command.licensePlate());
+        log.info("=== MATERIAL DELIVERY OPERATION COMPLETE ===");
 
         return savedPdt;
     }
