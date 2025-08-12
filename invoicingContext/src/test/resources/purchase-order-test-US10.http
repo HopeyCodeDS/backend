@@ -8,7 +8,7 @@ Content-Type: application/json
   "customerName": "Steel Manufacturing Co.",
   "sellerId": "seller-001",
   "sellerName": "De klant van KDG",
-  "orderDate": "04/09/2025 08:00",
+  "orderDate": "01/09/2025 08:00",
   "orderLines": [
     {
       "lineNumber": 1,
@@ -62,11 +62,11 @@ Content-Type: application/json
   "customerName": "Cement Industries Ltd.",
   "sellerId": "seller-001",
   "sellerName": "De klant van KDG",
-  "orderDate": "04/09/2025 08:00",
+  "orderDate": "01/09/2025 08:00",
   "orderLines": [
     {
       "lineNumber": 1,
-      "rawMaterialName": "Iron Ore",
+      "rawMaterialName": "Iron_Ore",
       "amountInTons": 14,
       "pricePerTon": 110.0
     },
@@ -95,7 +95,7 @@ Content-Type: application/json
   "customerName": "Construction Materials Corp.",
   "sellerId": "seller-001",
   "sellerName": "De klant van KDG",
-  "orderDate": "04/09/2025 08:00",
+  "orderDate": "01/09/2025 08:00",
   "orderLines": [
     {
       "lineNumber": 1,
@@ -105,7 +105,7 @@ Content-Type: application/json
     },
     {
       "lineNumber": 2,
-      "rawMaterialName": "Iron Ore",
+      "rawMaterialName": "Iron_Ore",
       "amountInTons": 18,
       "pricePerTon": 110.0
     },
@@ -128,11 +128,11 @@ Content-Type: application/json
   "customerName": "Mining Solutions Inc.",
   "sellerId": "seller-001",
   "sellerName": "De klant van KDG",
-  "orderDate": "04/09/2025 08:00",
+  "orderDate": "01/09/2025 08:00",
   "orderLines": [
     {
       "lineNumber": 1,
-      "rawMaterialName": "Iron Ore",
+      "rawMaterialName": "Iron_Ore",
       "amountInTons": 50,
       "pricePerTon": 110.0
     }
@@ -149,7 +149,7 @@ Content-Type: application/json
   "customerName": "Global Trading Partners",
   "sellerId": "seller-001",
   "sellerName": "De klant van KDG",
-  "orderDate": "04/09/2025 08:00",
+  "orderDate": "01/09/2025 08:00",
   "orderLines": [
     {
       "lineNumber": 1,
@@ -165,7 +165,7 @@ Content-Type: application/json
     },
     {
       "lineNumber": 3,
-      "rawMaterialName": "Iron Ore",
+      "rawMaterialName": "Iron_Ore",
       "amountInTons": 22,
       "pricePerTon": 110.0
     },

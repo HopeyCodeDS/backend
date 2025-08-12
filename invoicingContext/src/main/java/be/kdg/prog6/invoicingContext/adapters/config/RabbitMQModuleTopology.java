@@ -92,6 +92,10 @@ public class RabbitMQModuleTopology {
     }
 
     @Bean
+    FanoutExchange shipLoadedFanOutExchange() {
+        return new FanoutExchange("ship.loaded");
+    }
+    @Bean
     Queue shipLoadedQueue() {
         return new Queue(SHIP_LOADED_QUEUE);
     }

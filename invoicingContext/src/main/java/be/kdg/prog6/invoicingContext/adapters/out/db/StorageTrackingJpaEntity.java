@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.time.LocalDate;
+import java.math.BigDecimal;
 
 @Entity
 @Table(catalog = "invoicing", name = "storage_tracking")
@@ -36,4 +38,16 @@ public class StorageTrackingJpaEntity {
     
     @Column(name = "pdt_id", nullable = false)
     private UUID pdtId;
+    
+    @Column(name = "storage_cost_calculation_date")
+    private LocalDate storageCostCalculationDate;
+    
+    @Column(name = "number_of_days")
+    private Long numberOfDays;
+    
+    @Column(name = "cost_in_dollars", precision = 10, scale = 2)
+    private BigDecimal costInDollars;
+
+    @Column(name = "storage_cost", precision = 10, scale = 2)
+    private BigDecimal storageCost;
 } 

@@ -10,14 +10,13 @@ public class AppointmentMapper {
         AppointmentJpaEntity jpaEntity = new AppointmentJpaEntity();
         jpaEntity.setAppointmentId(appointment.getAppointmentId());
         jpaEntity.setSellerId(appointment.getSellerId());
-        jpaEntity.setCreatedAt(appointment.getCreatedAt());
         jpaEntity.setArrivalWindowStart(appointment.getArrivalWindow().getStartTime());
         jpaEntity.setArrivalWindowEnd(appointment.getArrivalWindow().getEndTime());
         jpaEntity.setRawMaterialName(appointment.getRawMaterial().getName());
         jpaEntity.setRawMaterialPricePerTon(appointment.getRawMaterial().getPricePerTon());
         jpaEntity.setRawMaterialStoragePricePerTonPerDay(appointment.getRawMaterial().getStoragePricePerTonPerDay());
         jpaEntity.setStatus(appointment.getStatus());
-        jpaEntity.setActualArrivalTime(appointment.getActualArrivalTime());
+        jpaEntity.setScheduledTime(appointment.getScheduledTime());
         
         // Map truck
         TruckJpaEntity truckJpaEntity = new TruckJpaEntity();
@@ -51,12 +50,13 @@ public class AppointmentMapper {
             jpaEntity.getSellerId(),
             truck,
             rawMaterial,
-            arrivalWindow
+            arrivalWindow,
+            jpaEntity.getScheduledTime()
         );
         
         // Set status and arrival time
         appointment.setStatus(jpaEntity.getStatus());
-        appointment.setActualArrivalTime(jpaEntity.getActualArrivalTime());
+        appointment.setScheduledTime(jpaEntity.getScheduledTime());
         
         return appointment;
     }

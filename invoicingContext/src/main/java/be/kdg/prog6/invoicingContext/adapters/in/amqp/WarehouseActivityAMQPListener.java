@@ -50,20 +50,9 @@ public class WarehouseActivityAMQPListener {
     }
 
     private void handlePayloadDelivered(WarehouseActivityEvent event) {
-        // Create storage tracking record for new delivery
-        StorageTracking storageTracking = new StorageTracking(
-            event.warehouseNumber(),
-            event.customerNumber(),
-            event.materialType(),
-            event.amount(),
-            event.deliveryTime(),
-            event.activityId()
-        );
         
-        storageTrackingRepositoryPort.save(storageTracking);
-        
-        log.info("Created storage tracking for new delivery: {} tons of {} in warehouse: {}", 
-            event.amount(), event.materialType(), event.warehouseNumber());
+        log.info("Received payload delivered event: {} tons of {} in warehouse: {} - StorageTracking already created by PDT listener", 
+        event.amount(), event.materialType(), event.warehouseNumber());
     }
 
     private void handleLoadingVessel(WarehouseActivityEvent event) {
@@ -82,10 +71,15 @@ public class WarehouseActivityAMQPListener {
             
             if (record.hasRemainingTons()) {
                 double tonsToDeduct = Math.min(remainingToDeduct, record.getRemainingTons());
+
+                // update existing record instead of creating new ones
                 record.deductTons(tonsToDeduct);
-                remainingToDeduct -= tonsToDeduct;
+
                 
+                // Save the updated record
                 storageTrackingRepositoryPort.save(record);
+                
+                remainingToDeduct -= tonsToDeduct;
                 
                 log.info("FIFO deduction: {} tons from PDT {} ({} tons remaining)", 
                     tonsToDeduct, record.getPdtId(), record.getRemainingTons());
@@ -97,4 +91,4 @@ public class WarehouseActivityAMQPListener {
                 remainingToDeduct, warehouseNumber, materialType);
         }
     }
-} 
+}

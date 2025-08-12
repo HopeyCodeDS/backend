@@ -37,7 +37,13 @@ public class InvoicingPDTGeneratedAMQPListener {
             log.info("Received PDT generated event in invoicing context: {} for warehouse: {} with {} tons of {}", 
                 event.pdtId(), event.warehouseNumber(), event.payloadWeight(), event.rawMaterialName());
             
-            // Create storage tracking record
+            // Check if storage tracking already exists for this PDT
+            if (storageTrackingRepositoryPort.existsByPdtId(event.pdtId())) {
+                log.info("Storage tracking already exists for PDT: {}, skipping creation", event.pdtId());
+                return;
+            }
+            
+                // Create storage tracking record
             StorageTracking storageTracking = new StorageTracking(
                 event.warehouseNumber(),
                 event.sellerId(), // This is the customer number for invoicing

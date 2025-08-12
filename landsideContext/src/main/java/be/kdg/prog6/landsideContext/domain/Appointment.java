@@ -1,5 +1,6 @@
 package be.kdg.prog6.landsideContext.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
@@ -14,30 +15,28 @@ public class Appointment {
     private final Truck truck;
     private final RawMaterial rawMaterial;
     private final ArrivalWindow arrivalWindow;
-    private final LocalDateTime createdAt;
     private AppointmentStatus status;
-    private LocalDateTime actualArrivalTime; // Add this field
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime scheduledTime;
     
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     
     public Appointment(UUID appointmentId, String sellerId, Truck truck, 
-                      RawMaterial rawMaterial, ArrivalWindow arrivalWindow) {
+                      RawMaterial rawMaterial, ArrivalWindow arrivalWindow, LocalDateTime scheduledTime) {
         this.appointmentId = appointmentId;
         this.sellerId = sellerId;
         this.truck = truck;
         this.rawMaterial = rawMaterial;
         this.arrivalWindow = arrivalWindow;
-        this.createdAt = LocalDateTime.now();
         this.status = AppointmentStatus.SCHEDULED;
-        this.actualArrivalTime = null; // Initially null
+        this.scheduledTime = scheduledTime; 
     }
     
-    public void markAsArrived(LocalDateTime actualArrivalTime) {
+    public void markAsArrived(LocalDateTime scheduledTime) {
         if (status != AppointmentStatus.SCHEDULED) {
             throw new IllegalStateException("Appointment must be in SCHEDULED status to mark as arrived");
         }
         this.status = AppointmentStatus.ARRIVED;
-        this.actualArrivalTime = actualArrivalTime; // Store the real arrival time
+        this.scheduledTime = scheduledTime; 
     }
     
     public void cancel() {
@@ -56,21 +55,17 @@ public class Appointment {
     }
     
     public boolean isOnTime() {
-        if (actualArrivalTime == null) {
+        if (scheduledTime == null) {
             return false;
         }
-        return arrivalWindow.isWithinWindow(actualArrivalTime);
-    }
-    
-    public String getFormattedCreatedAt() {
-        return createdAt.format(DATE_TIME_FORMATTER);
+        return arrivalWindow.isWithinWindow(scheduledTime);
     }
     
     public String getFormattedArrivalWindow() {
         return arrivalWindow.getFormattedStartTime() + " - " + arrivalWindow.getFormattedEndTime();
     }
     
-    public String getFormattedActualArrivalTime() {
-        return actualArrivalTime != null ? actualArrivalTime.format(DATE_TIME_FORMATTER) : "Not arrived";
+    public String getFormattedScheduledTime() {
+        return scheduledTime != null ? scheduledTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "Not arrived";
     }
 } 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -49,5 +50,10 @@ public class StorageTrackingDatabaseAdapter implements StorageTrackingRepository
     public Map<String, List<StorageTracking>> findAllGroupedByWarehouseAndMaterial() {
         List<StorageTrackingJpaEntity> entities = jpaRepository.findAllOrderedByWarehouseAndMaterial();
         return mapper.groupByWarehouseAndMaterial(entities);
+    }
+
+    @Override
+    public boolean existsByPdtId(UUID pdtId) {
+        return jpaRepository.existsByPdtId(pdtId);
     }
 } 

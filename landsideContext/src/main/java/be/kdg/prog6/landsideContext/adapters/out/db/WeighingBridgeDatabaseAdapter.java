@@ -41,7 +41,7 @@ public class WeighingBridgeDatabaseAdapter implements WeighingBridgeRepositoryPo
     @Override
     @Transactional
     public void save(WeighingBridge weighingBridge) {
-        // Weighing bridges are pre-populated, so we should only update existing ones
+        // Weighing bridges are pre-populated, so I will only update existing ones
         Optional<WeighingBridgeJpaEntity> existingEntity = 
             weighingBridgeJpaRepository.findByBridgeNumber(weighingBridge.getBridgeNumber());
         

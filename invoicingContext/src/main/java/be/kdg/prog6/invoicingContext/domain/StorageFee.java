@@ -1,33 +1,29 @@
 package be.kdg.prog6.invoicingContext.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
 public class StorageFee {
     private final UUID storageFeeId;
-    private final String warehouseNumber;
-    private final String customerNumber;
-    private final String materialType;
-    private final double totalTonsStored;
-    private final double feeAmount;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDate calculationDate;
-    private final LocalDateTime createdAt;
-    private final int numberOfPDTs; // Number of PDTs contributing to this fee
+    private final String warehouseNumber;
+    private final String materialType;
+    private final String sellerId;
+    private final double totalDailyFee;
+    private final int totalDeliveryBatches;
     
-    public StorageFee(String warehouseNumber, String customerNumber, String materialType,
-                     double totalTonsStored, double feeAmount, LocalDate calculationDate, 
-                     LocalDateTime createdAt, int numberOfPDTs) {
+    public StorageFee(LocalDate calculationDate, String warehouseNumber, String materialType, String sellerId,
+                     double totalDailyFee, int totalDeliveryBatches) {
         this.storageFeeId = UUID.randomUUID();
-        this.warehouseNumber = warehouseNumber;
-        this.customerNumber = customerNumber;
-        this.materialType = materialType;
-        this.totalTonsStored = totalTonsStored;
-        this.feeAmount = feeAmount;
         this.calculationDate = calculationDate;
-        this.createdAt = createdAt;
-        this.numberOfPDTs = numberOfPDTs;
+        this.warehouseNumber = warehouseNumber;
+        this.materialType = materialType;
+        this.sellerId = sellerId;
+        this.totalDailyFee = totalDailyFee;
+        this.totalDeliveryBatches = totalDeliveryBatches;
     }
 } 

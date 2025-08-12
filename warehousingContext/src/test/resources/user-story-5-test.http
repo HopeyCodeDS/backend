@@ -13,8 +13,9 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 07:00"
+  "deliveryTime": "28/08/2025 09:00"
 }
+
 
 
 ### Deliver Payload  - truck 2
@@ -27,7 +28,7 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 07:05"
+  "deliveryTime": "28/08/2025 21:00"
 }
 
 
@@ -41,7 +42,7 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 07:10"
+  "deliveryTime": "29/08/2025 09:00"
 }
 
 ### Deliver Payload  - truck 4
@@ -50,11 +51,11 @@ Content-Type: application/json
 
 {
   "licensePlate": "TRK-004",
-  "rawMaterialName": "Iron Ore",
+  "rawMaterialName": "Iron_Ore",
   "warehouseNumber": "Warehouse-02",
   "payloadWeight": 25,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 07:16"
+  "deliveryTime": "29/08/2025 21:00"
 }
 
 ### Deliver Payload  - truck 5
@@ -67,7 +68,7 @@ Content-Type: application/json
   "warehouseNumber": "Warehouse-03",
   "payloadWeight": 23.0,
   "sellerId": "seller-001",
-  "deliveryTime": "31/08/2025 07:20"
+  "deliveryTime": "30/08/2025 09:00"
 } 
 
 ### Retrieve All PDTs
@@ -92,7 +93,7 @@ Content-Type: application/json
 
 {
   "licensePlate": "TRK-007",
-  "rawMaterialName": "Iron Ore",
+  "rawMaterialName": "Iron_Ore",
   "warehouseNumber": "Warehouse-02",
   "payloadWeight": 25.0,
   "sellerId": "seller-002",
@@ -105,7 +106,7 @@ Content-Type: application/json
 
 {
   "licensePlate": "TRK-008",
-  "rawMaterialName": "Iron Ore",
+  "rawMaterialName": "Iron_Ore",
   "warehouseNumber": "Warehouse-02",
   "payloadWeight": 25.0,
   "sellerId": "seller-003",

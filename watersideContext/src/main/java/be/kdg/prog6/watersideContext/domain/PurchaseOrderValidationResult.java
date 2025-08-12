@@ -1,4 +1,4 @@
-package be.kdg.prog6.watersideContext.ports.out;
+package be.kdg.prog6.watersideContext.domain;
 
 import lombok.Getter;
 

@@ -57,7 +57,7 @@ public class AssignWarehouseUseCaseImpl implements AssignWarehouseUseCase {
         // selectedWarehouse.addCapacity(command.truckWeight());
         warehouseRepositoryPort.save(selectedWarehouse);
 
-        // ✅ Save warehouse assignment record
+        // Saving warehouse assignment record
         WarehouseAssignment assignment = new WarehouseAssignment(
             UUID.randomUUID(),
             selectedWarehouse.getWarehouseId(),
@@ -71,7 +71,7 @@ public class AssignWarehouseUseCaseImpl implements AssignWarehouseUseCase {
 
         warehouseAssignmentRepositoryPort.save(assignment);
         log.info("Warehouse assignment saved: {}", assignment);
-        // Publish event to notify Landside Context
+        // Publishing event to notify Landside Context
         warehouseAssignedPort.warehouseAssigned(
             new WarehouseAssigned(
                 selectedWarehouse.getWarehouseId(),

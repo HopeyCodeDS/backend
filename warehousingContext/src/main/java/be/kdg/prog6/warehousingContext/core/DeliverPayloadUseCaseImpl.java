@@ -62,15 +62,15 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         String assignedConveyorBelt = conveyorBeltAssignmentService.assignConveyorBelt(command.rawMaterialName());
         log.info("Assigned conveyor belt: {} for material: {}", assignedConveyorBelt, command.rawMaterialName());
         
-        // 4. Simulate pressure sensor activation and conveyor belt start
+        // 4. Simulating pressure sensor activation and conveyor belt start
         log.info("Pressure sensor activated for conveyor belt: {}", assignedConveyorBelt);
         log.info("Starting conveyor belt: {}", assignedConveyorBelt);
         
 
-        // DEBUG: Log the warehouse ID being used
+        // Log the warehouse ID being used
         log.info("Using warehouse ID: {} for warehouse number: {}", warehouseId, command.warehouseNumber());
 
-        // 5. Create warehouse activity (event sourcing)
+        // 5. Creating warehouse activity (event sourcing)
         WarehouseActivity activity = new WarehouseActivity(
             warehouseId,
             command.payloadWeight(),
@@ -84,7 +84,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         log.info("Created warehouse activity: ID={}, WarehouseID={}, Amount={}, Action={}", 
             activity.getActivityId(), activity.getWarehouseId(), activity.getAmount(), activity.getAction());
         
-        // 6. Save activity to event store (event sourcing)
+        // 6. Saving activity to event store (event sourcing)
         warehouseActivityRepositoryPort.save(activity);
 
         // Publish warehouse activity event
@@ -102,7 +102,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         log.info("Published warehouse activity event to the invoicing context to update storage volume(adding): {}", warehouseActivityEvent.toString());
         warehouseActivityEventPublisherPort.publishWarehouseActivityEvent(warehouseActivityEvent);
 
-        // 7. Project warehouse activity to update read model
+        // 7. Projecting warehouse activity to update read model
         projectWarehouseActivityUseCase.projectWarehouseActivity(activity);
         
         // 8. Generate new weighing bridge number
@@ -126,7 +126,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         // 10. Save PDT
         PayloadDeliveryTicket savedPdt = pdtRepositoryPort.save(pdt);
         
-        // 11. Publish event for other contexts
+        // 11. Publishing event for other contexts
         pdtGeneratedPort.pdtGenerated(savedPdt);
         
         log.info("Payload delivery ticket generated: {} for truck: {}", 
@@ -158,7 +158,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     private UUID findWarehouseId(String warehouseNumber) {
         log.info("Looking up warehouse ID for warehouse number: {}", warehouseNumber);
         
-        // First, let's check if the warehouse exists in the database
+        // First, checking if the warehouse exists in the database
         Optional<Warehouse> warehouseOpt = warehouseRepositoryPort.findByWarehouseNumber(warehouseNumber);
         
         if (warehouseOpt.isEmpty()) {
@@ -180,7 +180,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     private void validateWarehouseCapacity(UUID warehouseId, double payloadWeight, String materialType) {
         log.info("Validating warehouse capacity for warehouse: {}, payload: {} tons", warehouseId, payloadWeight);
         
-        // Get warehouse activity window
+        // Getting warehouse activity window
         List<WarehouseActivity> activities = warehouseActivityRepositoryPort.findByWarehouseId(warehouseId);
         WarehouseActivityWindow activityWindow = new WarehouseActivityWindow();
         activities.forEach(activityWindow::addActivity);
@@ -199,7 +199,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     }
 
     private String generateNewWeighingBridgeNumber() {
-        // Simple logic: generate a new bridge number
+        // Simple logic: generating a new bridge number
         return "WB-" + (int)(Math.random() * 10 + 1);
     }
 } 

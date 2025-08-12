@@ -45,7 +45,7 @@ public class AppointmentScheduledAMQPPublisher implements AppointmentScheduledPo
             appointment.getRawMaterial().getName(),
             appointment.getArrivalWindow().getStartTime(),
             appointment.getArrivalWindow().getEndTime(),
-            appointment.getCreatedAt()
+            appointment.getScheduledTime()
         );
         
         try {
@@ -59,7 +59,6 @@ public class AppointmentScheduledAMQPPublisher implements AppointmentScheduledPo
             );
         } catch (JsonProcessingException e) {
             log.error("Failed to publish appointment scheduled event", e);
-            // Don't fail the main operation if event publishing fails
         }
     }
 } 

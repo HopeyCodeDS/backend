@@ -20,7 +20,7 @@ public class AppointmentMapper {
             requestDto.getSellerId(),
             truck,
             requestDto.getRawMaterialName(),
-            requestDto.getArrivalTime()
+            requestDto.getScheduledTime()
         );
     }
 } 

@@ -51,16 +51,16 @@ public class ShippingOrderJpaMapper {
             entity.getActualArrivalDate()
         );
         
-        // Set foreman validation data if exists (BEFORE setting status)
+        // Setting foreman validation data if exists (before setting status)
         if (entity.getForemanSignature() != null && entity.getValidationDate() != null) {
             domain.setForemanSignature(entity.getForemanSignature());
             domain.setValidationDate(entity.getValidationDate());
         }
         
-        // Set the status from database (AFTER foreman data)
+        // Setting the status from database (after foreman data)
         domain.setStatus(entity.getStatus());
         
-        // Set actual dates (but don't overwrite status if already validated)
+        // Setting actual dates 
         if (entity.getActualArrivalDate() != null) {
             domain.setActualArrivalDate(entity.getActualArrivalDate());
         }
@@ -69,7 +69,7 @@ public class ShippingOrderJpaMapper {
             domain.setActualDepartureDate(entity.getActualDepartureDate());
         }
         
-        // Set operation data
+        // Setting operation data
         if (entity.getInspectionCompletedDate() != null) {
             domain.getInspectionOperation().completeInspection(entity.getInspectorSignature());
         }

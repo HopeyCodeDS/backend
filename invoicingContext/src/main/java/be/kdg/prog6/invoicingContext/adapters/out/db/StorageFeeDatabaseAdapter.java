@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,8 +23,8 @@ public class StorageFeeDatabaseAdapter implements StorageFeeRepositoryPort {
     }
     
     @Override
-    public List<StorageFee> findByCustomerNumber(String customerNumber) {
-        return jpaRepository.findByCustomerNumber(customerNumber)
+    public List<StorageFee> findByCalculationDateBetween(LocalDate startDate, LocalDate endDate) {
+        return jpaRepository.findByCalculationDateBetween(startDate, endDate)
             .stream()
             .map(mapper::toDomain)
             .collect(Collectors.toList());
@@ -38,16 +39,52 @@ public class StorageFeeDatabaseAdapter implements StorageFeeRepositoryPort {
     }
     
     @Override
-    public List<StorageFee> findByWarehouseNumber(String warehouseNumber) {
-        return jpaRepository.findByWarehouseNumber(warehouseNumber)
+    public boolean existsByCalculationDate(LocalDate calculationDate) {
+        return jpaRepository.existsByCalculationDate(calculationDate);
+    }
+    
+    @Override
+    public Optional<StorageFee> findTopByOrderByCalculationDateDesc() {
+        return jpaRepository.findTopByOrderByCalculationDateDesc()
             .stream()
             .map(mapper::toDomain)
-            .collect(Collectors.toList());
+            .findFirst();
     }
     
     @Override
     public List<StorageFee> findAll() {
         return jpaRepository.findAll()
+            .stream()
+            .map(mapper::toDomain)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean existsByCalculationDateAndWarehouseAndMaterial(
+        LocalDate calculationDate, String warehouseNumber, String materialType) {
+        return jpaRepository.existsByCalculationDateAndWarehouseNumberAndMaterialType(
+                calculationDate, warehouseNumber, materialType);
+    }
+
+    @Override
+    public List<StorageFee> findBySellerId(String sellerId) {
+        return jpaRepository.findBySellerId(sellerId)
+            .stream()
+            .map(mapper::toDomain)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StorageFee> findBySellerIdAndCalculationDateBetween(String sellerId, LocalDate startDate, LocalDate endDate) {
+        return jpaRepository.findBySellerIdAndCalculationDateBetween(sellerId, startDate, endDate)
+            .stream()
+            .map(mapper::toDomain)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StorageFee> findBySellerIdAndCalculationDate(String sellerId, LocalDate calculationDate) {
+        return jpaRepository.findBySellerIdAndCalculationDate(sellerId, calculationDate)
             .stream()
             .map(mapper::toDomain)
             .collect(Collectors.toList());

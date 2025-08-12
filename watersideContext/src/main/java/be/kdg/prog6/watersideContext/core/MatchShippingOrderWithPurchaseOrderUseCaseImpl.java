@@ -1,11 +1,11 @@
 package be.kdg.prog6.watersideContext.core;
 
 import be.kdg.prog6.common.events.PurchaseOrderMatchedWithShippingOrderEvent;
+import be.kdg.prog6.watersideContext.domain.PurchaseOrderValidationResult;
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
 import be.kdg.prog6.watersideContext.domain.commands.MatchShippingOrderWithPurchaseOrderCommand;
 import be.kdg.prog6.watersideContext.ports.in.MatchShippingOrderWithPurchaseOrderUseCase;
 import be.kdg.prog6.watersideContext.ports.out.PurchaseOrderMatchedEventPublisherPort;
-import be.kdg.prog6.watersideContext.ports.out.PurchaseOrderValidationResult;
 import be.kdg.prog6.watersideContext.ports.out.PurchaseOrderValidationPort;
 import be.kdg.prog6.watersideContext.ports.out.ShippingOrderRepositoryPort;
 import lombok.RequiredArgsConstructor;

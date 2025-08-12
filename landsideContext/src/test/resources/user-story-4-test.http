@@ -41,7 +41,7 @@ Content-Type: application/json
 {
   "licensePlate": "TRK-004",
   "weight": 25000.0,
-  "rawMaterialName": "Iron Ore"
+  "rawMaterialName": "Iron_Ore"
 }
 
 ### Register truck weight and exit bridge - truck 5

@@ -40,14 +40,4 @@ public class WeighbridgeTicketController {
         // For now, return success with empty list
         return ResponseEntity.ok(List.of());
     }
-    
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> handleValidationError(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-    }
-    
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Map<String, String>> handleBusinessError(IllegalStateException e) {
-        return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-    }
 } 

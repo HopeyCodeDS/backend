@@ -16,4 +16,6 @@ public interface StorageTrackingJpaRepository extends JpaRepository<StorageTrack
     
     @Query("SELECT s FROM StorageTrackingJpaEntity s ORDER BY s.warehouseNumber, s.materialType, s.deliveryTime")
     List<StorageTrackingJpaEntity> findAllOrderedByWarehouseAndMaterial();
+
+    boolean existsByPdtId(UUID pdtId);
 } 

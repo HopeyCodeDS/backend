@@ -1,7 +1,7 @@
 package be.kdg.prog6.watersideContext.adapters.out.invoicing;
 
+import be.kdg.prog6.watersideContext.domain.PurchaseOrderValidationResult;
 import be.kdg.prog6.watersideContext.ports.out.PurchaseOrderValidationPort;
-import be.kdg.prog6.watersideContext.ports.out.PurchaseOrderValidationResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

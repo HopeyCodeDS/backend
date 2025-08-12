@@ -21,7 +21,7 @@ public class ArrivalComplianceData {
         this.sellerId = appointment.getSellerId();
         this.rawMaterial = appointment.getRawMaterial().getName();
         this.scheduledArrivalTime = appointment.getArrivalWindow().getStartTime();
-        this.actualArrivalTime = appointment.getActualArrivalTime(); 
+        this.actualArrivalTime = appointment.getScheduledTime(); 
         this.status = appointment.getStatus().name();
         
         // the domain logic is used to determine if on time

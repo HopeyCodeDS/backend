@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -14,30 +15,27 @@ import java.util.UUID;
 public class StorageFeeJpaEntity {
     
     @Id
-    @Column(name = "storage_fee_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(name = "storage_fee_id", unique = true, nullable = false)
     private UUID storageFeeId;
-    
-    @Column(name = "warehouse_number", nullable = false)
-    private String warehouseNumber;
-    
-    @Column(name = "customer_number", nullable = false)
-    private String customerNumber;
-    
-    @Column(name = "material_type", nullable = false)
-    private String materialType;
-    
-    @Column(name = "total_tons_stored", nullable = false)
-    private double totalTonsStored;
-    
-    @Column(name = "fee_amount", nullable = false)
-    private double feeAmount;
     
     @Column(name = "calculation_date", nullable = false)
     private LocalDate calculationDate;
     
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "warehouse_number", nullable = false)
+    private String warehouseNumber;
     
-    @Column(name = "number_of_pdts", nullable = false)
-    private int numberOfPDTs;
+    @Column(name = "material_type", nullable = false)
+    private String materialType;
+
+    @Column(name = "seller_id", nullable = false)
+    private String sellerId;
+    
+    @Column(name = "total_daily_fee", nullable = false, precision = 10, scale = 2)
+    private BigDecimal totalDailyFee;
+    
+    @Column(name = "total_delivery_batches", nullable = false)
+    private Integer totalDeliveryBatches;
 } 

@@ -14,5 +14,5 @@ public class ScheduleAppointmentRequestDto {
     private String rawMaterialName;
     
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private LocalDateTime arrivalTime;
+    private LocalDateTime scheduledTime;
 }

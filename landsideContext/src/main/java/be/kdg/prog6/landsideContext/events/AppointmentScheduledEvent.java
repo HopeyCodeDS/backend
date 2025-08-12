@@ -12,5 +12,5 @@ public record AppointmentScheduledEvent(
         @JsonProperty("rawMaterialName") String rawMaterialName,
         @JsonProperty("arrivalWindowStart") LocalDateTime arrivalWindowStart,
         @JsonProperty("arrivalWindowEnd") LocalDateTime arrivalWindowEnd,
-        @JsonProperty("createdAt") LocalDateTime createdAt) {
+        @JsonProperty("scheduledTime") LocalDateTime scheduledTime) {
 }

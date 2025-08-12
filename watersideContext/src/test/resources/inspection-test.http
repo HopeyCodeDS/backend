@@ -6,7 +6,7 @@ POST http://localhost:8190/api/waterside/inspections/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "2fcd7c3b-27bc-473e-8ff1-9e0b93b6f22e",
+  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 
@@ -15,7 +15,7 @@ POST http://localhost:8190/api/waterside/inspections/complete
 Content-Type: application/json
 
 {
-  "shippingOrderId": "31fbe5a8-c8a9-4424-8ebe-43fe27231da8",
+  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 

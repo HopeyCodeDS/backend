@@ -10,7 +10,7 @@ public class ConveyorBeltAssignmentService {
     public String assignConveyorBelt(String rawMaterialName) {
         String conveyorBelt = switch (rawMaterialName.toLowerCase()) {
             case "gypsum" -> "Conveyor-1";
-            case "iron ore" -> "Conveyor-2";
+            case "iron_ore" -> "Conveyor-2";
             case "cement" -> "Conveyor-3";
             case "petcoke" -> "Conveyor-4";
             case "slag" -> "Conveyor-5";

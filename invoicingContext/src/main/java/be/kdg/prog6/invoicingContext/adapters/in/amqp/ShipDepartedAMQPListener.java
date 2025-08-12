@@ -52,7 +52,7 @@ public class ShipDepartedAMQPListener {
 
                 log.info("Purchase order {} marked as fulfilled in the invoicing context.", po.getPurchaseOrderNumber());
                 
-                // Calculate commission fee (US-22) - This will now publish an event
+                // Calculate commission fee command
                 CalculateCommissionCommand command = new CalculateCommissionCommand(
                     po.getPurchaseOrderNumber(),
                     po.getCustomerNumber(),

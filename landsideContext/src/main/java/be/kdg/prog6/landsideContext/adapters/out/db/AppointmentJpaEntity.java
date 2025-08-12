@@ -27,9 +27,6 @@ public class AppointmentJpaEntity {
     @JoinColumn(name = "truck_id", nullable = false)
     private TruckJpaEntity truck;
     
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-    
     @Column(name = "arrival_window_start", nullable = false)
     private LocalDateTime arrivalWindowStart;
     
@@ -49,6 +46,6 @@ public class AppointmentJpaEntity {
     @Column(name = "status", nullable = false)
     private AppointmentStatus status;
     
-    @Column(name = "actual_arrival_time")
-    private LocalDateTime actualArrivalTime;
+    @Column(name = "scheduled_time")
+    private LocalDateTime scheduledTime;
 }

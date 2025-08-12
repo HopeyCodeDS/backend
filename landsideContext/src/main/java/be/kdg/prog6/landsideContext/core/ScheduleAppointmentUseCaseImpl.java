@@ -29,7 +29,7 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         
         // Create domain objects
         RawMaterial rawMaterial = RawMaterial.fromName(command.getRawMaterialName());
-        ArrivalWindow arrivalWindow = new ArrivalWindow(command.getArrivalTime());
+        ArrivalWindow arrivalWindow = new ArrivalWindow(command.getScheduledTime());
         
         // Find or create truck
         Truck truck = findOrCreateTruck(command.getTruck());
@@ -46,7 +46,8 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
             command.getSellerId(),
             truck,
             rawMaterial,
-            arrivalWindow
+            arrivalWindow,
+            command.getScheduledTime()
         );
         
         // Save appointment
@@ -95,11 +96,11 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         if (command.getRawMaterialName() == null || command.getRawMaterialName().trim().isEmpty()) {
             throw new IllegalArgumentException("Raw material name is required");
         }
-        if (command.getArrivalTime() == null) {
-            throw new IllegalArgumentException("Arrival time is required");
+        if (command.getScheduledTime() == null) {
+            throw new IllegalArgumentException("Scheduled time is required");
         }
-        if (command.getArrivalTime().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Arrival time cannot be in the past");
+        if (command.getScheduledTime().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Scheduled time cannot be in the past");
         }
     }
     
