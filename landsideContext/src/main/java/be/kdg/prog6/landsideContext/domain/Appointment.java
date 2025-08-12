@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Getter
@@ -59,13 +58,5 @@ public class Appointment {
             return false;
         }
         return arrivalWindow.isWithinWindow(scheduledTime);
-    }
-    
-    public String getFormattedArrivalWindow() {
-        return arrivalWindow.getFormattedStartTime() + " - " + arrivalWindow.getFormattedEndTime();
-    }
-    
-    public String getFormattedScheduledTime() {
-        return scheduledTime != null ? scheduledTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "Not arrived";
     }
 } 
