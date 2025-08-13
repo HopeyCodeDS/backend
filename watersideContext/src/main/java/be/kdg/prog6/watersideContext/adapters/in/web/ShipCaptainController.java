@@ -40,7 +40,7 @@ public class ShipCaptainController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/operations-overview")
+    @GetMapping("/operations-overview")
     @PreAuthorize("hasRole('SHIP_CAPTAIN')") 
     public ResponseEntity<List<ShipCaptainOperationsOverviewDto>> getOperationsOverview() {
         log.info("Ship captain requesting operations overview for all vessels");

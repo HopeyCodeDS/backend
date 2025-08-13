@@ -17,12 +17,12 @@ scope=openid
     client.global.set("warehouse_manager_access_token", response.body.access_token);
 %}
 
-### Get all warehouses
-GET http://localhost:8080/api/warehouses HTTP/1.1
+### Get all warehouses (not coded yet)
+GET http://localhost:8190/api/warehouses HTTP/1.1
 Authorization: Bearer {{warehouse_manager_access_token}}
 
-### Get warehouse inventory
-GET http://localhost:8080/api/warehouses/W01/inventory HTTP/1.1
+### Get warehouse inventory (not coded yet)
+GET http://localhost:8190/api/warehouses/W01/inventory HTTP/1.1
 Authorization: Bearer {{warehouse_manager_access_token}}
 
 ############################################################################################

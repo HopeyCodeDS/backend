@@ -2,22 +2,6 @@
 #         Get access token for waterside context       #
 ########################################################
 
-### Get access token for buyer
-POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-client_id=kdg-waterside&
-client_secret=SuH3n6PQawNJDVtSVeEwvWG6c6i2HFqf&
-username=buyer&
-password=password&
-grant_type=password&
-scope=openid
-
-> {%
-    client.global.set("buyer_access_token", response.body.access_token);
-%}
-
-
 #################################################################################
 ##                 Shipping Order Submission for Ship Captain                  ##
 #################################################################################
@@ -91,7 +75,7 @@ scope=openid
 GET http://localhost:8190/api/waterside/foreman/unmatched-shipping-orders
 Authorization: Bearer {{foreman_access_token}}
 
- ### Get All Shipment Arrivals - User story 16
+### Get All Shipment Arrivals - User story 16
 GET http://localhost:8190/api/waterside/foreman/shipment-arrivals
 Authorization: Bearer {{foreman_access_token}}
 
@@ -102,7 +86,7 @@ Content-Type: application/json
 Authorization: Bearer {{foreman_access_token}}
 
 {
-  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "shippingOrderId": "16e84642-630c-4143-88d6-42823567c0b7",
   "foremanSignature": "Foreman_Michael_Johnson"
 }
 
@@ -112,7 +96,7 @@ Content-Type: application/json
 Authorization: Bearer {{foreman_access_token}}
 
 {
-  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "shippingOrderId": "363dbeff-148f-4593-bf87-85caa11b5c6b",
   "foremanSignature": "Foreman_Michael_Johnson"
 }
 
@@ -145,7 +129,7 @@ Content-Type: application/json
 Authorization: Bearer {{inspector_access_token}}
 
 {
-  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "shippingOrderId": "16e84642-630c-4143-88d6-42823567c0b7",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 
@@ -155,7 +139,7 @@ Content-Type: application/json
 Authorization: Bearer {{inspector_access_token}}
 
 {
-  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "shippingOrderId": "363dbeff-148f-4593-bf87-85caa11b5c6b",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 
@@ -188,7 +172,7 @@ Content-Type: application/json
 Authorization: Bearer {{bunkering_officer_access_token}}
 
 {
-  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "shippingOrderId": "16e84642-630c-4143-88d6-42823567c0b7",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
 
@@ -198,7 +182,7 @@ Content-Type: application/json
 Authorization: Bearer {{bunkering_officer_access_token}}
 
 {
-  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "shippingOrderId": "363dbeff-148f-4593-bf87-85caa11b5c6b",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
 
@@ -224,7 +208,7 @@ scope=openid
 %}
 
 
-## -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
+### -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
 
 ### Post-Loading Storage Fee Calculation (04/09/2025)
 POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-04

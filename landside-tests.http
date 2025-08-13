@@ -192,6 +192,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 ### Assign weighing bridge to truck 1
 POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-001",
@@ -201,6 +202,7 @@ Content-Type: application/json
 ### Assign weighing bridge to truck 2
 POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-002",
@@ -210,6 +212,7 @@ Content-Type: application/json
 ### Assign weighing bridge to truck 3
 POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-003",
@@ -219,6 +222,7 @@ Content-Type: application/json
 ### Assign weighing bridge to truck 4
 POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-004",
@@ -228,6 +232,7 @@ Content-Type: application/json
 ### Assign weighing bridge to truck 5
 POST http://localhost:8190/api/landside/weighing-bridge/assign
 Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-005",
@@ -440,7 +445,7 @@ scope=openid
 %}
 
 
-## -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
+### -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
 
 ### Step 1: Pre-Loading Storage Fee Calculation (04/09/2025)
 POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-03
@@ -454,6 +459,21 @@ Authorization: Bearer {{accountant_access_token}}
 ##   (This validates the exit weighing bridge first before generating the WBT)           ##
 ############################################################################################
 
+### Get access token for truck driver
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-landside&
+client_secret=XIBAKBxVof4CGAIvD55rsYskY7diLGBi&
+username=truck_driver&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("truck_driver_access_token", response.body.access_token);
+    console.log("Token received:", response.body.access_token);
+%}
 
 ### Generate weighbridge ticket - truck 1
 POST http://localhost:8190/api/landside/weighbridge-ticket/generate

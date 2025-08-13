@@ -5,6 +5,7 @@ import be.kdg.prog6.landsideContext.adapters.in.web.mapper.WeighingBridgeMapper;
 import be.kdg.prog6.landsideContext.domain.commands.AssignWeighingBridgeCommand;
 import be.kdg.prog6.landsideContext.ports.in.AssignWeighingBridgeUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public class WeighingBridgeController {
     private final WeighingBridgeMapper weighingBridgeMapper;
     
     @PostMapping("/assign")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<Map<String, Object>> assignWeighingBridge(@RequestBody AssignWeighingBridgeRequestDto requestDto) {
         try {
             AssignWeighingBridgeCommand command = weighingBridgeMapper.toAssignWeighingBridgeCommand(requestDto);
