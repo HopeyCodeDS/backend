@@ -9,6 +9,7 @@ import be.kdg.prog6.watersideContext.ports.in.SubmitShippingOrderUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class ShippingOrderController {
     private final ShippingOrderMapper shippingOrderMapper;
     
     @PostMapping
+    @PreAuthorize("hasRole('SHIP_CAPTAIN')") 
     public ResponseEntity<ShippingOrderResponseDto> submitShippingOrder(@RequestBody SubmitShippingOrderRequestDto requestDto) {
         log.info("Received shipping order submission request: {}", requestDto.getShippingOrderNumber());
         

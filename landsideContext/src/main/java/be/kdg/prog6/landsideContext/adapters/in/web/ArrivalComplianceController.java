@@ -5,6 +5,7 @@ import be.kdg.prog6.landsideContext.ports.in.GetArrivalComplianceUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -19,6 +20,7 @@ public class ArrivalComplianceController {
     private final ArrivalComplianceMapper arrivalComplianceMapper;
     
     @GetMapping
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')") 
     public ResponseEntity<?> getArrivalCompliance() {
         try {
             log.info("Getting arrival compliance data for warehouse manager");

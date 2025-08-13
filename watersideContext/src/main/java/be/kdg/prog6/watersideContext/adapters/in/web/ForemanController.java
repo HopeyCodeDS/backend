@@ -12,6 +12,7 @@ import be.kdg.prog6.watersideContext.ports.in.MatchShippingOrderWithPurchaseOrde
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class ForemanController {
     private final ShippingOrderMapper shippingOrderMapper;
     
     @GetMapping("/unmatched-shipping-orders")
+    @PreAuthorize("hasRole('FOREMAN')") 
     public ResponseEntity<List<UnmatchedShippingOrderDto>> getUnmatchedShippingOrders() {
         log.info("Foreman requesting unmatched shipping orders");
         
@@ -44,6 +46,7 @@ public class ForemanController {
     }
     
     @PostMapping("/match-shipping-order")
+    @PreAuthorize("hasRole('FOREMAN')") 
     public ResponseEntity<UnmatchedShippingOrderDto> matchShippingOrderWithPurchaseOrder(@RequestBody MatchShippingOrderRequestDto requestDto) {
         log.info("Foreman matching shipping order with purchase order: {}", requestDto.getShippingOrderId());
         
@@ -61,6 +64,7 @@ public class ForemanController {
     }
     
     @GetMapping("/shipment-arrivals")
+    @PreAuthorize("hasRole('FOREMAN')") 
     public ResponseEntity<List<ShipmentArrivalDto>> getAllShipmentArrivals() {
         log.info("Foreman requesting all shipment arrivals");
         

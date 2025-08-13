@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,9 @@ public class WarehouseController {
     private final WarehouseOverviewMapper warehouseOverviewMapper;
     private final AllocateOldestStockUseCase allocateOldestStockUseCase;
     private final OldestStockAllocationMapper oldestStockAllocationMapper;
+
     @GetMapping("/overview")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')") 
     public ResponseEntity<WarehouseOverviewDto> getWarehouseOverview() {
         log.info("Getting warehouse overview for warehouse manager");
 
@@ -90,6 +93,7 @@ public class WarehouseController {
     }
 
     @PostMapping("/allocate-oldest-stock")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')") 
     public ResponseEntity<OldestStockAllocationDto> allocateOldestStockForLoading(
             @RequestParam String rawMaterialName, 
             @RequestParam double requiredAmount) {

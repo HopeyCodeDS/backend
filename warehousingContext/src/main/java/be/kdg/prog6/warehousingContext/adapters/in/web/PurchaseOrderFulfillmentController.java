@@ -7,6 +7,7 @@ import be.kdg.prog6.warehousingContext.ports.in.GetPurchaseOrderFulfillmentUseCa
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class PurchaseOrderFulfillmentController {
     private final PurchaseOrderFulfillmentMapper mapper;
 
     @GetMapping("/fulfillment-overview")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<PurchaseOrderFulfillmentOverviewDto> getFulfillmentOverview() {
         log.info("Warehouse manager requesting purchase order fulfillment overview");
         
@@ -37,6 +39,7 @@ public class PurchaseOrderFulfillmentController {
     }
 
     @GetMapping("/fulfilled")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<List<PurchaseOrderFulfillmentDto>> getFulfilledOrders() {
         log.info("Warehouse manager requesting fulfilled orders");
         var orders = getPurchaseOrderFulfillmentUseCase.getFulfilledOrders();
@@ -45,6 +48,7 @@ public class PurchaseOrderFulfillmentController {
     }
 
     @GetMapping("/outstanding")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<List<PurchaseOrderFulfillmentDto>> getOutstandingOrders() {
         log.info("Warehouse manager requesting outstanding orders");
         var orders = getPurchaseOrderFulfillmentUseCase.getOutstandingOrders();

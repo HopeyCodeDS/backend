@@ -1,0 +1,269 @@
+########################################################
+#         Get access token for waterside context       #
+########################################################
+
+### Get access token for buyer
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-waterside&
+client_secret=SuH3n6PQawNJDVtSVeEwvWG6c6i2HFqf&
+username=buyer&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("buyer_access_token", response.body.access_token);
+%}
+
+
+#################################################################################
+##                 Shipping Order Submission for Ship Captain                  ##
+#################################################################################
+
+### Get access token for ship_captain
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-waterside&
+client_secret=SuH3n6PQawNJDVtSVeEwvWG6c6i2HFqf&
+username=ship_captain&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("ship_captain_access_token", response.body.access_token);
+%}
+
+### Submit Shipping Order
+POST http://localhost:8190/api/waterside/shipping-orders
+Content-Type: application/json
+Authorization: Bearer {{ship_captain_access_token}}
+
+{
+  "shippingOrderNumber": "SO-2025-001",
+  "purchaseOrderReference": "PO-2025-001",
+  "vesselNumber": "VESSEL-001",
+  "customerNumber": "CUST-001",
+  "estimatedArrivalDate": "03/09/2025 08:00",
+  "estimatedDepartureDate": "05/09/2025 08:00",
+  "actualArrivalDate": "04/09/2025 10:00"
+}
+
+### Submit Shipping Order 2
+POST http://localhost:8190/api/waterside/shipping-orders
+Content-Type: application/json
+Authorization: Bearer {{ship_captain_access_token}}
+
+{
+  "shippingOrderNumber": "SO-2025-002",
+  "purchaseOrderReference": "PO-2025-002",
+  "vesselNumber": "VESSEL-002",
+  "customerNumber": "CUST-002",
+  "estimatedArrivalDate": "03/09/2025 10:00",
+  "estimatedDepartureDate": "05/09/2025 12:00",
+  "actualArrivalDate": "04/09/2025 10:00"
+}
+
+
+#################################################################################
+##             Shipping Order Matching with Purchase Order by Foreman          ##
+#################################################################################
+
+### Get access token for foreman
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-waterside&
+client_secret=SuH3n6PQawNJDVtSVeEwvWG6c6i2HFqf&
+username=foreman&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("foreman_access_token", response.body.access_token);
+%}
+
+### Get Unmatched Shipping Orders - User story 15
+GET http://localhost:8190/api/waterside/foreman/unmatched-shipping-orders
+Authorization: Bearer {{foreman_access_token}}
+
+ ### Get All Shipment Arrivals - User story 16
+GET http://localhost:8190/api/waterside/foreman/shipment-arrivals
+Authorization: Bearer {{foreman_access_token}}
+
+
+### Match Shipping Order with Purchase Order 1 - MATCHING PO WITH SO
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+Authorization: Bearer {{foreman_access_token}}
+
+{
+  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}
+
+### Match Shipping Order with Purchase Order 2
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+Authorization: Bearer {{foreman_access_token}}
+
+{
+  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}
+
+#######################################################################################
+##                Inspection Operations by Inspector                                ##
+#######################################################################################
+
+### Get access token for inspector
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-waterside&
+client_secret=SuH3n6PQawNJDVtSVeEwvWG6c6i2HFqf&
+username=inspector&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("inspector_access_token", response.body.access_token);
+%}
+
+### Get Outstanding Inspections - User story 13
+GET http://localhost:8190/api/waterside/inspections/outstanding
+Authorization: Bearer {{inspector_access_token}}
+
+### Complete Inspection - Using actual shipping order ID from the application logs
+POST http://localhost:8190/api/waterside/inspections/complete
+Content-Type: application/json
+Authorization: Bearer {{inspector_access_token}}
+
+{
+  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "inspectorSignature": "Inspector_Adrian_Van_Hecke"
+}
+
+### Complete Inspection - Another shipping order
+POST http://localhost:8190/api/waterside/inspections/complete
+Content-Type: application/json
+Authorization: Bearer {{inspector_access_token}}
+
+{
+  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "inspectorSignature": "Inspector_Adrian_Van_Hecke"
+}
+
+#############################################################################################
+##            Bunkering Operations by Bunkering Officer                                    ##
+#############################################################################################
+
+### Get access token for bunkering officer
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-waterside&
+client_secret=SuH3n6PQawNJDVtSVeEwvWG6c6i2HFqf&
+username=bunkering_officer&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("bunkering_officer_access_token", response.body.access_token);
+%}
+
+### Get Outstanding Bunkering Operations - User story 14
+GET http://localhost:8190/api/waterside/bunkering/outstanding
+Authorization: Bearer {{bunkering_officer_access_token}}
+
+### Complete Bunkering for Vessel 1
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+Authorization: Bearer {{bunkering_officer_access_token}}
+
+{
+  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}
+
+### Complete Bunkering for Vessel 2
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+Authorization: Bearer {{bunkering_officer_access_token}}
+
+{
+  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}
+
+
+######################################################################################
+##   Check the storage cost preparation after vessel loading                        ##
+##   (loading happens immediately after the bunkering/inspection operation)         ##
+######################################################################################
+
+### Get access token for accountant
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-invoicing&
+client_secret=sVgfFgtM84CGEopOUJZbbYHNPkHxBiDD&
+username=accountant&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("accountant_access_token", response.body.access_token);
+%}
+
+
+## -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
+
+### Post-Loading Storage Fee Calculation (04/09/2025)
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-04
+Authorization: Bearer {{accountant_access_token}}
+
+
+
+#############################################################################
+##   Port Operations Overview by Ship Captain                              ##
+#############################################################################
+
+### Get access token for ship_captain
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-waterside&
+client_secret=SuH3n6PQawNJDVtSVeEwvWG6c6i2HFqf&
+username=ship_captain&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("ship_captain_access_token", response.body.access_token);
+%}
+
+
+### Get Operations Overview for Vessel 1
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-001
+Authorization: Bearer {{ship_captain_access_token}}
+
+### Get Operations Overview for Vessel 2
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-002
+Authorization: Bearer {{ship_captain_access_token}}
+
+### Get Operations Overview for Vessel 3
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-003
+Authorization: Bearer {{ship_captain_access_token}}
+
+### Get Operations Overview for all vessels
+GET http://localhost:8190/api/waterside/captain/operations-overview
+Authorization: Bearer {{ship_captain_access_token}}

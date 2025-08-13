@@ -9,6 +9,7 @@ import be.kdg.prog6.warehousingContext.ports.out.PDTRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class PayloadDeliveryController {
     private final PDTRepositoryPort pdtRepositoryPort;
 
     @PostMapping("/deliver")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<Map<String, Object>> deliverPayload(@RequestBody DeliverPayloadRequestDto requestDto) {
         try {
             log.info("Received payload delivery request for truck: {}", requestDto.getLicensePlate());
@@ -70,12 +72,14 @@ public class PayloadDeliveryController {
     }
 
     @GetMapping("/pdt")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<List<PayloadDeliveryTicket>> getAllPDTs() {
         List<PayloadDeliveryTicket> pdts = pdtRepositoryPort.findAll();
         return ResponseEntity.ok(pdts);
     }
     
     @GetMapping("/pdt/{licensePlate}")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<Map<String, Object>> getPDTByLicensePlate(@PathVariable String licensePlate) {
         Optional<PayloadDeliveryTicket> pdt = pdtRepositoryPort.findByLicensePlate(licensePlate);
         

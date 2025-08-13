@@ -10,6 +10,7 @@ import be.kdg.prog6.watersideContext.ports.in.GetOutstandingInspectionsUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class InspectionController {
     private final ShippingOrderMapper shippingOrderMapper;
     
     @GetMapping("/outstanding")
+    @PreAuthorize("hasRole('INSPECTOR')")
     public ResponseEntity<List<OutstandingInspectionDto>> getOutstandingInspections() {
         log.info("Inspector requesting outstanding inspections");
         
@@ -41,6 +43,7 @@ public class InspectionController {
     }
     
     @PostMapping("/complete")
+    @PreAuthorize("hasRole('INSPECTOR')")   
     public ResponseEntity<OutstandingInspectionDto> completeInspection(@RequestBody CompleteInspectionRequestDto requestDto) {
         log.info("Inspector completing inspection for shipping order: {}", requestDto.getShippingOrderId());
         

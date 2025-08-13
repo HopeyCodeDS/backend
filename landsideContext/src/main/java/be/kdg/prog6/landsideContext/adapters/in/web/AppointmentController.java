@@ -12,6 +12,7 @@ import be.kdg.prog6.landsideContext.ports.in.GetAllAppointmentsUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class AppointmentController {
     private final AppointmentMapper appointmentMapper;
     
     @PostMapping
+    @PreAuthorize("hasRole('SELLER')") 
     public ResponseEntity<AppointmentResponseDto> scheduleAppointment(
             @RequestBody ScheduleAppointmentRequestDto requestDto) {
         try {
@@ -66,6 +68,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/{appointmentId}")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')") 
     public ResponseEntity<AppointmentResponseDto> getAppointment(@PathVariable UUID appointmentId) {
         try {
             Appointment appointment = getAppointmentUseCase.getAppointment(appointmentId);
@@ -97,6 +100,7 @@ public class AppointmentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')") 
     public ResponseEntity<List<AppointmentResponseDto>> getAllAppointments() {
         try {
             List<Appointment> appointments = getAllAppointmentsUseCase.getAllAppointments();

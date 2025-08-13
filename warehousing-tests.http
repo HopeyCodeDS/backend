@@ -1,0 +1,54 @@
+########################################################
+#         Get access token for warehousing context    #
+########################################################
+
+### Get access token for warehouse manager
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-warehousing&
+client_secret=Bhd1lUuVxc1pU8Kohv0L9HdKeE8w4yFw&
+username=warehouse_manager&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("warehouse_manager_access_token", response.body.access_token);
+%}
+
+### Get all warehouses
+GET http://localhost:8080/api/warehouses HTTP/1.1
+Authorization: Bearer {{warehouse_manager_access_token}}
+
+### Get warehouse inventory
+GET http://localhost:8080/api/warehouses/W01/inventory HTTP/1.1
+Authorization: Bearer {{warehouse_manager_access_token}}
+
+############################################################################################
+##   USER STORY 7: Get Arrival Compliance Data for Warehouse Manager                        ##
+############################################################################################
+
+GET http://localhost:8190/api/landside/arrival-compliance
+Content-Type: application/json
+Authorization: Bearer {{warehouse_manager_access_token}}
+
+
+############################################################################################
+##   USER STORY 8: Get Trucks on Site Count for Warehouse Manager                          ##
+############################################################################################
+
+GET http://localhost:8190/api/landside/trucks/on-site/count
+Content-Type: application/json
+Authorization: Bearer {{warehouse_manager_access_token}}
+
+
+
+############################################################################################
+##   USER STORY 9: Get Warehouse Overview for Warehouse Manager                           ##
+############################################################################################
+
+### Get warehouse overview - For user story 9 and 21
+GET http://localhost:8190/api/warehouses/overview
+Content-Type: application/json 
+Authorization: Bearer {{warehouse_manager_access_token}}

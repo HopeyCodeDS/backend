@@ -7,6 +7,7 @@ import be.kdg.prog6.landsideContext.domain.commands.RegisterWeightAndExitBridgeC
 import be.kdg.prog6.landsideContext.ports.in.RegisterWeightAndExitBridgeUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import be.kdg.prog6.landsideContext.ports.out.TruckMovementRepositoryPort;
 
@@ -20,6 +21,7 @@ public class RegisterWeightAndReceiveWarehouseNumberController {
     private final TruckMovementRepositoryPort truckMovementRepository;
     
     @PostMapping("/register")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
     public ResponseEntity<RegisterWeightResponseDto> registerWeight(@RequestBody RegisterWeightRequestDto requestDto) {
         RegisterWeightAndExitBridgeCommand command = mapper.toCommand(requestDto);
         registerWeightAndExitBridgeUseCase.registerWeightAndExitBridge(command);
@@ -36,6 +38,7 @@ public class RegisterWeightAndReceiveWarehouseNumberController {
     }
     
     @GetMapping("/status/{licensePlate}")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
     public ResponseEntity<RegisterWeightResponseDto> getWarehouseStatus(@PathVariable String licensePlate) {
         try {
             var movement = truckMovementRepository.findByLicensePlate(licensePlate)

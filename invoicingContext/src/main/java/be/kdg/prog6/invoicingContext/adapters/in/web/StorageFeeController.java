@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class StorageFeeController {
     private final StorageFeeCalculationUseCase storageFeeCalculationUseCase;
 
     @PostMapping("/calculate")
+    @PreAuthorize("hasRole('ACCOUNTANT')")
     public ResponseEntity<String> calculateStorageFees(
             @RequestParam(required = false) 
             @JsonFormat(pattern = "dd/MM/yyyy HH:mm") LocalDate calculationDate) {

@@ -9,6 +9,7 @@ import be.kdg.prog6.landsideContext.ports.in.RecognizeTruckUseCase;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -24,6 +25,7 @@ public class GateController {
     private final GateMapper gateMapper;
     
     @PostMapping("/gate/recognize")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
     public ResponseEntity<Map<String, Object>> recognizeTruck(@RequestBody TruckRecognitionRequestDto requestDto) {
         try {
             RecognizeTruckCommand command = gateMapper.toRecognizeTruckCommand(requestDto);

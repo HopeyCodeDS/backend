@@ -1,0 +1,522 @@
+########################################################
+#         Get access token for landside context        #
+########################################################
+
+### Get access token for seller
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-landside&
+client_secret=XIBAKBxVof4CGAIvD55rsYskY7diLGBi&
+username=seller&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("seller_access_token", response.body.access_token);
+    console.log("Token received:", response.body.access_token);
+%}
+
+### APPOINTMENT SCHEDULING (User story 1)
+### Appointment 1: Create an appointment truck 1
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+Authorization: Bearer {{seller_access_token}}
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-001",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "28/08/2025 08:30"
+}
+
+
+### Appointment 2: Create an appointment for truck 2
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+Authorization: Bearer {{seller_access_token}}
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-002",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "28/08/2025 20:30"
+}
+
+
+### Appointment 3: Create an appointment for truck 3
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+Authorization: Bearer {{seller_access_token}}
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-003",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "29/08/2025 08:30"
+} 
+
+### Appointment 4: Create an appointment for truck 4
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+Authorization: Bearer {{seller_access_token}}
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-004",
+  "truckType": "LARGE",
+  "rawMaterialName": "Iron_Ore",
+  "scheduledTime": "29/08/2025 20:30"
+} 
+
+### Appointment 5: Create an appointment for truck 5
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+Authorization: Bearer {{seller_access_token}}
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-005",
+  "truckType": "LARGE",
+  "rawMaterialName": "Cement",
+  "scheduledTime": "30/08/2025 08:30"
+} 
+
+
+### Get access token for warehouse manager
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-warehousing&
+client_secret=Bhd1lUuVxc1pU8Kohv0L9HdKeE8w4yFw&
+username=warehouse_manager&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("warehouse_manager_access_token", response.body.access_token);
+%}
+
+
+
+### Get all appointments
+GET http://localhost:8190/api/landside/appointments
+Authorization: Bearer {{warehouse_manager_access_token}}
+
+
+#################################
+#   RECOGNITION (User story 2)  #
+#################################
+
+
+### Get access token for truck driver
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-landside&
+client_secret=XIBAKBxVof4CGAIvD55rsYskY7diLGBi&
+username=truck_driver&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("truck_driver_access_token", response.body.access_token);
+    console.log("Token received:", response.body.access_token);
+%}
+
+
+
+
+### Recognize truck arrival 1
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-001",
+  "recognitionTime": "28/08/2025 09:00"
+}
+
+### Recognize truck arrival 2
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-002",
+  "recognitionTime": "28/08/2025 21:00"
+}
+
+### Recognize truck arrival 3
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-003",
+  "recognitionTime": "29/08/2025 09:00"
+}
+
+### Recognize truck arrival 4
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-004",
+  "recognitionTime": "29/08/2025 21:00"
+}
+
+### Recognize truck arrival 5
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-005",
+  "recognitionTime": "30/08/2025 09:00"
+}
+
+
+#################################
+#   WEIGHING BRIDGE ASSIGNMENT  #
+#################################
+
+
+### Assign weighing bridge to truck 1
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-001",
+  "assignmentTime": "28/08/2025 09:00"
+}
+
+### Assign weighing bridge to truck 2
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-002",
+  "assignmentTime": "28/08/2025 21:00"
+}
+
+### Assign weighing bridge to truck 3
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "assignmentTime": "29/08/2025 09:00"
+}
+
+### Assign weighing bridge to truck 4
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "assignmentTime": "29/08/2025 21:00"
+}
+
+### Assign weighing bridge to truck 5
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "assignmentTime": "30/08/2025 09:00"
+}
+
+
+
+##############################################################################
+##       USER STORY 4: Register Weight and Receive Warehouse Number         ##
+##############################################################################
+
+### Get access token for truck driver
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-landside&
+client_secret=XIBAKBxVof4CGAIvD55rsYskY7diLGBi&
+username=truck_driver&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("truck_driver_access_token", response.body.access_token);
+    console.log("Token received:", response.body.access_token);
+%}
+
+### Register truck weight and exit bridge - truck 1
+### This triggers the async warehouse assignment process
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-001",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+### Register truck weight and exit bridge - truck 2
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-002",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+
+### Register truck weight and exit bridge - truck 3
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-003",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+### Register truck weight and exit bridge - truck 4
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-004",
+  "weight": 25000.0,
+  "rawMaterialName": "Iron_Ore"
+}
+
+### Register truck weight and exit bridge - truck 5
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-005",
+  "weight": 25000.0,
+  "rawMaterialName": "Cement"
+}
+
+
+### Check warehouse assignment status - truck 1
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-001
+Authorization: Bearer {{truck_driver_access_token}}
+
+### Check warehouse assignment status - truck 2
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-002
+Authorization: Bearer {{truck_driver_access_token}}
+
+### Check warehouse assignment status - truck 3
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-003
+Authorization: Bearer {{truck_driver_access_token}}
+
+### Check warehouse assignment status - truck 4
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-004
+Authorization: Bearer {{truck_driver_access_token}}
+
+### Check warehouse assignment status - truck 5
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-005
+Authorization: Bearer {{truck_driver_access_token}}
+
+
+
+
+############################################################################################
+##   USER STORY 5: Payload Delivery and PDT Generation                                    ##
+##   (Simulates a pressure sensor activation, this generates PDT with new weighing bridge)  ##
+############################################################################################
+
+### Deliver Payload  - truck 1
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-001",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "28/08/2025 09:00"
+}
+
+
+
+### Deliver Payload  - truck 2
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-002",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "28/08/2025 21:00"
+}
+
+
+### Deliver Payload  - truck 3
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-003",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "29/08/2025 09:00"
+}
+
+### Deliver Payload  - truck 4
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-004",
+  "rawMaterialName": "Iron_Ore",
+  "warehouseNumber": "Warehouse-02",
+  "payloadWeight": 25,
+  "sellerId": "seller-001",
+  "deliveryTime": "29/08/2025 21:00"
+}
+
+### Deliver Payload  - truck 5
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-005",
+  "rawMaterialName": "Cement",
+  "warehouseNumber": "Warehouse-03",
+  "payloadWeight": 23.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "30/08/2025 09:00"
+} 
+
+### Retrieve All PDTs
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt
+Authorization: Bearer {{truck_driver_access_token}}
+
+
+############################################################################################
+##   Check the storage cost preparation after payload  delivery                           ##
+############################################################################################
+
+### Get access token for accountant
+POST http://localhost:8180/realms/kdgRealm/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=kdg-invoicing&
+client_secret=sVgfFgtM84CGEopOUJZbbYHNPkHxBiDD&
+username=accountant&
+password=password&
+grant_type=password&
+scope=openid
+
+> {%
+    client.global.set("accountant_access_token", response.body.access_token);
+%}
+
+
+## -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
+
+### Step 1: Pre-Loading Storage Fee Calculation (04/09/2025)
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-03
+Authorization: Bearer {{accountant_access_token}}
+
+
+
+
+############################################################################################
+##   USER STORY 6: Generate Weighbridge Ticket                                            ##
+##   (This validates the exit weighing bridge first before generating the WBT)           ##
+############################################################################################
+
+
+### Generate weighbridge ticket - truck 1
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-001",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "28/08/2025 09:30"
+}
+
+
+### Generate weighbridge ticket - truck 2
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-002",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "28/08/2025 21:30"
+}
+
+
+### Generate weighbridge ticket - truck 3
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-003",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "29/08/2025 09:30"
+}
+
+### Generate weighbridge ticket - truck 4
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-004",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "29/08/2025 21:30"
+}
+
+### Generate weighbridge ticket - truck 5
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+Authorization: Bearer {{truck_driver_access_token}}
+
+{
+  "licensePlate": "TRK-005",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "30/08/2025 09:30"
+}
+
+
+
+

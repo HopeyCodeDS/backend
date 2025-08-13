@@ -46,3 +46,9 @@ spring:
       simple:
         missing-queues-fatal: false
 
+  security:
+      oauth2:
+        resourceserver:
+          jwt:
+            jwk-set-uri: http://localhost:8180/realms/kdgRealm/protocol/openid-connect/certs
+            issuer-uri: http://localhost:8180/realms/kdgRealm

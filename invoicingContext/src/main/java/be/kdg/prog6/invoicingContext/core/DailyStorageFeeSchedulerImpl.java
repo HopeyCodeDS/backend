@@ -11,19 +11,20 @@ import java.time.LocalDate;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DailyStorageFeeScheduler {
+public class DailyStorageFeeSchedulerImpl {
     
     private final StorageFeeCalculationUseCase storageFeeCalculationUseCase;
     
-    // Run every day at 9:00 AM
+    // Runs every day at 9:00 AM
     @Scheduled(cron = "0 0 9 * * ?")
     public void calculateDailyStorageFees() {
         log.info("Starting scheduled daily storage fee calculation at 9:00 AM");
         
         try {
-            LocalDate today = LocalDate.now();
-            storageFeeCalculationUseCase.calculateDailyStorageFees(today);
-            log.info("Scheduled daily storage fee calculation completed successfully");
+            // Calculate fees for the PREVIOUS day (end of yesterday)
+            LocalDate calculationDate = LocalDate.now().minusDays(1);
+            storageFeeCalculationUseCase.calculateDailyStorageFees(calculationDate);
+            log.info("Scheduled daily storage fee calculation completed successfully for {}", calculationDate);
         } catch (Exception e) {
             log.error("Error during scheduled daily storage fee calculation: {}", e.getMessage(), e);
         }

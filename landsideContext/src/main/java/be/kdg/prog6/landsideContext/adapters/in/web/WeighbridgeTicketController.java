@@ -8,6 +8,7 @@ import be.kdg.prog6.landsideContext.domain.commands.GenerateWeighbridgeTicketCom
 import be.kdg.prog6.landsideContext.ports.in.GenerateWeighbridgeTicketUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class WeighbridgeTicketController {
     private final WeighbridgeTicketWebMapper weighbridgeTicketMapper;
     
     @PostMapping("/generate")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
     public ResponseEntity<WeighbridgeTicketResponseDto> generateWeighbridgeTicket(
             @RequestBody GenerateWeighbridgeTicketRequestDto requestDto) {
         
@@ -33,6 +35,7 @@ public class WeighbridgeTicketController {
     }
     
     @GetMapping("/{licensePlate}")
+    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
     public ResponseEntity<List<WeighbridgeTicketResponseDto>> getTicketsByLicensePlate(
             @PathVariable String licensePlate) {
         

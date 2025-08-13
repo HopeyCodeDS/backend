@@ -9,6 +9,7 @@ import be.kdg.prog6.watersideContext.ports.in.ShipDepartedUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 import java.util.List;
@@ -26,6 +27,7 @@ public class ShipCaptainController {
     private final ShipDepartedUseCase shipDepartedUseCase;
     
     @GetMapping("/operations/{vesselNumber}")
+    @PreAuthorize("hasRole('SHIP_CAPTAIN')") 
     public ResponseEntity<ShipCaptainOperationsOverviewDto> getOperationsOverview(@PathVariable String vesselNumber) {
         log.info("Ship captain requesting operations overview for vessel: {}", vesselNumber);
         
@@ -39,6 +41,7 @@ public class ShipCaptainController {
     }
 
     @PostMapping("/operations-overview")
+    @PreAuthorize("hasRole('SHIP_CAPTAIN')") 
     public ResponseEntity<List<ShipCaptainOperationsOverviewDto>> getOperationsOverview() {
         log.info("Ship captain requesting operations overview for all vessels");
 
@@ -50,6 +53,7 @@ public class ShipCaptainController {
     }
 
     @PostMapping("/depart")
+    @PreAuthorize("hasRole('SHIP_CAPTAIN')") 
     public ResponseEntity<Void> markShipAsDeparted(@RequestBody ShipDepartureRequestDto request) {
         shipDepartedUseCase.markShipAsDeparted(request.getVesselNumber(), request.getDepartureDate());
         return ResponseEntity.ok().build();

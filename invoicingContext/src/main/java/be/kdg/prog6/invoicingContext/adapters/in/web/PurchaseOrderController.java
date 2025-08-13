@@ -7,6 +7,7 @@ import be.kdg.prog6.invoicingContext.ports.in.SubmitPurchaseOrderUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class PurchaseOrderController {
     private final PurchaseOrderMapper purchaseOrderMapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('BUYER')")
     public ResponseEntity<PurchaseOrderResponseDto> submitPurchaseOrder(@RequestBody SubmitPurchaseOrderRequestDto requestDto) {
         log.info("Received purchase order submission request: {}", requestDto.getPurchaseOrderNumber());
         
