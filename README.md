@@ -192,6 +192,30 @@ docker-compose up -d
 * Waterside → `waterside-tests.http`
 * Invoicing → `invoicing-tests.http`
 
+**Order of testing scenario(security-based) with test files**
+
+- Appointment scheduling by Seller `landside-tests.http`
+- Get all appointments by Warehouse Manager `landside-tests.http`
+- Recognize truck arrival by truck driver `landside-tests.http`
+- Weighing bridge assignment to trucks `landside-tests.http`
+- Register Weight and Receive Warehouse Number by truck driver `landside-tests.http`
+- Check warehouse assignment status for the trucks `landside-tests.http`
+- Deliver Payload of all trucks by truck driver `landside-tests.http`
+- Retrieve all PDTs `landside-tests.http`
+- Just check the storage cost preparation after payload delivery by accountant `landside-tests.http`
+- Generate weighbridge ticket by truck driver before EXIT `landside-tests.http`
+- Get Arrival compliance data by warehouse manager `warehousing-tests.http`
+- Truck on Site by warehouse manager `warehousing-tests.http`
+- Check warehouse overview by warehouse manager `warehousing-tests.http`
+- Purchase order submission by the buyer `invoicing-tests.http`
+- Shipping order submission by the ship captain (waterside-test.http)
+- SO matching with PO by Foreman `waterside-tests.http`
+- Inspection operations by the Inspector `waterside-tests.http`
+- Bunkering Operation by the Bunkering Officer `waterside-tests.http`
+- Check the storage fee cost preparation after vessel loading `waterside-tests.http`
+- Port Operations overview by the ship captain `waterside-tests.http`
+
+
 Run tests in IntelliJ HTTP Client or VS Code REST Client.
 
 ---
