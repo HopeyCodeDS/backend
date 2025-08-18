@@ -7,12 +7,12 @@ import java.util.UUID;
 public class Warehouse {
     private final UUID warehouseId;
     private final String warehouseNumber;
-    private final String sellerId;
+    private final UUID sellerId;
     private final RawMaterial assignedMaterial;
     private final double maxCapacity; // 500 kt = 500,000 tons
     private double currentCapacity;
     
-    public Warehouse(UUID warehouseId, String warehouseNumber, String sellerId, RawMaterial assignedMaterial) {
+    public Warehouse(UUID warehouseId, String warehouseNumber, UUID sellerId, RawMaterial assignedMaterial) {
         this.warehouseId = warehouseId;
         this.warehouseNumber = warehouseNumber;
         this.sellerId = sellerId;
@@ -21,7 +21,7 @@ public class Warehouse {
         this.currentCapacity = 0.0;
     }
 
-    public Warehouse(UUID warehouseId, String warehouseNumber, String sellerId, RawMaterial assignedMaterial, double currentCapacity) {
+    public Warehouse(UUID warehouseId, String warehouseNumber, UUID sellerId, RawMaterial assignedMaterial, double currentCapacity) {
         this.warehouseId = warehouseId;
         this.warehouseNumber = warehouseNumber;
         this.sellerId = sellerId;

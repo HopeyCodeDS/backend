@@ -7,12 +7,12 @@ import java.util.UUID;
 public class WarehouseProjection {
     private final UUID warehouseId;
     private final String warehouseNumber;
-    private final String sellerId;
+    private final UUID sellerId;
     private final String assignedMaterial;
     private final double maxCapacity;
     private double currentCapacity;
     
-    public WarehouseProjection(UUID warehouseId, String warehouseNumber, String sellerId, 
+    public WarehouseProjection(UUID warehouseId, String warehouseNumber, UUID sellerId,
                               String assignedMaterial, double maxCapacity, double currentCapacity) {
         this.warehouseId = warehouseId;
         this.warehouseNumber = warehouseNumber;

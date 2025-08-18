@@ -19,6 +19,6 @@ public class OldestStockAllocationDto {
         private String warehouseNumber;
         private double payloadWeight;
         private LocalDateTime deliveryTime;
-        private String sellerId;
+        private UUID sellerId;
     }
 } 

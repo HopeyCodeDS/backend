@@ -34,7 +34,7 @@ public class WarehouseAssignmentJpaEntity {
     private String rawMaterialName;
     
     @Column(name = "seller_id", nullable = false)
-    private String sellerId;
+    private UUID sellerId;
     
     @Column(name = "truck_weight", nullable = false)
     private double truckWeight;

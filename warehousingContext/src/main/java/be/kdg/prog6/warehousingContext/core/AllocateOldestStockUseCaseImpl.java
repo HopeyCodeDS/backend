@@ -189,7 +189,7 @@ public class AllocateOldestStockUseCaseImpl implements AllocateOldestStockUseCas
                         // Publish warehouse activity event
                         WarehouseActivityEvent warehouseActivityEvent = new WarehouseActivityEvent(
                             activity.getActivityId(),
-                            pdt.getSellerId(),
+                            pdt.getSellerId().toString(),
                             pdt.getWarehouseNumber(),
                             WarehouseActivityAction.LOADING_VESSEL.name().toString(),
                             deductionAmount,

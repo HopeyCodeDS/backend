@@ -31,7 +31,7 @@ public class StorageFeeJpaEntity {
     private String materialType;
 
     @Column(name = "seller_id", nullable = false)
-    private String sellerId;
+    private UUID sellerId;
     
     @Column(name = "total_daily_fee", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalDailyFee;

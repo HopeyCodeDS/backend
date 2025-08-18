@@ -39,8 +39,6 @@ public class WeighbridgeTicketController {
     public ResponseEntity<List<WeighbridgeTicketResponseDto>> getTicketsByLicensePlate(
             @PathVariable String licensePlate) {
         
-        // This would require adding a query use case
-        // For now, return success with empty list
         return ResponseEntity.ok(List.of());
     }
 } 

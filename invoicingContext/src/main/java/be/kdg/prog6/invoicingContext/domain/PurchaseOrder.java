@@ -12,7 +12,7 @@ public class PurchaseOrder {
     private final String purchaseOrderNumber;
     private final String customerNumber;  // Buyer
     private final String customerName;    // Buyer
-    private final String sellerId;        // Seller
+    private final UUID sellerId;        // Seller
     private final String sellerName;      // Seller
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime orderDate;
@@ -21,7 +21,7 @@ public class PurchaseOrder {
     private final List<PurchaseOrderLine> orderLines;
 
     public PurchaseOrder(String purchaseOrderNumber, String customerNumber, String customerName, 
-                        String sellerId, String sellerName, LocalDateTime orderDate, List<PurchaseOrderLine> orderLines) {
+                        UUID sellerId, String sellerName, LocalDateTime orderDate, List<PurchaseOrderLine> orderLines) {
         this.purchaseOrderId = UUID.randomUUID();
         this.purchaseOrderNumber = purchaseOrderNumber;
         this.customerNumber = customerNumber; 
@@ -35,7 +35,7 @@ public class PurchaseOrder {
     }
 
     public PurchaseOrder(UUID purchaseOrderId, String purchaseOrderNumber, String customerNumber, String customerName, 
-                    String sellerId, String sellerName, LocalDateTime orderDate, 
+                    UUID sellerId, String sellerName, LocalDateTime orderDate, 
                     PurchaseOrderStatus status, List<PurchaseOrderLine> orderLines) {
         this.purchaseOrderId = purchaseOrderId;
     this.purchaseOrderNumber = purchaseOrderNumber;

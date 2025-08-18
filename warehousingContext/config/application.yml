@@ -9,15 +9,16 @@ spring:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
   jpa:
    open-in-view: false
-   generate-ddl: false
+   generate-ddl: true
    hibernate:
-     ddl-auto: none
-     defer-datasource-initialization: false
+     ddl-auto: create
+     show-sql: true
+#     defer-datasource-initialization: false
    properties:
      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
      hibernate.default_schema: warehousing 
-     hibernate.connection.characterEncoding: utf8
-     hibernate.connection.useUnicode: true
+#     hibernate.connection.characterEncoding: utf8
+#     hibernate.connection.useUnicode: true
   sql:
    init:
      mode: always

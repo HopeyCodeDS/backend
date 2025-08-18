@@ -19,7 +19,7 @@ public class PurchaseOrderLineJpaEntity {
     private UUID lineId;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchase_order_id", nullable = false)
+    @JoinColumn(name = "purchase_order_id", nullable = false, foreignKey = @ForeignKey(name = "fk_purchase_order_lines_purchase_order"))
     private PurchaseOrderJpaEntity purchaseOrder;
     
     @Column(name = "line_number", nullable = false)

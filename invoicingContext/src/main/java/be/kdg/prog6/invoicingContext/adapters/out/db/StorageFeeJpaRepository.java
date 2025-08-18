@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface StorageFeeJpaRepository extends JpaRepository<StorageFeeJpaEntity, Long> {
@@ -21,11 +22,11 @@ public interface StorageFeeJpaRepository extends JpaRepository<StorageFeeJpaEnti
     
     List<StorageFeeJpaEntity> findAll();
     
-    List<StorageFeeJpaEntity> findBySellerId(String sellerId);
+    List<StorageFeeJpaEntity> findBySellerId(UUID sellerId);
     
     List<StorageFeeJpaEntity> findBySellerIdAndCalculationDateBetween(
-        String sellerId, LocalDate startDate, LocalDate endDate);
+        UUID sellerId, LocalDate startDate, LocalDate endDate);
     
     List<StorageFeeJpaEntity> findBySellerIdAndCalculationDate(
-        String sellerId, LocalDate calculationDate);
+        UUID sellerId, LocalDate calculationDate);
 } 

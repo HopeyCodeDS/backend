@@ -75,10 +75,6 @@ public class WarehousingPurchaseOrderSubmittedAMQPListener {
     }
     
     private void processPurchaseOrderForWarehousing(PurchaseOrderSubmitted event) {
-        // Business logic for warehousing planning:
-        // 1. Check if we have enough inventory in the warehouse for the order
-        // 2. Plan warehouse capacity for upcoming shipment
-        // 3. Prepare for shipment operations
         
         double totalMaterialsNeeded = event.orderLines().stream()
                 .mapToDouble(PurchaseOrderSubmitted.PurchaseOrderLine::amountInTons)

@@ -9,6 +9,6 @@ public record TruckLeftWeighingBridge(
         @JsonProperty("licensePlate") String licensePlate,
         @JsonProperty("bridgeNumber") String bridgeNumber,
         @JsonProperty("rawMaterialName") String rawMaterialName,
-        @JsonProperty("sellerId") String sellerId,
+        @JsonProperty("sellerId") UUID sellerId,
         @JsonProperty("truckWeight") double truckWeight) {
 }

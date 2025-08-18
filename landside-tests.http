@@ -25,8 +25,8 @@ Content-Type: application/json
 Authorization: Bearer {{seller_access_token}}
 
 {
-  "sellerId": "seller-001",
-  "licensePlate": "TRK-001",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "licensePlate": "TRK-101",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
   "scheduledTime": "28/08/2025 08:30"
@@ -39,8 +39,8 @@ Content-Type: application/json
 Authorization: Bearer {{seller_access_token}}
 
 {
-  "sellerId": "seller-001",
-  "licensePlate": "TRK-002",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "licensePlate": "TRK-102",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
   "scheduledTime": "28/08/2025 20:30"
@@ -53,8 +53,8 @@ Content-Type: application/json
 Authorization: Bearer {{seller_access_token}}
 
 {
-  "sellerId": "seller-001",
-  "licensePlate": "TRK-003",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "licensePlate": "TRK-103",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
   "scheduledTime": "29/08/2025 08:30"
@@ -66,8 +66,8 @@ Content-Type: application/json
 Authorization: Bearer {{seller_access_token}}
 
 {
-  "sellerId": "seller-001",
-  "licensePlate": "TRK-004",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "licensePlate": "TRK-104",
   "truckType": "LARGE",
   "rawMaterialName": "Iron_Ore",
   "scheduledTime": "29/08/2025 20:30"
@@ -79,8 +79,8 @@ Content-Type: application/json
 Authorization: Bearer {{seller_access_token}}
 
 {
-  "sellerId": "seller-001",
-  "licensePlate": "TRK-005",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "licensePlate": "TRK-105",
   "truckType": "LARGE",
   "rawMaterialName": "Cement",
   "scheduledTime": "30/08/2025 08:30"
@@ -139,7 +139,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-001",
+  "licensePlate": "TRK-101",
   "recognitionTime": "28/08/2025 09:00"
 }
 
@@ -149,7 +149,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-002",
+  "licensePlate": "TRK-102",
   "recognitionTime": "28/08/2025 21:00"
 }
 
@@ -159,7 +159,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-003",
+  "licensePlate": "TRK-103",
   "recognitionTime": "29/08/2025 09:00"
 }
 
@@ -169,7 +169,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-004",
+  "licensePlate": "TRK-104",
   "recognitionTime": "29/08/2025 21:00"
 }
 
@@ -179,7 +179,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-005",
+  "licensePlate": "TRK-105",
   "recognitionTime": "30/08/2025 09:00"
 }
 
@@ -195,7 +195,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-001",
+  "licensePlate": "TRK-101",
   "assignmentTime": "28/08/2025 09:00"
 }
 
@@ -205,7 +205,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-002",
+  "licensePlate": "TRK-102",
   "assignmentTime": "28/08/2025 21:00"
 }
 
@@ -215,7 +215,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-003",
+  "licensePlate": "TRK-103",
   "assignmentTime": "29/08/2025 09:00"
 }
 
@@ -225,7 +225,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-004",
+  "licensePlate": "TRK-104",
   "assignmentTime": "29/08/2025 21:00"
 }
 
@@ -235,7 +235,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-005",
+  "licensePlate": "TRK-105",
   "assignmentTime": "30/08/2025 09:00"
 }
 
@@ -268,7 +268,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-001",
+  "licensePlate": "TRK-101",
   "weight": 25000.0,
   "rawMaterialName": "Gypsum"
 }
@@ -279,7 +279,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-002",
+  "licensePlate": "TRK-102",
   "weight": 25000.0,
   "rawMaterialName": "Gypsum"
 }
@@ -291,7 +291,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-003",
+  "licensePlate": "TRK-103",
   "weight": 25000.0,
   "rawMaterialName": "Gypsum"
 }
@@ -302,7 +302,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-004",
+  "licensePlate": "TRK-104",
   "weight": 25000.0,
   "rawMaterialName": "Iron_Ore"
 }
@@ -313,30 +313,30 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-005",
+  "licensePlate": "TRK-105",
   "weight": 25000.0,
   "rawMaterialName": "Cement"
 }
 
 
 ### Check warehouse assignment status - truck 1
-GET http://localhost:8190/api/landside/weight-registration/status/TRK-001
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-101
 Authorization: Bearer {{truck_driver_access_token}}
 
 ### Check warehouse assignment status - truck 2
-GET http://localhost:8190/api/landside/weight-registration/status/TRK-002
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-102
 Authorization: Bearer {{truck_driver_access_token}}
 
 ### Check warehouse assignment status - truck 3
-GET http://localhost:8190/api/landside/weight-registration/status/TRK-003
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-103
 Authorization: Bearer {{truck_driver_access_token}}
 
 ### Check warehouse assignment status - truck 4
-GET http://localhost:8190/api/landside/weight-registration/status/TRK-004
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-104
 Authorization: Bearer {{truck_driver_access_token}}
 
 ### Check warehouse assignment status - truck 5
-GET http://localhost:8190/api/landside/weight-registration/status/TRK-005
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-105
 Authorization: Bearer {{truck_driver_access_token}}
 
 
@@ -353,11 +353,11 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-001",
+  "licensePlate": "TRK-101",
   "rawMaterialName": "Gypsum",
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
-  "sellerId": "seller-001",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "deliveryTime": "28/08/2025 09:00"
 }
 
@@ -369,11 +369,11 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-002",
+  "licensePlate": "TRK-102",
   "rawMaterialName": "Gypsum",
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
-  "sellerId": "seller-001",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "deliveryTime": "28/08/2025 21:00"
 }
 
@@ -384,11 +384,11 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-003",
+  "licensePlate": "TRK-103",
   "rawMaterialName": "Gypsum",
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
-  "sellerId": "seller-001",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "deliveryTime": "29/08/2025 09:00"
 }
 
@@ -398,11 +398,11 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-004",
+  "licensePlate": "TRK-104",
   "rawMaterialName": "Iron_Ore",
   "warehouseNumber": "Warehouse-02",
   "payloadWeight": 25,
-  "sellerId": "seller-001",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "deliveryTime": "29/08/2025 21:00"
 }
 
@@ -412,11 +412,11 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-005",
+  "licensePlate": "TRK-105",
   "rawMaterialName": "Cement",
   "warehouseNumber": "Warehouse-03",
   "payloadWeight": 23.0,
-  "sellerId": "seller-001",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "deliveryTime": "30/08/2025 09:00"
 } 
 
@@ -448,7 +448,7 @@ scope=openid
 ### -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
 
 ### Step 1: Pre-Loading Storage Fee Calculation (04/09/2025)
-POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-03
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-04
 Authorization: Bearer {{accountant_access_token}}
 
 
@@ -481,7 +481,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-001",
+  "licensePlate": "TRK-101",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
   "weighingTime": "28/08/2025 09:30"
@@ -494,7 +494,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-002",
+  "licensePlate": "TRK-102",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
   "weighingTime": "28/08/2025 21:30"
@@ -507,7 +507,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-003",
+  "licensePlate": "TRK-103",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
   "weighingTime": "29/08/2025 09:30"
@@ -519,7 +519,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-004",
+  "licensePlate": "TRK-104",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
   "weighingTime": "29/08/2025 21:30"
@@ -531,7 +531,7 @@ Content-Type: application/json
 Authorization: Bearer {{truck_driver_access_token}}
 
 {
-  "licensePlate": "TRK-005",
+  "licensePlate": "TRK-105",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
   "weighingTime": "30/08/2025 09:30"

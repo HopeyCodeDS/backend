@@ -10,7 +10,7 @@ import java.util.UUID;
 @Setter
 public class Appointment {
     private final UUID appointmentId;
-    private final String sellerId;
+    private final UUID sellerId;
     private final Truck truck;
     private final RawMaterial rawMaterial;
     private final ArrivalWindow arrivalWindow;
@@ -19,7 +19,7 @@ public class Appointment {
     private LocalDateTime scheduledTime;
     
     
-    public Appointment(UUID appointmentId, String sellerId, Truck truck, 
+    public Appointment(UUID appointmentId, UUID sellerId, Truck truck, 
                       RawMaterial rawMaterial, ArrivalWindow arrivalWindow, LocalDateTime scheduledTime) {
         this.appointmentId = appointmentId;
         this.sellerId = sellerId;

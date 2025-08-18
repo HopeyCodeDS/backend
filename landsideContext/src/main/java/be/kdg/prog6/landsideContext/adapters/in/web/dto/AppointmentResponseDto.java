@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public record AppointmentResponseDto(
     UUID appointmentId,
-    String sellerId,
+    UUID sellerId,
     String licensePlate,
     String truckType,
     String rawMaterialName,

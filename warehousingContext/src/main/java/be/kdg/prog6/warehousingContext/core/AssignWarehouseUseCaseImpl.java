@@ -54,7 +54,6 @@ public class AssignWarehouseUseCaseImpl implements AssignWarehouseUseCase {
             .orElseThrow(() -> new IllegalStateException("No warehouses accepting new deliveries"));
 
         // Add delivery to warehouse
-        // selectedWarehouse.addCapacity(command.truckWeight());
         warehouseRepositoryPort.save(selectedWarehouse);
 
         // Saving warehouse assignment record
@@ -88,13 +87,13 @@ public class AssignWarehouseUseCaseImpl implements AssignWarehouseUseCase {
     }
     
     private void validateCommand(AssignWarehouseCommand command) {
-        if (command.licensePlate() == null || command.licensePlate().trim().isEmpty()) {
+        if (command.licensePlate() == null) {
             throw new IllegalArgumentException("License plate is required");
         }
-        if (command.rawMaterialName() == null || command.rawMaterialName().trim().isEmpty()) {
+        if (command.rawMaterialName() == null) {
             throw new IllegalArgumentException("Raw material name is required");
         }
-        if (command.sellerId() == null || command.sellerId().trim().isEmpty()) {
+        if (command.sellerId() == null) {
             throw new IllegalArgumentException("Seller ID is required");
         }
         if (command.truckWeight() <= 0) {

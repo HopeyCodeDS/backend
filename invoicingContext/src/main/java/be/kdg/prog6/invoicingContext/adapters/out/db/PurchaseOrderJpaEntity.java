@@ -33,7 +33,7 @@ public class PurchaseOrderJpaEntity {
     private String customerName;
 
     @Column(name = "seller_id", nullable = false)
-    private String sellerId;
+    private UUID sellerId;
 
     @Column(name = "seller_name", nullable = false)
     private String sellerName;

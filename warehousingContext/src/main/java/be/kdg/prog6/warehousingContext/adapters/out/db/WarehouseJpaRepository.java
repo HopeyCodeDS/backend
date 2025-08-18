@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface WarehouseJpaRepository extends JpaRepository<WarehouseJpaEntity, UUID> {
     
     @Query("SELECT w FROM WarehouseJpaEntity w WHERE w.sellerId = :sellerId AND w.rawMaterialName = :rawMaterialName")
-    List<WarehouseJpaEntity> findBySellerIdAndRawMaterialName(@Param("sellerId") String sellerId, 
+    List<WarehouseJpaEntity> findBySellerIdAndRawMaterialName(@Param("sellerId") UUID sellerId, 
                                                               @Param("rawMaterialName") String rawMaterialName);
     
     Optional<WarehouseJpaEntity> findByWarehouseNumber(String warehouseNumber);

@@ -5,13 +5,14 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class SubmitPurchaseOrderRequestDto {
     private String purchaseOrderNumber;
     private String customerNumber;
     private String customerName;
-    private String sellerId;
+    private UUID sellerId;
     private String sellerName;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")

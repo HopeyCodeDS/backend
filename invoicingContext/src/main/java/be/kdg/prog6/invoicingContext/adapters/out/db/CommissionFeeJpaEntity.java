@@ -23,7 +23,7 @@ public class CommissionFeeJpaEntity {
     private String customerNumber;
     
     @Column(name = "seller_id", nullable = false)
-    private String sellerId;
+    private UUID sellerId;
     
     @Column(name = "amount", nullable = false)
     private double amount;

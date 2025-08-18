@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -28,9 +29,11 @@ public class ShippingOrderDatabaseAdapter implements ShippingOrderRepositoryPort
     }
     
     @Override
-    public Optional<ShippingOrder> findByVesselNumber(String vesselNumber) {
+    public List<ShippingOrder> findByVesselNumber(String vesselNumber) {    
         return jpaRepository.findByVesselNumber(vesselNumber)
-                .map(mapper::toDomain);
+                .stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
     }
     
     @Override
@@ -51,7 +54,7 @@ public class ShippingOrderDatabaseAdapter implements ShippingOrderRepositoryPort
 
     @Override
     public Optional<ShippingOrder> findById(UUID shippingOrderId) {
-        return jpaRepository.findById(shippingOrderId.toString())
+        return jpaRepository.findById(shippingOrderId)
                 .map(mapper::toDomain);
     }
 }

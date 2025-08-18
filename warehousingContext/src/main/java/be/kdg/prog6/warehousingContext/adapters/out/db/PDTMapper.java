@@ -8,7 +8,7 @@ public class PDTMapper {
     
     public PayloadDeliveryTicketJpaEntity toEntity(PayloadDeliveryTicket pdt) {
         PayloadDeliveryTicketJpaEntity entity = new PayloadDeliveryTicketJpaEntity();
-        entity.setPdtId(pdt.getPdtId().toString()); // Convert UUID to String
+        entity.setPdtId(pdt.getPdtId());
         entity.setLicensePlate(pdt.getLicensePlate());
         entity.setRawMaterialName(pdt.getRawMaterialName());
         entity.setWarehouseNumber(pdt.getWarehouseNumber());
@@ -22,7 +22,7 @@ public class PDTMapper {
     
     public PayloadDeliveryTicket toDomain(PayloadDeliveryTicketJpaEntity entity) {
         return new PayloadDeliveryTicket(
-            java.util.UUID.fromString(entity.getPdtId()), // Convert String back to UUID
+            entity.getPdtId(),
             entity.getLicensePlate(),
             entity.getRawMaterialName(),
             entity.getWarehouseNumber(),

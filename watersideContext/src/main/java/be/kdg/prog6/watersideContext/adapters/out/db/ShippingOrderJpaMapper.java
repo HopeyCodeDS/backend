@@ -1,15 +1,17 @@
 package be.kdg.prog6.watersideContext.adapters.out.db;
 
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
+import be.kdg.prog6.watersideContext.domain.InspectionOperation;
+import be.kdg.prog6.watersideContext.domain.BunkeringOperation;
+
 import org.springframework.stereotype.Component;
-import java.util.UUID;
 
 @Component
 public class ShippingOrderJpaMapper {
     
     public ShippingOrderJpaEntity toJpaEntity(ShippingOrder domain) {
         ShippingOrderJpaEntity entity = new ShippingOrderJpaEntity();
-        entity.setShippingOrderId(domain.getShippingOrderId().toString());
+        entity.setShippingOrderId(domain.getShippingOrderId());
         entity.setShippingOrderNumber(domain.getShippingOrderNumber());
         entity.setPurchaseOrderReference(domain.getPurchaseOrderReference());
         entity.setVesselNumber(domain.getVesselNumber());
@@ -41,7 +43,7 @@ public class ShippingOrderJpaMapper {
     
     public ShippingOrder toDomain(ShippingOrderJpaEntity entity) {
         ShippingOrder domain = new ShippingOrder(
-            UUID.fromString(entity.getShippingOrderId()),
+            entity.getShippingOrderId(),
             entity.getShippingOrderNumber(),
             entity.getPurchaseOrderReference(),
             entity.getVesselNumber(),
@@ -69,15 +71,37 @@ public class ShippingOrderJpaMapper {
             domain.setActualDepartureDate(entity.getActualDepartureDate());
         }
         
-        // Setting operation data
-        if (entity.getInspectionCompletedDate() != null) {
-            domain.getInspectionOperation().completeInspection(entity.getInspectorSignature());
+        // Set operation statuses from database, not just completion dates
+        if (entity.getInspectionStatus() != null) {
+            domain.getInspectionOperation().setStatus(entity.getInspectionStatus());
         }
         
-        if (entity.getBunkeringCompletedDate() != null) {
-            domain.getBunkeringOperation().completeBunkering(entity.getBunkeringOfficerSignature());
+        if (entity.getBunkeringStatus() != null) {
+            domain.getBunkeringOperation().setStatus(entity.getBunkeringStatus());
         }
         
+        // Set operation dates from database
+        if (entity.getInspectionPlannedDate() != null) {
+            domain.getInspectionOperation().setPlannedDate(entity.getInspectionPlannedDate());
+        }
+        
+        if (entity.getBunkeringPlannedDate() != null) {
+            domain.getBunkeringOperation().setPlannedDate(entity.getBunkeringPlannedDate());
+        }
+        
+        // Set completion data only if operations are actually completed
+        if (entity.getInspectionCompletedDate() != null && 
+            entity.getInspectionStatus() == InspectionOperation.InspectionStatus.COMPLETED) {
+            domain.getInspectionOperation().setCompletedDate(entity.getInspectionCompletedDate());
+            domain.getInspectionOperation().setInspectorSignature(entity.getInspectorSignature());
+        }
+        
+        if (entity.getBunkeringCompletedDate() != null && 
+            entity.getBunkeringStatus() == BunkeringOperation.BunkeringStatus.COMPLETED) {
+            domain.getBunkeringOperation().setCompletedDate(entity.getBunkeringCompletedDate());
+            domain.getBunkeringOperation().setBunkeringOfficerSignature(entity.getBunkeringOfficerSignature());
+        }
+
         return domain;
     }
 }

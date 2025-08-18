@@ -4,6 +4,7 @@ import be.kdg.prog6.warehousingContext.domain.PurchaseOrderFulfillmentTracking.F
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(catalog = "warehousing", name = "purchase_order_fulfillment_tracking")
@@ -11,8 +12,8 @@ import java.time.LocalDateTime;
 public class PurchaseOrderFulfillmentTrackingJpaEntity {
     
     @Id
-    @Column(name = "tracking_id", columnDefinition = "VARCHAR(36)")
-    private String trackingId;
+    @Column(name = "tracking_id", columnDefinition = "BINARY(16)")
+    private UUID trackingId;
     
     @Column(name = "purchase_order_number", nullable = false, unique = true)
     private String purchaseOrderNumber; // Reference to PO in InvoicingContext

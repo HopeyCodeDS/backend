@@ -10,7 +10,7 @@ public class PurchaseOrderFulfillmentTrackingJpaMapper {
     
     public PurchaseOrderFulfillmentTrackingJpaEntity toJpaEntity(PurchaseOrderFulfillmentTracking domain) {
         PurchaseOrderFulfillmentTrackingJpaEntity entity = new PurchaseOrderFulfillmentTrackingJpaEntity();
-        entity.setTrackingId(domain.getTrackingId().toString());
+        entity.setTrackingId(domain.getTrackingId());
         entity.setPurchaseOrderNumber(domain.getPurchaseOrderNumber());
         entity.setCustomerNumber(domain.getCustomerNumber());
         entity.setCustomerName(domain.getCustomerName());
@@ -24,7 +24,7 @@ public class PurchaseOrderFulfillmentTrackingJpaMapper {
     
     public PurchaseOrderFulfillmentTracking toDomain(PurchaseOrderFulfillmentTrackingJpaEntity entity) {
         PurchaseOrderFulfillmentTracking domain = new PurchaseOrderFulfillmentTracking(
-            UUID.fromString(entity.getTrackingId()),
+            entity.getTrackingId(),
             entity.getPurchaseOrderNumber(),
             entity.getCustomerNumber(),
             entity.getCustomerName(),

@@ -3,7 +3,8 @@ package be.kdg.prog6.invoicingContext.adapters.in.web;
 import be.kdg.prog6.invoicingContext.ports.in.StorageFeeCalculationUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class StorageFeeController {
     @PreAuthorize("hasRole('ACCOUNTANT')")
     public ResponseEntity<String> calculateStorageFees(
             @RequestParam(required = false) 
-            @JsonFormat(pattern = "dd/MM/yyyy HH:mm") LocalDate calculationDate) {
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate calculationDate) {
         
         try {
             LocalDate date = calculationDate != null ? calculationDate : LocalDate.now();

@@ -50,4 +50,11 @@ public class StorageTrackingJpaEntity {
 
     @Column(name = "storage_cost", precision = 10, scale = 2)
     private BigDecimal storageCost;
+
+    @Column(name = "is_seller_tracking", nullable = false)
+    private boolean isSellerTracking;
+
+    public void setIsSellerTracking(Boolean isSellerTracking) {
+        this.isSellerTracking = isSellerTracking;
+    }
 } 

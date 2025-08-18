@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record AppointmentScheduledEvent(
         @JsonProperty("appointmentId") UUID appointmentId,
-        @JsonProperty("sellerId") String sellerId,
+        @JsonProperty("sellerId") UUID sellerId,
         @JsonProperty("licensePlate") String licensePlate,
         @JsonProperty("rawMaterialName") String rawMaterialName,
         @JsonProperty("arrivalWindowStart") LocalDateTime arrivalWindowStart,

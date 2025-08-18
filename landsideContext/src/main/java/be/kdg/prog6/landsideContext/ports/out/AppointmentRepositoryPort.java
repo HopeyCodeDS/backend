@@ -10,7 +10,7 @@ public interface AppointmentRepositoryPort {
     void save(Appointment appointment);
     Optional<Appointment> findById(UUID appointmentId);
     List<Appointment> findByArrivalWindow(ArrivalWindow arrivalWindow);
-    List<Appointment> findBySellerId(String sellerId);
+    List<Appointment> findBySellerId(UUID sellerId);
     List<Appointment> findByLicensePlate(String licensePlate);
     List<Appointment> findAll();
 } 

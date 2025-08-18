@@ -64,7 +64,7 @@ public class AppointmentDatabaseAdapter implements AppointmentRepositoryPort {
     
     @Override
     @Transactional(readOnly = true)
-    public List<Appointment> findBySellerId(String sellerId) {
+    public List<Appointment> findBySellerId(UUID sellerId) {
         List<AppointmentJpaEntity> jpaEntities = appointmentJpaRepository.findBySellerId(sellerId);
         return jpaEntities.stream()
                 .map(appointmentMapper::toDomain)

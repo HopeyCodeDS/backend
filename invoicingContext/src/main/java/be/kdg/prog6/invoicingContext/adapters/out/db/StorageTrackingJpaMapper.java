@@ -32,7 +32,7 @@ public class StorageTrackingJpaMapper {
         entity.setNumberOfDays(domain.getNumberOfDays());
         entity.setCostInDollars(BigDecimal.valueOf(domain.getCostInDollars()));
         entity.setStorageCost(BigDecimal.valueOf(domain.getStorageCost()));
-        
+        entity.setIsSellerTracking(domain.isSellerTracking());
         return entity;
     }
     
@@ -49,7 +49,8 @@ public class StorageTrackingJpaMapper {
             entity.getStorageCostCalculationDate(),
             entity.getNumberOfDays() != null ? entity.getNumberOfDays() : 0,
             entity.getCostInDollars() != null ? entity.getCostInDollars().doubleValue() : 0.0,
-            entity.getStorageCost() != null ? entity.getStorageCost().doubleValue() : 0.0
+            entity.getStorageCost() != null ? entity.getStorageCost().doubleValue() : 0.0,
+            entity.isSellerTracking()
         );
         
         return domain;

@@ -16,12 +16,12 @@ public class PayloadDeliveryTicket {
     private final double payloadWeight;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime deliveryTime;
-    private final String sellerId;
+    private final UUID sellerId;
     private final String newWeighingBridgeNumber;
 
     public PayloadDeliveryTicket(UUID pdtId, String licensePlate, String rawMaterialName, 
                                 String warehouseNumber, String conveyorBeltNumber, 
-                                double payloadWeight, String sellerId, LocalDateTime deliveryTime, String newWeighingBridgeNumber) {
+                                double payloadWeight, UUID sellerId, LocalDateTime deliveryTime, String newWeighingBridgeNumber) {
         this.pdtId = pdtId;
         this.licensePlate = licensePlate;
         this.rawMaterialName = rawMaterialName;

@@ -59,10 +59,6 @@ public class WatersidePurchaseOrderSubmittedAMQPListener {
     }
     
     private void processPurchaseOrderForWaterside(PurchaseOrderSubmitted event) {
-        // Business logic for waterside operations:
-        // 1. Prepare for vessel arrival with this PO reference
-        // 2. Plan inspection and bunkering operations
-        // 3. Prepare for SO/PO matching when vessel arrives
         
         double totalMaterialsNeeded = event.orderLines().stream()
                 .mapToDouble(PurchaseOrderSubmitted.PurchaseOrderLine::amountInTons)

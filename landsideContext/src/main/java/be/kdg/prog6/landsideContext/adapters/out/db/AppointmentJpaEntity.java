@@ -21,7 +21,7 @@ public class AppointmentJpaEntity {
     private UUID appointmentId;
     
     @Column(name = "seller_id", nullable = false)
-    private String sellerId;
+    private UUID sellerId;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "truck_id", nullable = false)

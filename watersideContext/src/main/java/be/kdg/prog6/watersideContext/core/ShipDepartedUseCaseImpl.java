@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import be.kdg.prog6.watersideContext.ports.in.ShipDepartedUseCase;
@@ -27,13 +28,13 @@ public class ShipDepartedUseCaseImpl implements ShipDepartedUseCase {
     @Transactional
     public void markShipAsDeparted(String vesselNumber, LocalDateTime departureDate) {
         // Find shipping order by vessel number
-        Optional<ShippingOrder> shippingOrderOpt = shippingOrderRepositoryPort.findByVesselNumber(vesselNumber);
+        List<ShippingOrder> shippingOrderOpt = shippingOrderRepositoryPort.findByVesselNumber(vesselNumber);
         
         if (shippingOrderOpt.isEmpty()) {
             throw new IllegalArgumentException("No shipping order found for vessel: " + vesselNumber);
         }
         
-        ShippingOrder shippingOrder = shippingOrderOpt.get();
+        ShippingOrder shippingOrder = shippingOrderOpt.get(0);
         
         // Only allow departure if ship is ready for loading
         if (shippingOrder.getStatus() != ShippingOrderStatus.READY_FOR_LOADING) {

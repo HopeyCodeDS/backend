@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface ShippingOrderRepositoryPort {
     void save(ShippingOrder shippingOrder);
     Optional<ShippingOrder> findByShippingOrderNumber(String shippingOrderNumber);
-    Optional<ShippingOrder> findByVesselNumber(String vesselNumber);
+    List<ShippingOrder> findByVesselNumber(String vesselNumber);
     List<ShippingOrder> findByStatus(ShippingOrder.ShippingOrderStatus status);
     List<ShippingOrder> findAll();
     Optional<ShippingOrder> findById(UUID shippingOrderId);

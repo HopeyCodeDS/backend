@@ -12,7 +12,7 @@ public record PDTGenerated(
         @JsonProperty("warehouseNumber") String warehouseNumber,
         @JsonProperty("conveyorBeltNumber") String conveyorBeltNumber,
         @JsonProperty("payloadWeight") double payloadWeight,
-        @JsonProperty("sellerId") String sellerId,
+        @JsonProperty("sellerId") UUID sellerId,
         @JsonProperty("deliveryTime") LocalDateTime deliveryTime,
         @JsonProperty("newWeighingBridgeNumber") String newWeighingBridgeNumber,
         @JsonProperty("warehouseActivityId") UUID warehouseActivityId) {

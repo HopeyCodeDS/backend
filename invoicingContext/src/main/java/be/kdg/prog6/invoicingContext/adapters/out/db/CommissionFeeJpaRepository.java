@@ -8,5 +8,5 @@ import java.util.UUID;
 @Repository
 public interface CommissionFeeJpaRepository extends JpaRepository<CommissionFeeJpaEntity, UUID> {
     List<CommissionFeeJpaEntity> findByCustomerNumber(String customerNumber);
-    List<CommissionFeeJpaEntity> findBySellerId(String sellerId);
+    List<CommissionFeeJpaEntity> findBySellerId(UUID sellerId);
 } 

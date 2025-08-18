@@ -8,7 +8,7 @@ import java.util.UUID;
 public class ArrivalComplianceData {
     UUID appointmentId;
     String licensePlate;
-    String sellerId;
+    UUID sellerId;
     String rawMaterial;
     LocalDateTime scheduledArrivalTime;
     LocalDateTime actualArrivalTime;

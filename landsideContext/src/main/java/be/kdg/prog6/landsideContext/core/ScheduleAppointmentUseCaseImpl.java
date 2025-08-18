@@ -81,7 +81,7 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
     }
     
     private void validateCommand(ScheduleAppointmentCommand command) {
-        if (command.getSellerId() == null || command.getSellerId().trim().isEmpty()) {
+        if (command.getSellerId() == null) {
             throw new IllegalArgumentException("Seller ID is required");
         }
         if (command.getTruck() == null) {
@@ -93,7 +93,7 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         if (command.getTruck().getTruckType() == null) {
             throw new IllegalArgumentException("Truck type is required");
         }
-        if (command.getRawMaterialName() == null || command.getRawMaterialName().trim().isEmpty()) {
+        if (command.getRawMaterialName() == null) {
             throw new IllegalArgumentException("Raw material name is required");
         }
         if (command.getScheduledTime() == null) {

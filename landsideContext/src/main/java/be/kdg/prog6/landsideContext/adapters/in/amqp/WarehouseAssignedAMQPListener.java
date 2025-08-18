@@ -25,7 +25,7 @@ public class WarehouseAssignedAMQPListener {
             // Check if the event is of the correct type
             if (eventMessage.getEventHeader().getEventType() != EventCatalog.WAREHOUSE_ASSIGNED) {
                 log.debug("Ignoring event of type: {}", eventMessage.getEventHeader().getEventType());
-                return; // Skip processing if not the right event type
+                return; 
             }
 
             log.info("Processing WAREHOUSE_ASSIGNED event: {}", eventMessage.getEventHeader().getEventID());

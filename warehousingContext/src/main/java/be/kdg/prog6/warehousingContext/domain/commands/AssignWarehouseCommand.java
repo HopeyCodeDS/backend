@@ -6,10 +6,10 @@ public record AssignWarehouseCommand(
     UUID commandId,
     String licensePlate,
     String rawMaterialName,
-    String sellerId,
+    UUID sellerId,
     double truckWeight
 ) {
-    public AssignWarehouseCommand(String licensePlate, String rawMaterialName, String sellerId, double truckWeight) {
+    public AssignWarehouseCommand(String licensePlate, String rawMaterialName, UUID sellerId, double truckWeight) {
         this(UUID.randomUUID(), licensePlate, rawMaterialName, sellerId, truckWeight);
     }
 }

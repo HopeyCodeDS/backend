@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
 public class PayloadDeliveryTicketJpaEntity {
     
     @Id
-    @Column(name = "pdt_id", length = 36)
-    private String pdtId;
+    @Column(name = "pdt_id", columnDefinition = "BINARY(16)")
+    private UUID pdtId;
     
     @Column(name = "license_plate", nullable = false)
     private String licensePlate;
@@ -34,7 +35,7 @@ public class PayloadDeliveryTicketJpaEntity {
     private double payloadWeight;
     
     @Column(name = "seller_id", nullable = false)
-    private String sellerId;
+    private UUID sellerId;
     
     @Column(name = "delivery_time", nullable = false)
     private LocalDateTime deliveryTime;

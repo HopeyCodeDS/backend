@@ -5,6 +5,7 @@ import be.kdg.prog6.invoicingContext.ports.out.CommissionFeeRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,7 +30,7 @@ public class CommissionFeeDatabaseAdapter implements CommissionFeeRepositoryPort
     }
     
     @Override
-    public List<CommissionFee> findBySellerId(String sellerId) {
+    public List<CommissionFee> findBySellerId(UUID sellerId) {
         return jpaRepository.findBySellerId(sellerId)
             .stream()
             .map(mapper::toDomain)

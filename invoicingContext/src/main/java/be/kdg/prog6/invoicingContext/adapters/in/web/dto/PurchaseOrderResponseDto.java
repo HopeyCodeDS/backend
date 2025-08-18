@@ -12,7 +12,7 @@ public class PurchaseOrderResponseDto {
     private String purchaseOrderNumber;
     private String customerNumber;
     private String customerName;
-    private String sellerId;
+    private UUID sellerId;
     private String sellerName;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime orderDate;

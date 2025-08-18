@@ -51,18 +51,18 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         System.out.printf("Delivery Time: %s\n", command.deliveryTime());
 
 
-        // 1. Validate command
+        // Validate command
         validateCommand(command);
 
-        // 2. Find and validate warehouse
+        // Find and validate warehouse
         UUID warehouseId = findWarehouseId(command.warehouseNumber());
         validateWarehouseCapacity(warehouseId, command.payloadWeight(), command.rawMaterialName());
         
-        // 3. Assign conveyor belt based on material type
+        // Assign conveyor belt based on material type
         String assignedConveyorBelt = conveyorBeltAssignmentService.assignConveyorBelt(command.rawMaterialName());
         log.info("Assigned conveyor belt: {} for material: {}", assignedConveyorBelt, command.rawMaterialName());
         
-        // 4. Simulating pressure sensor activation and conveyor belt start
+        // Simulating pressure sensor activation and conveyor belt start
         log.info("Pressure sensor activated for conveyor belt: {}", assignedConveyorBelt);
         log.info("Starting conveyor belt: {}", assignedConveyorBelt);
         
@@ -70,7 +70,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         // Log the warehouse ID being used
         log.info("Using warehouse ID: {} for warehouse number: {}", warehouseId, command.warehouseNumber());
 
-        // 5. Creating warehouse activity (event sourcing)
+        // Creating warehouse activity (event sourcing)
         WarehouseActivity activity = new WarehouseActivity(
             warehouseId,
             command.payloadWeight(),
@@ -84,15 +84,15 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         log.info("Created warehouse activity: ID={}, WarehouseID={}, Amount={}, Action={}", 
             activity.getActivityId(), activity.getWarehouseId(), activity.getAmount(), activity.getAction());
         
-        // 6. Saving activity to event store (event sourcing)
+        // Saving activity to event store (event sourcing)
         warehouseActivityRepositoryPort.save(activity);
 
         // Publish warehouse activity event
         WarehouseActivityEvent warehouseActivityEvent = new WarehouseActivityEvent(
             activity.getActivityId(),
-            command.sellerId(),
+            command.sellerId().toString(),
             command.warehouseNumber(),
-            WarehouseActivityAction.PAYLOAD_DELIVERED.name().toString(),
+                WarehouseActivityAction.PAYLOAD_DELIVERED.name(),
             command.payloadWeight(),
             command.rawMaterialName(),
             activity.getPointInTime(),
@@ -102,15 +102,15 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         log.info("Published warehouse activity event to the invoicing context to update storage volume(adding): {}", warehouseActivityEvent.toString());
         warehouseActivityEventPublisherPort.publishWarehouseActivityEvent(warehouseActivityEvent);
 
-        // 7. Projecting warehouse activity to update read model
+        // Projecting warehouse activity to update read model
         projectWarehouseActivityUseCase.projectWarehouseActivity(activity);
         
-        // 8. Generate new weighing bridge number
+        // Generate new weighing bridge number
         String newWeighingBridgeNumber = generateNewWeighingBridgeNumber();
         log.info("Generated new weighing bridge number: {} for truck: {}", newWeighingBridgeNumber, command.licensePlate());
 
         
-        // 9. Generate PDT (Payload Delivery Ticket)
+        // Generate PDT (Payload Delivery Ticket)
         PayloadDeliveryTicket pdt = new PayloadDeliveryTicket(
             UUID.randomUUID(),
             command.licensePlate(),
@@ -123,10 +123,10 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
             newWeighingBridgeNumber
         );
         
-        // 10. Save PDT
+        // Save PDT
         PayloadDeliveryTicket savedPdt = pdtRepositoryPort.save(pdt);
         
-        // 11. Publishing event for other contexts
+        // Publishing event for other contexts
         pdtGeneratedPort.pdtGenerated(savedPdt);
         
         log.info("Payload delivery ticket generated: {} for truck: {}", 
@@ -149,7 +149,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
         if (command.payloadWeight() <= 0) {
             throw new IllegalArgumentException("Payload weight must be greater than 0");
         }
-        if (command.sellerId() == null || command.sellerId().trim().isEmpty()) {
+        if (command.sellerId() == null) {
             throw new IllegalArgumentException("Seller ID is required");
         }
     }
@@ -199,7 +199,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     }
 
     private String generateNewWeighingBridgeNumber() {
-        // Simple logic: generating a new bridge number
+        // Generating a new bridge number
         return "WB-" + (int)(Math.random() * 10 + 1);
     }
 } 

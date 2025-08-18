@@ -70,7 +70,7 @@ public class PurchaseOrderSubmittedAMQPPublisher implements PurchaseOrderSubmitt
                 purchaseOrder.getPurchaseOrderNumber(),
                 purchaseOrder.getCustomerNumber(),
                 purchaseOrder.getCustomerName(),
-                purchaseOrder.getSellerId(),
+                purchaseOrder.getSellerId().toString(),
                 purchaseOrder.getSellerName(),
                 purchaseOrder.getTotalValue(),
                 lineEvents,

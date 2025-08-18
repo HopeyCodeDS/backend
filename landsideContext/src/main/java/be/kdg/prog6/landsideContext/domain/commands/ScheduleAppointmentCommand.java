@@ -9,13 +9,13 @@ import java.util.UUID;
 @Getter
 public class ScheduleAppointmentCommand {
     private final UUID commandId;
-    private final String sellerId;
+    private final UUID sellerId;
     private final Truck truck;
     private final String rawMaterialName;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime scheduledTime;
     
-    public ScheduleAppointmentCommand(String sellerId, Truck truck, String rawMaterialName, 
+    public ScheduleAppointmentCommand(UUID sellerId, Truck truck, String rawMaterialName, 
                                     LocalDateTime scheduledTime) {
         this.commandId = UUID.randomUUID();
         this.sellerId = sellerId;

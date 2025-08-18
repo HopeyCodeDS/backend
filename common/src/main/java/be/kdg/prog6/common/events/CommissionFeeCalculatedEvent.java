@@ -7,7 +7,7 @@ public record CommissionFeeCalculatedEvent(
     UUID commissionFeeId,
     String purchaseOrderNumber,
     String customerNumber,
-    String sellerId,
+    UUID sellerId,
     double commissionAmount,
     double totalOrderValue,
     LocalDateTime calculationDate

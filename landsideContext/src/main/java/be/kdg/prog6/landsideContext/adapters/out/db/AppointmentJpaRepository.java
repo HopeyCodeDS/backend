@@ -16,7 +16,7 @@ public interface AppointmentJpaRepository extends JpaRepository<AppointmentJpaEn
     List<AppointmentJpaEntity> findByArrivalWindowOverlap(@Param("startTime") LocalDateTime startTime, 
                                                          @Param("endTime") LocalDateTime endTime);
     
-    List<AppointmentJpaEntity> findBySellerId(String sellerId);
+    List<AppointmentJpaEntity> findBySellerId(UUID sellerId);
     
     @Query("SELECT a FROM AppointmentJpaEntity a WHERE a.truck.licensePlate = :licensePlate")
     List<AppointmentJpaEntity> findByLicensePlate(@Param("licensePlate") String licensePlate);

@@ -22,7 +22,7 @@ public class WarehouseJpaEntity {
     private String warehouseNumber;
     
     @Column(name = "seller_id", nullable = false)
-    private String sellerId;
+    private UUID sellerId;
     
     @Column(name = "raw_material_name", nullable = false)
     private String rawMaterialName;

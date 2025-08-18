@@ -72,6 +72,12 @@ public class WarehouseActivityAMQPListener {
             if (record.hasRemainingTons()) {
                 double tonsToDeduct = Math.min(remainingToDeduct, record.getRemainingTons());
 
+                // Mark as vessel loading when fully consumed
+                if (record.getRemainingTons() <= tonsToDeduct) {
+                    // This record is fully consumed by vessel loading
+                    record.setSellerTracking(false); 
+                }
+
                 // update existing record instead of creating new ones
                 record.deductTons(tonsToDeduct);
 

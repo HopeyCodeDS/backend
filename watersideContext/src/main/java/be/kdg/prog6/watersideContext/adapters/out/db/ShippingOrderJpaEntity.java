@@ -3,6 +3,7 @@ package be.kdg.prog6.watersideContext.adapters.out.db;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import be.kdg.prog6.watersideContext.domain.BunkeringOperation;
 import be.kdg.prog6.watersideContext.domain.InspectionOperation;
@@ -14,7 +15,8 @@ import be.kdg.prog6.watersideContext.domain.ShippingOrder.ShippingOrderStatus;
 @Data
 public class ShippingOrderJpaEntity {
     @Id
-    private String shippingOrderId;
+    @Column(name = "shipping_order_id", columnDefinition = "BINARY(16)")
+    private UUID shippingOrderId;
     
     @Column(unique = true, nullable = false)
     private String shippingOrderNumber;

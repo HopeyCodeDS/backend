@@ -15,7 +15,7 @@ public class WarehouseProjectionJpaEntity {
     private String warehouseNumber;
     
     @Column(name = "seller_id")
-    private String sellerId;
+    private UUID sellerId;
     
     @Column(name = "assigned_material")
     private String assignedMaterial;

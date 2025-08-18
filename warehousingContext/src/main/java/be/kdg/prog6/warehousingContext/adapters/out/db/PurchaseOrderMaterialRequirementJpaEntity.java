@@ -3,6 +3,7 @@ package be.kdg.prog6.warehousingContext.adapters.out.db;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.UUID;
 
 @Entity
 @Table(catalog = "warehousing", name = "purchase_order_material_requirements")
@@ -11,8 +12,8 @@ import lombok.Setter;
 public class PurchaseOrderMaterialRequirementJpaEntity {
     
     @Id
-    @Column(name = "requirement_id", length = 36)
-    private String requirementId;
+    @Column(name = "requirement_id", columnDefinition = "BINARY(16)")
+    private UUID requirementId;
     
     @Column(name = "purchase_order_number", nullable = false)
     private String purchaseOrderNumber;

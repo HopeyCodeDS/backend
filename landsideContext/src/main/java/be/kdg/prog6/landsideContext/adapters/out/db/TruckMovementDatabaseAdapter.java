@@ -1,5 +1,6 @@
 package be.kdg.prog6.landsideContext.adapters.out.db;
 
+import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
 import be.kdg.prog6.landsideContext.domain.TruckLocation;
 import be.kdg.prog6.landsideContext.domain.TruckMovement;
 import be.kdg.prog6.landsideContext.ports.out.TruckMovementRepositoryPort;
@@ -38,7 +39,8 @@ public class TruckMovementDatabaseAdapter implements TruckMovementRepositoryPort
     
     @Override
     public List<TruckMovement> findAllOnSite() {
-        return truckMovementJpaRepository.findByCurrentLocationNot(TruckLocation.EXIT)
+        return truckMovementJpaRepository.findByCurrentLocationNotIn(
+                List.of(TruckLocation.EXIT, TruckLocation.SCHEDULED))
                 .stream()
                 .map(truckMovementMapper::toDomain)
                 .collect(Collectors.toList());
@@ -46,6 +48,7 @@ public class TruckMovementDatabaseAdapter implements TruckMovementRepositoryPort
     
     @Override
     public long countTrucksOnSite() {
-        return truckMovementJpaRepository.countByCurrentLocationNot(TruckLocation.EXIT);
+        return truckMovementJpaRepository.countByCurrentLocationNotIn(
+                List.of(TruckLocation.EXIT, TruckLocation.SCHEDULED));
     }
 } 

@@ -9,7 +9,7 @@ public class PurchaseOrderMaterialRequirementJpaMapper {
     
     public PurchaseOrderMaterialRequirementJpaEntity toJpa(PurchaseOrderMaterialRequirement domain) {
         PurchaseOrderMaterialRequirementJpaEntity entity = new PurchaseOrderMaterialRequirementJpaEntity();
-        entity.setRequirementId(domain.getRequirementId().toString());
+        entity.setRequirementId(domain.getRequirementId());
         entity.setPurchaseOrderNumber(domain.getPurchaseOrderNumber());
         entity.setRawMaterialName(domain.getRawMaterialName());
         entity.setRequiredAmountInTons(domain.getRequiredAmountInTons());
@@ -22,7 +22,7 @@ public class PurchaseOrderMaterialRequirementJpaMapper {
     
     public PurchaseOrderMaterialRequirement toDomain(PurchaseOrderMaterialRequirementJpaEntity entity) {
         return new PurchaseOrderMaterialRequirement(
-            UUID.fromString(entity.getRequirementId()),
+            entity.getRequirementId(),
             entity.getPurchaseOrderNumber(),
             entity.getRawMaterialName(),
             entity.getRequiredAmountInTons(),

@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 public class ScheduleAppointmentRequestDto {
-    private String sellerId;
+    private UUID sellerId;
     private String licensePlate;
     private Truck.TruckType truckType;
     private String rawMaterialName;

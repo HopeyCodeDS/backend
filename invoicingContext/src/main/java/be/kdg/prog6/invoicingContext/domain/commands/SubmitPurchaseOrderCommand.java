@@ -5,20 +5,21 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class SubmitPurchaseOrderCommand {
     private final String purchaseOrderNumber;
     private final String customerNumber;
     private final String customerName;
-    private final String sellerId;
+    private final UUID sellerId;
     private final String sellerName;
     
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime orderDate;
     private final List<PurchaseOrderLineCommand> orderLines;
 
-    public SubmitPurchaseOrderCommand(String purchaseOrderNumber, String customerNumber, String customerName, String sellerId, String sellerName, LocalDateTime orderDate, List<PurchaseOrderLineCommand> orderLines) {
+    public SubmitPurchaseOrderCommand(String purchaseOrderNumber, String customerNumber, String customerName, UUID sellerId, String sellerName, LocalDateTime orderDate, List<PurchaseOrderLineCommand> orderLines) {
         this.purchaseOrderNumber = purchaseOrderNumber;
         this.customerNumber = customerNumber;
         this.customerName = customerName;

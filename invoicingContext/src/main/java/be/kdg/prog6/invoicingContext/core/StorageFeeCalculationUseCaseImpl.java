@@ -39,6 +39,17 @@ public class StorageFeeCalculationUseCaseImpl implements StorageFeeCalculationUs
             log.info("No storage tracking records found for date: {}", calculationDate);
             return;
         }
+
+        // Log each record(i needed this for debugging purposes)
+        for (StorageTracking record : allStorageRecords) {
+            log.info("Record: PDT={}, Warehouse={}, Material={}, RemainingTons={}, StorageCost={}, CostInDollars={}", 
+                record.getPdtId(), 
+                record.getWarehouseNumber(), 
+                record.getMaterialType(), 
+                record.getRemainingTons(),
+                record.getStorageCost(),
+                record.getCostInDollars());
+        }
         
         // Group records by warehouse and material
         Map<String, List<StorageTracking>> groupedRecords = allStorageRecords.stream()
@@ -90,10 +101,13 @@ public class StorageFeeCalculationUseCaseImpl implements StorageFeeCalculationUs
                 
                 storageFeeRepositoryPort.save(storageFee);
                 
-                log.info("The storage fee calculated for {} materials stored in warehouse {} is ${} on this day {}", 
-                    materialType, warehouseNumber, totalDailyFee, calculationDate);
+                log.info("Storage fee saved: ${} for {} materials in warehouse {} on {}", 
+                totalDailyFee, materialType, warehouseNumber, calculationDate);
+            } else {
+                log.warn("No storage fee calculated for {} in warehouse {} (totalDailyFee = {})", 
+                    materialType, warehouseNumber, totalDailyFee);
             }
-        }
+        }   
         
         log.info("Daily storage fee calculation completed for date: {}", calculationDate);
     }
@@ -103,8 +117,8 @@ public class StorageFeeCalculationUseCaseImpl implements StorageFeeCalculationUs
         
         for (StorageTracking record : storageRecords) {
             if (record.hasRemainingTons()) {
-                // Pre-calculated cost from the record
-                double costForDate = calculateCostForDate(record, calculationDate);
+                // Using pre-calculated costInDollars from the record
+                double costForDate = record.getCostInDollars();
                 totalFee += costForDate;
                 
                 log.debug("PDT {}: {} tons remaining for {} days = ${} (Warehouse: {}, Material: {})", 
@@ -118,21 +132,11 @@ public class StorageFeeCalculationUseCaseImpl implements StorageFeeCalculationUs
             }
         }
         
+        log.info("Total fee calculated: ${} for {} records", totalFee, storageRecords.size());
         return totalFee;
     }
 
-    // Helper method to calculate cost for a specific date WITHOUT modifying the record
-    private double calculateCostForDate(StorageTracking record, LocalDate calculationDate) {
-        long daysForDate = calculateDaysForDate(record, calculationDate);
-        
-        if (daysForDate >= 0 && record.hasRemainingTons()) {
-            return record.getRemainingTons() * record.getStorageCost() * daysForDate;
-        }
-        
-        return 0.0;
-    }
-
-    // Helper method to calculate days for a specific date WITHOUT modifying the record
+    // Helper method to calculate days for a specific date without modifying the record
     private long calculateDaysForDate(StorageTracking record, LocalDate calculationDate) {
         return java.time.temporal.ChronoUnit.DAYS.between(
             record.getDeliveryTime().toLocalDate(), 

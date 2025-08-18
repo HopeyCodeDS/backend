@@ -16,10 +16,11 @@ public interface TruckMovementJpaRepository extends JpaRepository<TruckMovementJ
     
     @Query("SELECT tm FROM TruckMovementJpaEntity tm WHERE tm.licensePlate = :licensePlate")
     Optional<TruckMovementJpaEntity> findByLicensePlate(@Param("licensePlate") String licensePlate);
-    
-    @Query("SELECT tm FROM TruckMovementJpaEntity tm WHERE tm.currentLocation != :exitLocation")
-    List<TruckMovementJpaEntity> findByCurrentLocationNot(@Param("exitLocation") TruckLocation exitLocation);
-    
-    @Query("SELECT COUNT(tm) FROM TruckMovementJpaEntity tm WHERE tm.currentLocation != :exitLocation")
-    long countByCurrentLocationNot(@Param("exitLocation") TruckLocation exitLocation);
-} 
+
+    @Query("SELECT tm FROM TruckMovementJpaEntity tm WHERE tm.currentLocation NOT IN (:excludedLocations)")
+    List<TruckMovementJpaEntity> findByCurrentLocationNotIn(@Param("excludedLocations") List<TruckLocation> excludedLocations);
+
+    @Query("SELECT COUNT(tm) FROM TruckMovementJpaEntity tm WHERE tm.currentLocation NOT IN (:excludedLocations)")
+    long countByCurrentLocationNotIn(@Param("excludedLocations") List<TruckLocation> excludedLocations);
+
+}

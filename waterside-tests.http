@@ -27,10 +27,10 @@ Content-Type: application/json
 Authorization: Bearer {{ship_captain_access_token}}
 
 {
-  "shippingOrderNumber": "SO-2025-001",
-  "purchaseOrderReference": "PO-2025-001",
-  "vesselNumber": "VESSEL-001",
-  "customerNumber": "CUST-001",
+  "shippingOrderNumber": "SO-2025-101",
+  "purchaseOrderReference": "PO-2025-101",
+  "vesselNumber": "VESSEL-101",
+  "customerNumber": "CUST-101",
   "estimatedArrivalDate": "03/09/2025 08:00",
   "estimatedDepartureDate": "05/09/2025 08:00",
   "actualArrivalDate": "04/09/2025 10:00"
@@ -42,10 +42,10 @@ Content-Type: application/json
 Authorization: Bearer {{ship_captain_access_token}}
 
 {
-  "shippingOrderNumber": "SO-2025-002",
-  "purchaseOrderReference": "PO-2025-002",
-  "vesselNumber": "VESSEL-002",
-  "customerNumber": "CUST-002",
+  "shippingOrderNumber": "SO-2025-102",
+  "purchaseOrderReference": "PO-2025-102",
+  "vesselNumber": "VESSEL-102",
+  "customerNumber": "CUST-102",
   "estimatedArrivalDate": "03/09/2025 10:00",
   "estimatedDepartureDate": "05/09/2025 12:00",
   "actualArrivalDate": "04/09/2025 10:00"
@@ -86,7 +86,7 @@ Content-Type: application/json
 Authorization: Bearer {{foreman_access_token}}
 
 {
-  "shippingOrderId": "16e84642-630c-4143-88d6-42823567c0b7",
+  "shippingOrderId": "5740f04c-1fd9-4a0e-81ad-bc0910c70038",
   "foremanSignature": "Foreman_Michael_Johnson"
 }
 
@@ -96,7 +96,7 @@ Content-Type: application/json
 Authorization: Bearer {{foreman_access_token}}
 
 {
-  "shippingOrderId": "363dbeff-148f-4593-bf87-85caa11b5c6b",
+  "shippingOrderId": "4e0a65a2-8bcd-47a4-9701-19d4d782b1ce",
   "foremanSignature": "Foreman_Michael_Johnson"
 }
 
@@ -129,7 +129,7 @@ Content-Type: application/json
 Authorization: Bearer {{inspector_access_token}}
 
 {
-  "shippingOrderId": "16e84642-630c-4143-88d6-42823567c0b7",
+  "shippingOrderId": "5740f04c-1fd9-4a0e-81ad-bc0910c70038",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 
@@ -139,7 +139,7 @@ Content-Type: application/json
 Authorization: Bearer {{inspector_access_token}}
 
 {
-  "shippingOrderId": "363dbeff-148f-4593-bf87-85caa11b5c6b",
+  "shippingOrderId": "4e0a65a2-8bcd-47a4-9701-19d4d782b1ce",
   "inspectorSignature": "Inspector_Adrian_Van_Hecke"
 }
 
@@ -172,7 +172,7 @@ Content-Type: application/json
 Authorization: Bearer {{bunkering_officer_access_token}}
 
 {
-  "shippingOrderId": "16e84642-630c-4143-88d6-42823567c0b7",
+  "shippingOrderId": "5740f04c-1fd9-4a0e-81ad-bc0910c70038",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
 
@@ -182,7 +182,7 @@ Content-Type: application/json
 Authorization: Bearer {{bunkering_officer_access_token}}
 
 {
-  "shippingOrderId": "363dbeff-148f-4593-bf87-85caa11b5c6b",
+  "shippingOrderId": "4e0a65a2-8bcd-47a4-9701-19d4d782b1ce",
   "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
 }
 
@@ -211,7 +211,7 @@ scope=openid
 ### -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
 
 ### Post-Loading Storage Fee Calculation (04/09/2025)
-POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-04
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-05
 Authorization: Bearer {{accountant_access_token}}
 
 
@@ -237,15 +237,15 @@ scope=openid
 
 
 ### Get Operations Overview for Vessel 1
-GET http://localhost:8190/api/waterside/captain/operations/VESSEL-001
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-101
 Authorization: Bearer {{ship_captain_access_token}}
 
 ### Get Operations Overview for Vessel 2
-GET http://localhost:8190/api/waterside/captain/operations/VESSEL-002
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-102
 Authorization: Bearer {{ship_captain_access_token}}
 
 ### Get Operations Overview for Vessel 3
-GET http://localhost:8190/api/waterside/captain/operations/VESSEL-003
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-009
 Authorization: Bearer {{ship_captain_access_token}}
 
 ### Get Operations Overview for all vessels

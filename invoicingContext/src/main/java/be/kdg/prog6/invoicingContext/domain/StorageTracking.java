@@ -2,6 +2,7 @@ package be.kdg.prog6.invoicingContext.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
+@Setter
 public class StorageTracking {
     private final UUID trackingId;
     private final String warehouseNumber;
@@ -19,6 +21,8 @@ public class StorageTracking {
     private final LocalDateTime deliveryTime;
     private final UUID pdtId;
     private double remainingTons;
+
+    private boolean isSellerTracking; // true = sellerId, false = vesselNumber
     
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDate storageCostCalculationDate;
@@ -35,18 +39,18 @@ public class StorageTracking {
         "PETCOKE", 10.0,    // $10 per ton per day
         "SLAG", 7.0         // $7 per ton per day
     );
-    
-    public StorageTracking(String warehouseNumber, String customerNumber, String materialType,
+
+    public StorageTracking(String warehouseNumber, UUID sellerId, String materialType,
                           double tonsStored, LocalDateTime deliveryTime, UUID pdtId) {
         this.trackingId = UUID.randomUUID();
         this.warehouseNumber = warehouseNumber;
-        this.customerNumber = customerNumber;
+        this.customerNumber = sellerId.toString();  // Convert UUID to String
         this.materialType = materialType;
         this.tonsStored = tonsStored;
         this.remainingTons = tonsStored;
         this.deliveryTime = deliveryTime;
         this.pdtId = pdtId;
-        this.storageCost = STORAGE_RATES.getOrDefault(materialType.toUpperCase(), 0.0);
+        this.isSellerTracking = true;  // Mark as seller tracking
         
         // Calculate storage costs from delivery date to current date
         calculateInitialStorageCost(DEFAULT_CALCULATION_DATE);
@@ -55,7 +59,7 @@ public class StorageTracking {
     // Constructor for loading existing records
     public StorageTracking(UUID trackingId, String warehouseNumber, String customerNumber, String materialType,
                           double tonsStored, LocalDateTime deliveryTime, UUID pdtId, double remainingTons,
-                          LocalDate storageCostCalculationDate, long numberOfDays, double costInDollars, double storageCost) {
+                          LocalDate storageCostCalculationDate, long numberOfDays, double costInDollars, double storageCost, boolean isSellerTracking) {
         this.trackingId = trackingId;
         this.warehouseNumber = warehouseNumber;
         this.customerNumber = customerNumber;
@@ -68,8 +72,53 @@ public class StorageTracking {
         this.numberOfDays = numberOfDays;
         this.costInDollars = costInDollars;
         this.storageCost = storageCost;
+        this.isSellerTracking = isSellerTracking;
     }
     
+
+    // Constructor for vessel loading (String vesselNumber)
+    public StorageTracking(String warehouseNumber, String vesselNumber, String materialType,
+                          double tonsStored, LocalDateTime loadingTime, UUID pdtId) {
+        this.trackingId = UUID.randomUUID();
+        this.warehouseNumber = warehouseNumber;
+        this.customerNumber = vesselNumber;  // Keep as String
+        this.materialType = materialType;
+        this.tonsStored = tonsStored;
+        this.remainingTons = 0.0;  // Already loaded
+        this.deliveryTime = loadingTime;
+        this.pdtId = pdtId;  // Reuse pdtId field for shippingOrderId
+        this.isSellerTracking = false;  // Mark as vessel tracking
+        
+        // Calculate storage costs from delivery date to current date
+        calculateInitialStorageCost(DEFAULT_CALCULATION_DATE);
+    }
+
+    public boolean isSellerTracking() {
+        return isSellerTracking;
+    }
+    
+    public boolean isVesselTracking() {
+        return !isSellerTracking;
+    }
+
+    public void setSellerTracking(boolean isSellerTracking) {
+        this.isSellerTracking = isSellerTracking;
+    }
+
+    public UUID getSellerId() {
+        if (isSellerTracking) {
+            return UUID.fromString(customerNumber);
+        }
+        throw new IllegalStateException("This is not a seller tracking record");
+    }
+    
+    public String getVesselNumber() {
+        if (!isSellerTracking) {
+            return customerNumber;
+        }
+        throw new IllegalStateException("This is not a vessel tracking record");
+    }
+
     public void deductTons(double tonsToDeduct) {
         if (tonsToDeduct > this.remainingTons) {
             throw new IllegalStateException("Cannot deduct more tons than remaining");
@@ -102,9 +151,11 @@ public class StorageTracking {
         
         // Only calculate cost if delivery is in the past or present relative to calculation date
         if (this.numberOfDays >= 0 && this.remainingTons > 0) {
-            this.costInDollars = this.remainingTons * this.storageCost * this.numberOfDays;
+            this.costInDollars = this.remainingTons * this.getStorageCost() * this.numberOfDays;
+            this.storageCost = this.getStorageCost();
         } else {
             this.costInDollars = 0.0;
+            this.storageCost = 0.0;
         }
     }
     
@@ -117,9 +168,11 @@ public class StorageTracking {
         );
         
         if (this.numberOfDays >= 0 && this.remainingTons > 0) {
-            this.costInDollars = this.remainingTons * this.storageCost * this.numberOfDays;
+            this.costInDollars = this.remainingTons * this.getStorageCost() * this.numberOfDays;
+            this.storageCost = this.getStorageCost();
         } else {
             this.costInDollars = 0.0;
+            this.storageCost = 0.0;
         }
     }
     
@@ -127,5 +180,5 @@ public class StorageTracking {
     public LocalDate getStorageCostCalculationDate() { return storageCostCalculationDate; }
     public long getNumberOfDays() { return numberOfDays; }
     public double getCostInDollars() { return costInDollars; }
-    public double getStorageCost() { return storageCost; }
+    public double getStorageCost() { return STORAGE_RATES.getOrDefault(this.materialType.toUpperCase(), 0.0); }
 }   

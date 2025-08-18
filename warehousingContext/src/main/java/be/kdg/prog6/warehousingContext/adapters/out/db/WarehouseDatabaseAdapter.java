@@ -18,7 +18,7 @@ public class WarehouseDatabaseAdapter implements WarehouseRepositoryPort {
     private final WarehouseMapper warehouseMapper;
     
     @Override
-    public List<Warehouse> findAvailableWarehouses(String sellerId, String rawMaterialName) {
+    public List<Warehouse> findAvailableWarehouses(UUID sellerId, String rawMaterialName) {
         List<WarehouseJpaEntity> jpaEntities = warehouseJpaRepository.findBySellerIdAndRawMaterialName(sellerId, rawMaterialName);
         return jpaEntities.stream()
                 .map(warehouseMapper::toDomain)

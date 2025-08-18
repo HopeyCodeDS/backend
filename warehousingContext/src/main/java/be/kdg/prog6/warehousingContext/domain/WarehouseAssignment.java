@@ -13,13 +13,13 @@ public class WarehouseAssignment {
     private final String licensePlate;
     private final String warehouseNumber;
     private final String rawMaterialName;
-    private final String sellerId;
+    private final UUID sellerId;
     private final double truckWeight;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime assignedAt;
 
     public WarehouseAssignment(UUID assignmentId, UUID warehouseId, String licensePlate, 
-                             String warehouseNumber, String rawMaterialName, String sellerId, 
+                             String warehouseNumber, String rawMaterialName, UUID sellerId, 
                              double truckWeight, LocalDateTime assignedAt) {
         this.assignmentId = assignmentId;
         this.warehouseId = warehouseId;

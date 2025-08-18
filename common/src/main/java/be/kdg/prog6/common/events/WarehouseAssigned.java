@@ -9,6 +9,6 @@ public record WarehouseAssigned(
         @JsonProperty("licensePlate") String licensePlate,
         @JsonProperty("warehouseNumber") String warehouseNumber,
         @JsonProperty("rawMaterialName") String rawMaterialName,
-        @JsonProperty("sellerId") String sellerId,
+        @JsonProperty("sellerId") UUID sellerId,
         @JsonProperty("truckWeight") double truckWeight) {
 }

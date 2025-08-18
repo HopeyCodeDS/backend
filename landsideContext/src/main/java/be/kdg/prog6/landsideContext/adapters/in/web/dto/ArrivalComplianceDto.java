@@ -10,7 +10,7 @@ import java.util.UUID;
 public class ArrivalComplianceDto {
     UUID appointmentId;
     String licensePlate;
-    String sellerId;
+    UUID sellerId;
     String rawMaterial;
     
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")

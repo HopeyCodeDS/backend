@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +19,7 @@ public class WarehouseOverviewDto {
     @AllArgsConstructor
     public static class WarehouseDetailDto {
         private String warehouseNumber;
-        private String sellerId;
+        private UUID sellerId;
         private String rawMaterialName;
         private double currentCapacity;
         private double maxCapacity;

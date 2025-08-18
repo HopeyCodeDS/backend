@@ -27,10 +27,10 @@ Content-Type: application/json
 Authorization: Bearer {{buyer_access_token}}
 
 {
-  "purchaseOrderNumber": "PO-2025-001",
-  "customerNumber": "CUST-001",
+  "purchaseOrderNumber": "PO-2025-101",
+  "customerNumber": "CUST-101",
   "customerName": "Steel Manufacturing Co.",
-  "sellerId": "seller-001",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "sellerName": "De klant van KDG",
   "orderDate": "01/09/2025 08:00",
   "orderLines": [
@@ -56,10 +56,10 @@ Content-Type: application/json
 Authorization: Bearer {{buyer_access_token}}
 
 {
-  "purchaseOrderNumber": "PO-2025-002",
-  "customerNumber": "CUST-002",
+  "purchaseOrderNumber": "PO-2025-102",
+  "customerNumber": "CUST-102",
   "customerName": "Cement Industries Ltd.",
-  "sellerId": "seller-001",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "sellerName": "De klant van KDG",
   "orderDate": "01/09/2025 08:00",
   "orderLines": [

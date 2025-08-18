@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -67,7 +68,7 @@ public class StorageFeeDatabaseAdapter implements StorageFeeRepositoryPort {
     }
 
     @Override
-    public List<StorageFee> findBySellerId(String sellerId) {
+    public List<StorageFee> findBySellerId(UUID sellerId) {
         return jpaRepository.findBySellerId(sellerId)
             .stream()
             .map(mapper::toDomain)
@@ -75,7 +76,7 @@ public class StorageFeeDatabaseAdapter implements StorageFeeRepositoryPort {
     }
 
     @Override
-    public List<StorageFee> findBySellerIdAndCalculationDateBetween(String sellerId, LocalDate startDate, LocalDate endDate) {
+    public List<StorageFee> findBySellerIdAndCalculationDateBetween(UUID sellerId, LocalDate startDate, LocalDate endDate) {
         return jpaRepository.findBySellerIdAndCalculationDateBetween(sellerId, startDate, endDate)
             .stream()
             .map(mapper::toDomain)
@@ -83,7 +84,7 @@ public class StorageFeeDatabaseAdapter implements StorageFeeRepositoryPort {
     }
 
     @Override
-    public List<StorageFee> findBySellerIdAndCalculationDate(String sellerId, LocalDate calculationDate) {
+    public List<StorageFee> findBySellerIdAndCalculationDate(UUID sellerId, LocalDate calculationDate) {
         return jpaRepository.findBySellerIdAndCalculationDate(sellerId, calculationDate)
             .stream()
             .map(mapper::toDomain)

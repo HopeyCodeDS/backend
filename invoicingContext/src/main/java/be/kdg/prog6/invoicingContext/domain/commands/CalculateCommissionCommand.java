@@ -1,8 +1,10 @@
 package be.kdg.prog6.invoicingContext.domain.commands;
 
+import java.util.UUID;
+
 public record CalculateCommissionCommand(
     String purchaseOrderNumber,
     String customerNumber, 
-    String sellerId,
+    UUID sellerId,
     double totalValue
 ) {}

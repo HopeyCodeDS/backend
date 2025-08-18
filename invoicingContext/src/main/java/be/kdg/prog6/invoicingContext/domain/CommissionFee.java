@@ -9,12 +9,12 @@ public class CommissionFee {
     private final UUID commissionFeeId;
     private final String purchaseOrderNumber;
     private final String customerNumber;
-    private final String sellerId;
+    private final UUID sellerId;
     private final double amount;
     private final LocalDateTime calculationDate;
     
     public CommissionFee(String purchaseOrderNumber, String customerNumber, 
-                        String sellerId, double amount, LocalDateTime calculationDate) {
+                        UUID sellerId, double amount, LocalDateTime calculationDate) {
         this.commissionFeeId = UUID.randomUUID();
         this.purchaseOrderNumber = purchaseOrderNumber;
         this.customerNumber = customerNumber;

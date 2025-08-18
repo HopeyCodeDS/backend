@@ -31,7 +31,7 @@ public class TruckLeftWeighingBridgeAMQPPublisher implements TruckLeftWeighingBr
     }
 
     @Override
-    public void truckLeftWeighingBridge(TruckMovement movement, String rawMaterialName, String sellerId) {
+    public void truckLeftWeighingBridge(TruckMovement movement, String rawMaterialName, UUID sellerId) {
         log.info("Publishing event that truck left weighing bridge");
         
         var eventHeader = EventHeader.builder()
