@@ -10,15 +10,17 @@ import java.util.UUID;
 public class ScheduleAppointmentCommand {
     private final UUID commandId;
     private final UUID sellerId;
+    private final String sellerName;
     private final Truck truck;
     private final String rawMaterialName;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private final LocalDateTime scheduledTime;
     
-    public ScheduleAppointmentCommand(UUID sellerId, Truck truck, String rawMaterialName, 
+    public ScheduleAppointmentCommand(UUID sellerId, String sellerName, Truck truck, String rawMaterialName, 
                                     LocalDateTime scheduledTime) {
         this.commandId = UUID.randomUUID();
         this.sellerId = sellerId;
+        this.sellerName = sellerName;
         this.truck = truck;
         this.rawMaterialName = rawMaterialName;
         this.scheduledTime = scheduledTime;

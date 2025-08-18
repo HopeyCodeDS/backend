@@ -23,6 +23,9 @@ public class AppointmentJpaEntity {
     @Column(name = "seller_id", nullable = false)
     private UUID sellerId;
     
+    @Column(name = "seller_name", nullable = false)
+    private String sellerName;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "truck_id", nullable = false)
     private TruckJpaEntity truck;

@@ -1,6 +1,8 @@
 package be.kdg.prog6.landsideContext.domain;
 
 import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -9,11 +11,17 @@ public class TruckMovement {
     private final UUID movementId;
     private final LicensePlate licensePlate;
     private final LocalDateTime entryTime;
+    // Package-private methods for mapper use only
+    @Setter
     private TruckLocation currentLocation;
+    @Setter
     private String assignedBridgeNumber;
+    @Setter
+    @Getter
     private String exitWeighbridgeNumber;
     private Double truckWeight;
     private String assignedWarehouse;
+    @Setter
     private LocalDateTime bridgeAssignmentTime;
     
     public TruckMovement(UUID movementId, LicensePlate licensePlate, LocalDateTime entryTime) {
@@ -23,31 +31,26 @@ public class TruckMovement {
         this.currentLocation = TruckLocation.GATE;
         this.exitWeighbridgeNumber = null;
     }
+
+    public static TruckMovement startAtGate(LicensePlate plate, LocalDateTime entryTime) {
+        return new TruckMovement(UUID.randomUUID(), plate, entryTime);
+    }
     
     public void assignWeighingBridge(String bridgeNumber, LocalDateTime bridgeAssignmentTime) {
-        if (currentLocation != TruckLocation.GATE) {
+        if (isAtGate()) {
             throw new IllegalStateException("Truck must be at gate to assign weighing bridge");
         }
         
         this.assignedBridgeNumber = bridgeNumber;
-        this.currentLocation = TruckLocation.WEIGHING_BRIDGE;
         this.bridgeAssignmentTime = bridgeAssignmentTime;
     }
     
     public void enterWeighingBridge() {
-        if (currentLocation != TruckLocation.GATE || assignedBridgeNumber == null) {
+        if (isAtGate() || !hasAssignedBridge()) {
             throw new IllegalStateException("Truck must be at gate with assigned bridge to enter weighing bridge");
         }
         
         this.currentLocation = TruckLocation.WEIGHING_BRIDGE;
-    }
-
-    public void setExitWeighbridgeNumber(String exitWeighbridgeNumber) {
-        this.exitWeighbridgeNumber = exitWeighbridgeNumber;
-    }
-
-    public String getExitWeighbridgeNumber() {
-        return exitWeighbridgeNumber;
     }
 
     public boolean hasExitWeighbridgeNumber() {
@@ -64,6 +67,9 @@ public class TruckMovement {
 
     // Method to assign warehouse
     public void assignWarehouse(String warehouseNumber) {
+        if (!isReadyForWarehouseAssignment()) {
+            throw new IllegalStateException("Truck must be ready for warehouse assignment to assign warehouse");
+        }
         this.assignedWarehouse = warehouseNumber;
         this.currentLocation = TruckLocation.WAREHOUSE;
     }
@@ -89,29 +95,18 @@ public class TruckMovement {
     }
     
     public boolean isAtGate() {
-        return currentLocation == TruckLocation.GATE;
+        return currentLocation != TruckLocation.GATE;
     }
     
     public boolean hasAssignedBridge() {
         return assignedBridgeNumber != null;
     }
-    
-    // Package-private methods for mapper use only
-    public void setCurrentLocation(TruckLocation location) {
-        this.currentLocation = location;
-    }
-    
-    public void setAssignedBridgeNumber(String bridgeNumber) {
-        this.assignedBridgeNumber = bridgeNumber;
-    }
-    
-    public void setBridgeAssignmentTime(LocalDateTime time) {
-        this.bridgeAssignmentTime = time;
-    }
 
     public void recordWeighing(double truckWeight) {
+        if (!isAtWeighingBridge()) {
+            throw new IllegalStateException("Truck must be at weighing bridge to record weighing");
+        }
         this.truckWeight = truckWeight;
-        this.currentLocation = TruckLocation.WEIGHING_BRIDGE;
     }
 
     public boolean isReadyForWarehouseAssignment() {

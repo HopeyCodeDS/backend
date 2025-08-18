@@ -15,7 +15,7 @@ import java.util.UUID;
 public class GetAppointmentUseCaseImpl implements GetAppointmentUseCase {
     
     private final AppointmentRepositoryPort appointmentRepositoryPort;
-    
+
     @Override
     public Appointment getAppointment(UUID appointmentId) {
         log.info("Retrieving appointment with ID: {}", appointmentId);

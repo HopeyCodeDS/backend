@@ -11,6 +11,7 @@ import java.util.UUID;
 public class Appointment {
     private final UUID appointmentId;
     private final UUID sellerId;
+    private final String sellerName;
     private final Truck truck;
     private final RawMaterial rawMaterial;
     private final ArrivalWindow arrivalWindow;
@@ -19,15 +20,36 @@ public class Appointment {
     private LocalDateTime scheduledTime;
     
     
-    public Appointment(UUID appointmentId, UUID sellerId, Truck truck, 
+    public Appointment(UUID appointmentId, UUID sellerId, String sellerName, Truck truck, 
                       RawMaterial rawMaterial, ArrivalWindow arrivalWindow, LocalDateTime scheduledTime) {
         this.appointmentId = appointmentId;
         this.sellerId = sellerId;
+        this.sellerName = sellerName;
         this.truck = truck;
         this.rawMaterial = rawMaterial;
         this.arrivalWindow = arrivalWindow;
         this.status = AppointmentStatus.SCHEDULED;
         this.scheduledTime = scheduledTime; 
+    }
+
+    public static Appointment schedule(UUID sellerId, String sellerName, Truck truck,
+                                       RawMaterial rawMaterial, ArrivalWindow window,
+                                       LocalDateTime scheduledTime) {
+        if (sellerId == null) throw new IllegalArgumentException("Seller ID is required");
+        if (sellerName == null) throw new IllegalArgumentException("Seller name is required");
+        if (truck == null) throw new IllegalArgumentException("Truck is required");
+        if (rawMaterial == null) throw new IllegalArgumentException("Raw material is required");
+        if (scheduledTime == null) throw new IllegalArgumentException("Scheduled time is required");
+        if (!window.isWithinWindow(scheduledTime)) {
+            throw new IllegalArgumentException("Scheduled time must be within arrival window");
+        }
+
+        Appointment appointment = new Appointment(UUID.randomUUID(), sellerId, sellerName, truck, rawMaterial, window, scheduledTime);
+
+        // the window enforce capacity check
+        window.addAppointment(appointment);
+
+        return appointment;
     }
     
     public void markAsArrived(LocalDateTime scheduledTime) {

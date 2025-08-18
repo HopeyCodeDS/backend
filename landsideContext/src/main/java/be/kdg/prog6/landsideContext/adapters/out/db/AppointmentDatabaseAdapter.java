@@ -2,6 +2,7 @@ package be.kdg.prog6.landsideContext.adapters.out.db;
 
 import be.kdg.prog6.landsideContext.domain.Appointment;
 import be.kdg.prog6.landsideContext.domain.ArrivalWindow;
+import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
 import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,13 @@ public class AppointmentDatabaseAdapter implements AppointmentRepositoryPort {
             throw e;
         }
     }
-    
+
+    @Override
+    @Transactional
+    public void deleteById(UUID appointmentId) {
+        appointmentJpaRepository.deleteById(appointmentId);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Appointment> findById(UUID appointmentId) {
@@ -92,6 +99,22 @@ public class AppointmentDatabaseAdapter implements AppointmentRepositoryPort {
                     .collect(Collectors.toList());
         } catch (Exception e) {
             log.error("Error finding all appointments: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Appointment> findByStatus(AppointmentStatus status) {
+        try {
+            log.info("Finding appointments with status: {}", status);
+            List<AppointmentJpaEntity> jpaEntities = appointmentJpaRepository.findByStatus(status);
+            log.info("Found {} appointments with status: {}", jpaEntities.size(), status);
+            return jpaEntities.stream()
+                    .map(appointmentMapper::toDomain)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("Error finding appointments by status: {}", e.getMessage(), e);
             throw e;
         }
     }

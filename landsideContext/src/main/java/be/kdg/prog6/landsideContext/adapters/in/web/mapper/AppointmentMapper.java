@@ -18,6 +18,7 @@ public class AppointmentMapper {
         
         return new ScheduleAppointmentCommand(
             requestDto.getSellerId(),
+            requestDto.getSellerName(),
             truck,
             requestDto.getRawMaterialName(),
             requestDto.getScheduledTime()

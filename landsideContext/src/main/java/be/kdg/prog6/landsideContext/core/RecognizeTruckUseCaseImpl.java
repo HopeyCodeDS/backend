@@ -58,8 +58,7 @@ public class RecognizeTruckUseCaseImpl implements RecognizeTruckUseCase {
         truckArrivedPort.truckArrived(appointment);
 
         // Create truck movement
-        TruckMovement truckMovement = new TruckMovement(
-            UUID.randomUUID(),
+        TruckMovement truckMovement = TruckMovement.startAtGate(
             appointment.getTruck().getLicensePlate(),
             command.getRecognitionTime()
         );

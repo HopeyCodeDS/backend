@@ -34,20 +34,14 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         // Find or create truck
         Truck truck = findOrCreateTruck(command.getTruck());
         
-        // Check capacity (max 40 trucks per hour)
-        if (!isCapacityAvailable(arrivalWindow)) {
-            throw new IllegalStateException("No capacity available for the requested time slot. Maximum 40 trucks per hour allowed.");
-        }
-        
-        // Create appointment
-        UUID appointmentId = UUID.randomUUID();
-        Appointment appointment = new Appointment(
-            appointmentId,
-            command.getSellerId(),
-            truck,
-            rawMaterial,
-            arrivalWindow,
-            command.getScheduledTime()
+        // Domain handles the capacity check & appointment creation
+        Appointment appointment = Appointment.schedule(
+                command.getSellerId(),
+                command.getSellerName(),
+                truck,
+                rawMaterial,
+                arrivalWindow,
+                command.getScheduledTime()
         );
         
         // Save appointment
@@ -56,28 +50,24 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         // Publish event through output port
         appointmentScheduledPort.appointmentScheduled(appointment);
         
-        return appointmentId;
+        return appointment.getAppointmentId();
     }
 
     private Truck findOrCreateTruck(Truck commandTruck) {
         // Try to find existing truck by license plate
         Optional<Truck> existingTruck = truckRepositoryPort.findByLicensePlate(
-            commandTruck.getLicensePlate().getValue()
+                commandTruck.getLicensePlate().getValue()
         );
-        
-        if (existingTruck.isPresent()) {
-            return existingTruck.get();
-        }
-        
-        // Create new truck if not found
-        Truck newTruck = new Truck(
-            UUID.randomUUID(),
-            commandTruck.getLicensePlate(),
-            commandTruck.getTruckType()
-        );
-        
-        truckRepositoryPort.save(newTruck);
-        return newTruck;
+
+        return existingTruck.orElseGet(() -> {
+            Truck newTruck = new Truck(
+                    UUID.randomUUID(),
+                    commandTruck.getLicensePlate(),
+                    commandTruck.getTruckType()
+            );
+            truckRepositoryPort.save(newTruck);
+            return newTruck;
+        });
     }
     
     private void validateCommand(ScheduleAppointmentCommand command) {
@@ -102,10 +92,5 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         if (command.getScheduledTime().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Scheduled time cannot be in the past");
         }
-    }
-    
-    private boolean isCapacityAvailable(ArrivalWindow requestedWindow) {
-        List<Appointment> existingAppointments = appointmentRepositoryPort.findByArrivalWindow(requestedWindow);
-        return existingAppointments.size() < 40; // Max 40 trucks per hour
     }
 } 

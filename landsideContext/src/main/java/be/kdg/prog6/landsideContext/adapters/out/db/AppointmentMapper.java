@@ -10,6 +10,7 @@ public class AppointmentMapper {
         AppointmentJpaEntity jpaEntity = new AppointmentJpaEntity();
         jpaEntity.setAppointmentId(appointment.getAppointmentId());
         jpaEntity.setSellerId(appointment.getSellerId());
+        jpaEntity.setSellerName(appointment.getSellerName());
         jpaEntity.setArrivalWindowStart(appointment.getArrivalWindow().getStartTime());
         jpaEntity.setArrivalWindowEnd(appointment.getArrivalWindow().getEndTime());
         jpaEntity.setRawMaterialName(appointment.getRawMaterial().getName());
@@ -48,6 +49,7 @@ public class AppointmentMapper {
         Appointment appointment = new Appointment(
             jpaEntity.getAppointmentId(),
             jpaEntity.getSellerId(),
+            jpaEntity.getSellerName(),
             truck,
             rawMaterial,
             arrivalWindow,

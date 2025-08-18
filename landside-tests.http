@@ -26,6 +26,7 @@ Authorization: Bearer {{seller_access_token}}
 
 {
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
   "licensePlate": "TRK-101",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
@@ -40,6 +41,7 @@ Authorization: Bearer {{seller_access_token}}
 
 {
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
   "licensePlate": "TRK-102",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
@@ -54,6 +56,7 @@ Authorization: Bearer {{seller_access_token}}
 
 {
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
   "licensePlate": "TRK-103",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
@@ -67,6 +70,7 @@ Authorization: Bearer {{seller_access_token}}
 
 {
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
   "licensePlate": "TRK-104",
   "truckType": "LARGE",
   "rawMaterialName": "Iron_Ore",
@@ -80,6 +84,7 @@ Authorization: Bearer {{seller_access_token}}
 
 {
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
   "licensePlate": "TRK-105",
   "truckType": "LARGE",
   "rawMaterialName": "Cement",

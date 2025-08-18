@@ -10,6 +10,7 @@ import java.util.UUID;
 @Data
 public class ScheduleAppointmentRequestDto {
     private UUID sellerId;
+    private String sellerName;
     private String licensePlate;
     private Truck.TruckType truckType;
     private String rawMaterialName;

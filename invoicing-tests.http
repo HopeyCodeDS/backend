@@ -29,7 +29,7 @@ Authorization: Bearer {{buyer_access_token}}
 {
   "purchaseOrderNumber": "PO-2025-101",
   "customerNumber": "CUST-101",
-  "customerName": "Steel Manufacturing Co.",
+  "customerName": "Gyproc & Co.",
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "sellerName": "De klant van KDG",
   "orderDate": "01/09/2025 08:00",
@@ -58,7 +58,7 @@ Authorization: Bearer {{buyer_access_token}}
 {
   "purchaseOrderNumber": "PO-2025-102",
   "customerNumber": "CUST-102",
-  "customerName": "Cement Industries Ltd.",
+  "customerName": "Cemminerals NV.",
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "sellerName": "De klant van KDG",
   "orderDate": "01/09/2025 08:00",
