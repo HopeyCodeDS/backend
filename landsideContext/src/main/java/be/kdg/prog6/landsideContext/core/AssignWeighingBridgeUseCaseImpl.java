@@ -83,7 +83,6 @@ public class AssignWeighingBridgeUseCaseImpl implements AssignWeighingBridgeUseC
                 weighingBridgeAssignedPort.weighingBridgeAssigned(truckMovement);
             } catch (Exception e) {
                 log.error("Failed to publish weighing bridge assigned event", e);
-                // Don't fail the main operation if event publishing fails
             }
 
             log.info("Successfully assigned weighing bridge {} to truck {}", 

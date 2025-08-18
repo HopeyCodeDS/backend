@@ -1,10 +1,12 @@
 package be.kdg.prog6.watersideContext.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+@AllArgsConstructor
 public class ShipCaptainOperationsOverview {
     private final UUID shippingOrderId;
     private final String vesselNumber;

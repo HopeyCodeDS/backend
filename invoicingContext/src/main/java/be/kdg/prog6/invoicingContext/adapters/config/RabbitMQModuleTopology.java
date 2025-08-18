@@ -70,12 +70,6 @@ public class RabbitMQModuleTopology {
         return new Queue(COMMISSION_FEE_CALCULATED_QUEUE);
     }
     
-    // @Bean
-    // Binding commissionFeeCalculatedBinding(FanoutExchange invoicingEventsFanOutExchange, Queue commissionFeeCalculatedQueue) {
-    //     return BindingBuilder.bind(commissionFeeCalculatedQueue)
-    //             .to(invoicingEventsFanOutExchange);
-    // }
-
     @Bean
     TopicExchange warehousingEventsExchange() {
         return new TopicExchange(WAREHOUSING_EVENTS_TOPIC);

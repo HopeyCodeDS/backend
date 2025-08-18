@@ -29,8 +29,8 @@ public class ShippingOrder {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime actualDepartureDate;
     private ShippingOrderStatus status;
-    private final InspectionOperation inspectionOperation;
-    private final BunkeringOperation bunkeringOperation;
+    private InspectionOperation inspectionOperation;
+    private BunkeringOperation bunkeringOperation;
     private String foremanSignature;
     private LocalDateTime validationDate;
     private final List<Object> domainEvents = new ArrayList<>();

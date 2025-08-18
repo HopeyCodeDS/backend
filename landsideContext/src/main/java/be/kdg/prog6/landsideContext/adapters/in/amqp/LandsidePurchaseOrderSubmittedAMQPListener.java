@@ -49,11 +49,6 @@ public class LandsidePurchaseOrderSubmittedAMQPListener {
     }
     
     private void processPurchaseOrderForTruckScheduling(PurchaseOrderSubmitted event) {
-        // Business logic for truck scheduling:
-        // 1. Plan truck capacity needed for the order
-        // 2. Schedule truck appointments for material pickup
-        // 3. Prepare weighing bridge assignments
-        
         double totalMaterialsNeeded = event.orderLines().stream()
                 .mapToDouble(PurchaseOrderSubmitted.PurchaseOrderLine::amountInTons)
                 .sum();

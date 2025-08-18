@@ -1,9 +1,11 @@
 package be.kdg.prog6.watersideContext.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 public class InspectionOperation {
     private LocalDateTime plannedDate;
     private LocalDateTime completedDate;
@@ -11,7 +13,6 @@ public class InspectionOperation {
     private InspectionStatus status;
 
     public InspectionOperation() {
-        // Default constructor
         this.status = InspectionStatus.PLANNED;
     }
 
@@ -34,8 +35,20 @@ public class InspectionOperation {
         return status == InspectionStatus.COMPLETED;
     }
 
+    public void setStatus(InspectionStatus status) {
+        this.status = status;
+    }
+    
+    public void setCompletedDate(LocalDateTime completedDate) {
+        this.completedDate = completedDate;
+    }
+    
+    public void setInspectorSignature(String inspectorSignature) {
+        this.inspectorSignature = inspectorSignature;
+    }
+
     public String getStatusDescription() {
-        return isCompleted() ? "COMPLETED" : "PENDING";
+        return this.status.name();
     }
 
     public enum InspectionStatus {
