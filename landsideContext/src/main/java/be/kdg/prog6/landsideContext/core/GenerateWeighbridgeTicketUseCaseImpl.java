@@ -46,6 +46,12 @@ public class GenerateWeighbridgeTicketUseCaseImpl implements GenerateWeighbridge
         
         // Save ticket
         WeighbridgeTicket savedTicket = weighbridgeTicketRepositoryPort.save(ticket);
+
+        // truck marked as EXIT
+        TruckMovement truckMovement = truckMovementRepositoryPort.findByLicensePlate(command.licensePlate())
+                .orElseThrow(() -> new IllegalStateException("Truck movement not found"));
+        truckMovement.exitFacility();
+        truckMovementRepositoryPort.save(truckMovement);
         
         // Publish event for other contexts
         weighbridgeTicketGeneratedPort.weighbridgeTicketGenerated(savedTicket);

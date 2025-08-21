@@ -1,4 +1,4 @@
-package be.kdg.prog6.watersideContext.adapters.in.web;
+package be.kdg.prog6.watersideContext.adapters.in.web.dto;
 
 import lombok.Data;
 

@@ -20,7 +20,7 @@ public class ArrivalComplianceController {
     private final ArrivalComplianceMapper arrivalComplianceMapper;
     
     @GetMapping
-    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')") 
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<?> getArrivalCompliance() {
         try {
             log.info("Getting arrival compliance data for warehouse manager");

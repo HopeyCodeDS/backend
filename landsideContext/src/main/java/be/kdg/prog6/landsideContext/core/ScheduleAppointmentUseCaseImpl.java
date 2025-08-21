@@ -89,7 +89,7 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         if (command.getScheduledTime() == null) {
             throw new IllegalArgumentException("Scheduled time is required");
         }
-        if (command.getScheduledTime().isBefore(LocalDateTime.now())) {
+        if (command.getScheduledTime().isBefore(LocalDateTime.now().plusMinutes(10))) {
             throw new IllegalArgumentException("Scheduled time cannot be in the past");
         }
     }

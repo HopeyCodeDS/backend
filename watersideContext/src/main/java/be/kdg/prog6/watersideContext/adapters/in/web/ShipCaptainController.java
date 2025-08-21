@@ -4,7 +4,7 @@ import be.kdg.prog6.watersideContext.adapters.in.web.dto.ShipCaptainOperationsOv
 import be.kdg.prog6.watersideContext.adapters.in.web.mapper.ShipCaptainMapper;
 import be.kdg.prog6.watersideContext.domain.ShipCaptainOperationsOverview;
 import be.kdg.prog6.watersideContext.ports.in.GetShipCaptainOperationsOverviewUseCase;
-import be.kdg.prog6.watersideContext.adapters.in.web.ShipDepartureRequestDto;
+import be.kdg.prog6.watersideContext.adapters.in.web.dto.ShipDepartureRequestDto;
 import be.kdg.prog6.watersideContext.ports.in.ShipDepartedUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class ShipCaptainController {
     private final ShipDepartedUseCase shipDepartedUseCase;
     
     @GetMapping("/operations/{vesselNumber}")
-    @PreAuthorize("hasRole('SHIP_CAPTAIN')") 
+    @PreAuthorize("hasRole('SHIP_CAPTAIN')")
     public ResponseEntity<ShipCaptainOperationsOverviewDto> getOperationsOverview(@PathVariable String vesselNumber) {
         log.info("Ship captain requesting operations overview for vessel: {}", vesselNumber);
         
@@ -41,7 +41,7 @@ public class ShipCaptainController {
     }
 
     @GetMapping("/operations-overview")
-    @PreAuthorize("hasRole('SHIP_CAPTAIN')") 
+    @PreAuthorize("hasRole('SHIP_CAPTAIN')")
     public ResponseEntity<List<ShipCaptainOperationsOverviewDto>> getOperationsOverview() {
         log.info("Ship captain requesting operations overview for all vessels");
 
@@ -53,7 +53,7 @@ public class ShipCaptainController {
     }
 
     @PostMapping("/depart")
-    @PreAuthorize("hasRole('SHIP_CAPTAIN')") 
+    @PreAuthorize("hasRole('SHIP_CAPTAIN')")
     public ResponseEntity<Void> markShipAsDeparted(@RequestBody ShipDepartureRequestDto request) {
         shipDepartedUseCase.markShipAsDeparted(request.getVesselNumber(), request.getDepartureDate());
         return ResponseEntity.ok().build();

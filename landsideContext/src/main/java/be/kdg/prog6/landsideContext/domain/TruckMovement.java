@@ -7,21 +7,16 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+@Setter
 public class TruckMovement {
     private final UUID movementId;
     private final LicensePlate licensePlate;
     private final LocalDateTime entryTime;
-    // Package-private methods for mapper use only
-    @Setter
     private TruckLocation currentLocation;
-    @Setter
     private String assignedBridgeNumber;
-    @Setter
-    @Getter
     private String exitWeighbridgeNumber;
     private Double truckWeight;
     private String assignedWarehouse;
-    @Setter
     private LocalDateTime bridgeAssignmentTime;
     
     public TruckMovement(UUID movementId, LicensePlate licensePlate, LocalDateTime entryTime) {
@@ -37,20 +32,21 @@ public class TruckMovement {
     }
     
     public void assignWeighingBridge(String bridgeNumber, LocalDateTime bridgeAssignmentTime) {
-        if (isAtGate()) {
+        if (!isAtGate()) {
             throw new IllegalStateException("Truck must be at gate to assign weighing bridge");
         }
-        
         this.assignedBridgeNumber = bridgeNumber;
         this.bridgeAssignmentTime = bridgeAssignmentTime;
     }
     
     public void enterWeighingBridge() {
-        if (isAtGate() || !hasAssignedBridge()) {
+        if (!isAtGate() || !hasAssignedBridge()) {
             throw new IllegalStateException("Truck must be at gate with assigned bridge to enter weighing bridge");
         }
         
         this.currentLocation = TruckLocation.WEIGHING_BRIDGE;
+        System.out.println("=== TRUCK LOCATION UPDATE ===");
+        System.out.printf("Truck %s moved from GATE to WEIGHING_BRIDGE\n", licensePlate.getValue());
     }
 
     public boolean hasExitWeighbridgeNumber() {
@@ -63,6 +59,8 @@ public class TruckMovement {
         }
         
         this.currentLocation = TruckLocation.WAREHOUSE;
+        System.out.println("=== TRUCK LOCATION UPDATE ===");
+        System.out.printf("Truck %s moved from WEIGHING_BRIDGE to WAREHOUSE\n", licensePlate.getValue());
     }
 
     // Method to assign warehouse
@@ -71,7 +69,8 @@ public class TruckMovement {
             throw new IllegalStateException("Truck must be ready for warehouse assignment to assign warehouse");
         }
         this.assignedWarehouse = warehouseNumber;
-        this.currentLocation = TruckLocation.WAREHOUSE;
+        System.out.println("=== TRUCK LOCATION UPDATE ===");
+        System.out.printf("Truck %s assigned to warehouse %s\n", licensePlate.getValue(), warehouseNumber);
     }
     
     public void exitFacility() {
@@ -80,6 +79,8 @@ public class TruckMovement {
         }
         
         this.currentLocation = TruckLocation.EXIT;
+        System.out.println("=== TRUCK LOCATION UPDATE ===");
+        System.out.printf("Truck %s moved from WAREHOUSE to EXIT\n", licensePlate.getValue());
     }
     
     public boolean isAtWeighingBridge() {
@@ -95,7 +96,7 @@ public class TruckMovement {
     }
     
     public boolean isAtGate() {
-        return currentLocation != TruckLocation.GATE;
+        return currentLocation == TruckLocation.GATE;
     }
     
     public boolean hasAssignedBridge() {
@@ -111,5 +112,10 @@ public class TruckMovement {
 
     public boolean isReadyForWarehouseAssignment() {
         return truckWeight != null;
+    }
+
+    public void restoreState(Double truckWeight, String assignedWarehouse) {
+        this.truckWeight = truckWeight;
+        this.assignedWarehouse = assignedWarehouse;
     }
 } 

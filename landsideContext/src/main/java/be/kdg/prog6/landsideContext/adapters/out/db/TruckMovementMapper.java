@@ -52,8 +52,8 @@ public class TruckMovementMapper {
         }
         
         // Add missing mappings
-        if (jpaEntity.getTruckWeight() != null) {
-            truckMovement.recordWeighing(jpaEntity.getTruckWeight());
+        if (jpaEntity.getTruckWeight() != null || jpaEntity.getAssignedWarehouse() != null) {
+            truckMovement.restoreState(jpaEntity.getTruckWeight(), jpaEntity.getAssignedWarehouse());
         }
         if (jpaEntity.getAssignedWarehouse() != null) {
             truckMovement.assignWarehouse(jpaEntity.getAssignedWarehouse());

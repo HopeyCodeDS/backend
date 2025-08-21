@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,5 +37,19 @@ public class TruckDatabaseAdapter implements TruckRepositoryPort {
     public Optional<Truck> findByLicensePlate(String licensePlate) {
         return truckJpaRepository.findByLicensePlate(licensePlate)
                 .map(truckMapper::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Truck> findAll() {
+        return truckJpaRepository.findAll().stream()
+                .map(truckMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(UUID truckId) {
+        truckJpaRepository.deleteById(truckId);
     }
 } 

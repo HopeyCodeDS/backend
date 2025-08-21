@@ -48,4 +48,16 @@ public class PurchaseOrderDatabaseAdapter implements PurchaseOrderRepositoryPort
                 .map(purchaseOrderJpaMapper::toDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PurchaseOrder> findByStatus(PurchaseOrder.PurchaseOrderStatus status) {
+        return purchaseOrderJpaRepository.findByStatus(status).stream()
+                .map(purchaseOrderJpaMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteById(UUID purchaseOrderId) {
+        purchaseOrderJpaRepository.deleteById(purchaseOrderId);
+    }
 } 

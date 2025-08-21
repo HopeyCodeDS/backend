@@ -1,5 +1,7 @@
 package be.kdg.prog6.landsideContext.core;
 
+import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
+import be.kdg.prog6.landsideContext.domain.TruckLocation;
 import be.kdg.prog6.landsideContext.domain.TruckMovement;
 import be.kdg.prog6.landsideContext.domain.commands.RegisterWeightAndExitBridgeCommand;
 import be.kdg.prog6.landsideContext.ports.in.RegisterWeightAndExitBridgeUseCase;
@@ -26,7 +28,12 @@ public class RegisterWeightAndExitBridgeUseCaseImpl implements RegisterWeightAnd
         TruckMovement movement = truckMovementRepository.findByLicensePlate(command.getLicensePlate())
                 .orElseThrow(() -> new IllegalArgumentException("Truck movement not found"));
         
-        // Register weight
+        // Validate current location
+        if (movement.getCurrentLocation() != TruckLocation.WEIGHING_BRIDGE) {
+            throw new IllegalStateException("Truck must be at weighing bridge to register weight and exit");
+        }
+        
+                // Register weight
         movement.recordWeighing(command.getWeight());
         
         // Exit weighing bridge
@@ -34,12 +41,16 @@ public class RegisterWeightAndExitBridgeUseCaseImpl implements RegisterWeightAnd
         
         // Save updated movement
         truckMovementRepository.save(movement);
-        
-        // Get appointment for this truck to get sellerId
-        var appointment = appointmentRepository.findByLicensePlate(command.getLicensePlate())
-                .stream().findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
 
+        // Mark appointment as DEPARTED when truck exits
+        var appointment = appointmentRepository.findByLicensePlate(command.getLicensePlate())
+        .stream()
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+
+        appointment.setStatus(AppointmentStatus.DEPARTED);
+        appointmentRepository.save(appointment);
+        
         // Publish event for Warehousing Context
         truckLeftWeighingBridgePort.truckLeftWeighingBridge(movement, command.getRawMaterialName(), appointment.getSellerId());
     }

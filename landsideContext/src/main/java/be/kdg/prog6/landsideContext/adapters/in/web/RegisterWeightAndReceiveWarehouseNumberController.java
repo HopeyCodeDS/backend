@@ -21,7 +21,7 @@ public class RegisterWeightAndReceiveWarehouseNumberController {
     private final TruckMovementRepositoryPort truckMovementRepository;
     
     @PostMapping("/register")
-    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<RegisterWeightResponseDto> registerWeight(@RequestBody RegisterWeightRequestDto requestDto) {
         RegisterWeightAndExitBridgeCommand command = mapper.toCommand(requestDto);
         registerWeightAndExitBridgeUseCase.registerWeightAndExitBridge(command);
@@ -38,7 +38,7 @@ public class RegisterWeightAndReceiveWarehouseNumberController {
     }
     
     @GetMapping("/status/{licensePlate}")
-    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<RegisterWeightResponseDto> getWarehouseStatus(@PathVariable String licensePlate) {
         try {
             var movement = truckMovementRepository.findByLicensePlate(licensePlate)

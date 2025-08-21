@@ -9,4 +9,5 @@ public interface PDTRepositoryPort {
     Optional<PayloadDeliveryTicket> findByLicensePlate(String licensePlate);
     List<PayloadDeliveryTicket> findAll();
     List<PayloadDeliveryTicket> findByRawMaterialOrderByDeliveryTimeAsc(String rawMaterialName);
+    List<PayloadDeliveryTicket> findByWarehouseNumber(String warehouseNumber);
 } 

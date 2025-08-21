@@ -22,7 +22,7 @@ public class WeighbridgeTicketController {
     private final WeighbridgeTicketWebMapper weighbridgeTicketMapper;
     
     @PostMapping("/generate")
-    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<WeighbridgeTicketResponseDto> generateWeighbridgeTicket(
             @RequestBody GenerateWeighbridgeTicketRequestDto requestDto) {
         
@@ -35,7 +35,7 @@ public class WeighbridgeTicketController {
     }
     
     @GetMapping("/{licensePlate}")
-    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<List<WeighbridgeTicketResponseDto>> getTicketsByLicensePlate(
             @PathVariable String licensePlate) {
         

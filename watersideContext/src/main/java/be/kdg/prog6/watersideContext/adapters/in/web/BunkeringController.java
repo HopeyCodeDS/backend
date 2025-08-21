@@ -27,7 +27,7 @@ public class BunkeringController {
     private final ShippingOrderMapper shippingOrderMapper;
     
     @GetMapping("/outstanding")
-    @PreAuthorize("hasRole('BUNKERING_OFFICER')") 
+    @PreAuthorize("hasRole('BUNKERING_OFFICER')")
     public ResponseEntity<List<OutstandingBunkeringDto>> getOutstandingBunkering() {
         log.info("Bunkering officer requesting outstanding bunkering operations");
         

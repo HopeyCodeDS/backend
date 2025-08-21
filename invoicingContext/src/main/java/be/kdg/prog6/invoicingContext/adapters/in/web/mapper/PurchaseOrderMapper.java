@@ -3,6 +3,7 @@ package be.kdg.prog6.invoicingContext.adapters.in.web.mapper;
 import be.kdg.prog6.invoicingContext.adapters.in.web.dto.SubmitPurchaseOrderRequestDto;
 import be.kdg.prog6.invoicingContext.adapters.in.web.dto.PurchaseOrderResponseDto;
 import be.kdg.prog6.invoicingContext.domain.PurchaseOrder;
+import be.kdg.prog6.invoicingContext.domain.PurchaseOrderLine;
 import be.kdg.prog6.invoicingContext.domain.commands.SubmitPurchaseOrderCommand;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +56,7 @@ public class PurchaseOrderMapper {
     }
     
     private PurchaseOrderResponseDto.PurchaseOrderLineResponseDto toLineResponseDto(
-            be.kdg.prog6.invoicingContext.domain.PurchaseOrderLine line) {
+            PurchaseOrderLine line) {
         PurchaseOrderResponseDto.PurchaseOrderLineResponseDto lineDto = 
                 new PurchaseOrderResponseDto.PurchaseOrderLineResponseDto();
         lineDto.setLineNumber(line.getLineNumber());

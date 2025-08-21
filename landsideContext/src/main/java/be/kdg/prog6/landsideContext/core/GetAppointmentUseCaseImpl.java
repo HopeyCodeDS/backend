@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,5 +22,13 @@ public class GetAppointmentUseCaseImpl implements GetAppointmentUseCase {
     public Appointment getAppointment(UUID appointmentId) {
         log.info("Retrieving appointment with ID: {}", appointmentId);
         return appointmentRepositoryPort.findById(appointmentId).orElse(null);
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsByDate(LocalDate date) {
+        log.info("Retrieving appointments for date: {}", date);
+        List<Appointment> appointments = appointmentRepositoryPort.findByDate(date);
+        log.info("Found {} appointments for date: {}", appointments.size(), date);
+        return appointments;
     }
 }

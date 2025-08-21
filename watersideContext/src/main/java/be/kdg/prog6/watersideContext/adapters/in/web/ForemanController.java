@@ -30,7 +30,7 @@ public class ForemanController {
     private final ShippingOrderMapper shippingOrderMapper;
     
     @GetMapping("/unmatched-shipping-orders")
-    @PreAuthorize("hasRole('FOREMAN')") 
+    @PreAuthorize("hasRole('FOREMAN')")
     public ResponseEntity<List<UnmatchedShippingOrderDto>> getUnmatchedShippingOrders() {
         log.info("Foreman requesting unmatched shipping orders");
         
@@ -46,7 +46,7 @@ public class ForemanController {
     }
     
     @PostMapping("/match-shipping-order")
-    @PreAuthorize("hasRole('FOREMAN')") 
+    @PreAuthorize("hasRole('FOREMAN')")
     public ResponseEntity<UnmatchedShippingOrderDto> matchShippingOrderWithPurchaseOrder(@RequestBody MatchShippingOrderRequestDto requestDto) {
         log.info("Foreman matching shipping order with purchase order: {}", requestDto.getShippingOrderId());
         
@@ -64,7 +64,7 @@ public class ForemanController {
     }
     
     @GetMapping("/shipment-arrivals")
-    @PreAuthorize("hasRole('FOREMAN')") 
+    @PreAuthorize("hasRole('FOREMAN')")
     public ResponseEntity<List<ShipmentArrivalDto>> getAllShipmentArrivals() {
         log.info("Foreman requesting all shipment arrivals");
         

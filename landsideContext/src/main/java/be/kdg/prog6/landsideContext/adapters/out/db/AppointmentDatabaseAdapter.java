@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -115,6 +116,45 @@ public class AppointmentDatabaseAdapter implements AppointmentRepositoryPort {
                     .collect(Collectors.toList());
         } catch (Exception e) {
             log.error("Error finding appointments by status: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Appointment> findByDate(LocalDate date) {
+        try {
+            log.info("Finding appointments for date: {}", date);
+            List<AppointmentJpaEntity> jpaEntities = appointmentJpaRepository.findByDate(date);
+            log.info("Found {} appointments for date: {}", jpaEntities.size(), date);
+            return jpaEntities.stream()
+                    .map(appointmentMapper::toDomain)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            log.error("Error finding appointments by date: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Appointment> findBySellerName(String sellerName) {
+        List<AppointmentJpaEntity> jpaEntities = appointmentJpaRepository.findBySellerName(sellerName);
+        return jpaEntities.stream()
+                .map(appointmentMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void update(Appointment appointment) {
+        try {
+            log.info("Updating appointment with ID: {}", appointment.getAppointmentId());
+            AppointmentJpaEntity jpaEntity = appointmentMapper.toJpaEntity(appointment);
+            appointmentJpaRepository.save(jpaEntity); // JPA save handles both insert and update
+            log.info("Successfully updated appointment with ID: {}", appointment.getAppointmentId());
+        } catch (Exception e) {
+            log.error("Error updating appointment: {}", e.getMessage(), e);
             throw e;
         }
     }

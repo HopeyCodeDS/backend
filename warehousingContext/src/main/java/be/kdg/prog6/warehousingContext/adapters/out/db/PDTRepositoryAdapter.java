@@ -42,4 +42,11 @@ public class PDTRepositoryAdapter implements PDTRepositoryPort {
             .map(mapper::toDomain)
             .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PayloadDeliveryTicket> findByWarehouseNumber(String warehouseNumber) {
+        return repository.findByWarehouseNumber(warehouseNumber).stream()
+            .map(mapper::toDomain)
+            .collect(Collectors.toList());
+    }
 } 

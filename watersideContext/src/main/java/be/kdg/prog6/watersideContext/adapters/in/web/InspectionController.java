@@ -43,7 +43,7 @@ public class InspectionController {
     }
     
     @PostMapping("/complete")
-    @PreAuthorize("hasRole('INSPECTOR')")   
+    @PreAuthorize("hasRole('INSPECTOR')")
     public ResponseEntity<OutstandingInspectionDto> completeInspection(@RequestBody CompleteInspectionRequestDto requestDto) {
         log.info("Inspector completing inspection for shipping order: {}", requestDto.getShippingOrderId());
         

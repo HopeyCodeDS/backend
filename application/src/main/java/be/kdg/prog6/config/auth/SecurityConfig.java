@@ -17,6 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,11 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                     .requestMatchers("/landside/test/public").permitAll()  // Allow public access
+                    .requestMatchers("/landside/appointments").permitAll()  // Allow appointment
+                    .requestMatchers("/landside/trucks").permitAll()  // Allow trucks
+                    .requestMatchers("/warehousing/warehouses").permitAll()  // Allow warehouses
+                    .requestMatchers("/waterside/shipping-orders").permitAll()  // Allow shipping orders
+                    .requestMatchers("/invoicing/purchase-orders").permitAll()  // Allow purchase orders
                     .anyRequest().authenticated()  // Require authentication for others
                 )
                 .sessionManagement(mgmt -> mgmt.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -48,6 +54,12 @@ public class SecurityConfig {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Arrays.asList("*")); // Allow all origins
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
@@ -59,13 +71,13 @@ class KeycloakRealmRoleConverter implements Converter<Jwt, Collection<GrantedAut
     public Collection<GrantedAuthority> convert(Jwt jwt) {
         final Map<String, Object> realmAccess =
                 (Map<String, Object>) jwt.getClaims().get("realm_access");
-        
+
         if (realmAccess != null && realmAccess.get("roles") != null) {
             return ((List<String>) realmAccess.get("roles")).stream()
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
         }
-        
+
         return List.of();
     }
 }

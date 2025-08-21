@@ -12,4 +12,5 @@ public interface WarehouseRepositoryPort {
     void save(Warehouse warehouse);
     List<Warehouse> findAll();
     double getTotalRawMaterialInWarehouses();
+    void deleteById(UUID warehouseId);
 } 

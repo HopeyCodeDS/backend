@@ -25,7 +25,7 @@ public class GateController {
     private final GateMapper gateMapper;
     
     @PostMapping("/gate/recognize")
-    @PreAuthorize("hasRole('TRUCK_DRIVER')") 
+    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<Map<String, Object>> recognizeTruck(@RequestBody TruckRecognitionRequestDto requestDto) {
         try {
             RecognizeTruckCommand command = gateMapper.toRecognizeTruckCommand(requestDto);

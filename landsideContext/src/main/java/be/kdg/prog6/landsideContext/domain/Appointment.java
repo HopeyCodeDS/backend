@@ -18,6 +18,8 @@ public class Appointment {
     private AppointmentStatus status;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime scheduledTime;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime actualArrivalTime;
     
     
     public Appointment(UUID appointmentId, UUID sellerId, String sellerName, Truck truck, 
@@ -52,12 +54,12 @@ public class Appointment {
         return appointment;
     }
     
-    public void markAsArrived(LocalDateTime scheduledTime) {
+    public void markAsArrived(LocalDateTime actualArrivalTime) {
         if (status != AppointmentStatus.SCHEDULED) {
             throw new IllegalStateException("Appointment must be in SCHEDULED status to mark as arrived");
         }
         this.status = AppointmentStatus.ARRIVED;
-        this.scheduledTime = scheduledTime; 
+        this.actualArrivalTime = actualArrivalTime; 
     }
     
     public void cancel() {

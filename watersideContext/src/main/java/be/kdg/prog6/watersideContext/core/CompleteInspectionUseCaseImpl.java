@@ -23,12 +23,12 @@ public class CompleteInspectionUseCaseImpl implements CompleteInspectionUseCase 
 
     @Override
     public ShippingOrder completeInspection(CompleteInspectionCommand command) {
-        log.info("Inspector completing inspection for shipping order: {}", command.getShippingOrderId());
+        log.info("Inspector completing inspection for shipping order: {}", command.shippingOrderId());
         
-        Optional<ShippingOrder> shippingOrderOpt = shippingOrderRepositoryPort.findById(command.getShippingOrderId());
+        Optional<ShippingOrder> shippingOrderOpt = shippingOrderRepositoryPort.findById(command.shippingOrderId());
         
         if (shippingOrderOpt.isEmpty()) {
-            throw new IllegalArgumentException("Shipping order not found: " + command.getShippingOrderId());
+            throw new IllegalArgumentException("Shipping order not found: " + command.shippingOrderId());
         }
         
         ShippingOrder shippingOrder = shippingOrderOpt.get();
@@ -40,7 +40,7 @@ public class CompleteInspectionUseCaseImpl implements CompleteInspectionUseCase 
         }
         
         // Complete the inspection
-        shippingOrder.getInspectionOperation().completeInspection(command.getInspectorSignature());
+        shippingOrder.getInspectionOperation().completeInspection(command.inspectorSignature());
         
         // Update shipping order status if bunkering is also completed
         if (shippingOrder.getBunkeringOperation().isCompleted()) {
@@ -61,7 +61,7 @@ public class CompleteInspectionUseCaseImpl implements CompleteInspectionUseCase 
         
         
         log.info("Inspection completed successfully for shipping order: {} by inspector: {}", 
-                command.getShippingOrderId(), command.getInspectorSignature());
+                command.shippingOrderId(), command.inspectorSignature());
         
         return shippingOrder;
     }

@@ -1,16 +1,15 @@
 package be.kdg.prog6.warehousingContext.adapters.in.web;
 
-import be.kdg.prog6.warehousingContext.adapters.in.web.dto.AssignWarehouseRequestDto;
-import be.kdg.prog6.warehousingContext.adapters.in.web.dto.OldestStockAllocationDto;
-import be.kdg.prog6.warehousingContext.adapters.in.web.dto.WarehouseOverviewDto;
+import be.kdg.prog6.warehousingContext.adapters.in.web.dto.*;
 import be.kdg.prog6.warehousingContext.adapters.in.web.mapper.OldestStockAllocationMapper;
 import be.kdg.prog6.warehousingContext.adapters.in.web.mapper.WarehouseMapper;
 import be.kdg.prog6.warehousingContext.adapters.in.web.mapper.WarehouseOverviewMapper;
+import be.kdg.prog6.warehousingContext.adapters.in.web.mapper.WarehouseResponseMapper;
 import be.kdg.prog6.warehousingContext.domain.commands.AssignWarehouseCommand;
 import be.kdg.prog6.warehousingContext.domain.PayloadDeliveryTicket;
-import be.kdg.prog6.warehousingContext.ports.in.AssignWarehouseUseCase;
-import be.kdg.prog6.warehousingContext.ports.in.GetWarehouseOverviewUseCase;
-import be.kdg.prog6.warehousingContext.ports.in.AllocateOldestStockUseCase;
+import be.kdg.prog6.warehousingContext.domain.Warehouse;
+import be.kdg.prog6.warehousingContext.ports.in.*;
+import be.kdg.prog6.warehousingContext.ports.out.PDTRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/warehouses")
@@ -29,13 +29,84 @@ public class WarehouseController {
     
     private final AssignWarehouseUseCase assignWarehouseUseCase;
     private final GetWarehouseOverviewUseCase getWarehouseOverviewUseCase;
+    private final GetWarehouseByIdUseCase getWarehouseByIdUseCase;
+    private final GetWarehousesBySellerUseCase getWarehousesBySellerUseCase;
+    private final CreateWarehouseUseCase createWarehouseUseCase;
+    private final DeleteWarehouseUseCase deleteWarehouseUseCase;
+    private final AllocateOldestStockUseCase allocateOldestStockUseCase;
+    
     private final WarehouseMapper warehouseMapper;
     private final WarehouseOverviewMapper warehouseOverviewMapper;
-    private final AllocateOldestStockUseCase allocateOldestStockUseCase;
+    private final WarehouseResponseMapper warehouseResponseMapper;
     private final OldestStockAllocationMapper oldestStockAllocationMapper;
 
+    private final PDTRepositoryPort pdtRepositoryPort;
+
+    // GET /warehouses - Get all warehouses
+    @GetMapping
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
+    public ResponseEntity<List<WarehouseResponseDto>> getAllWarehouses() {
+        try {
+            log.info("Getting all warehouses");
+            var warehouses = getWarehouseOverviewUseCase.getAllWarehouses();
+            
+            List<WarehouseResponseDto> response = warehouses.stream()
+            .map(warehouse -> {
+                // Add debug logging
+                log.info("Processing warehouse: {} with number: '{}'", 
+                    warehouse.getWarehouseId(), warehouse.getWarehouseNumber());
+                
+                // Fetch actual payloads for each warehouse
+                var payloads = pdtRepositoryPort.findByWarehouseNumber(warehouse.getWarehouseNumber());
+                
+                // Add debug logging for payloads
+                log.info("Found {} payloads for warehouse '{}'", 
+                    payloads.size(), warehouse.getWarehouseNumber());
+                
+                if (payloads.isEmpty()) {
+                    log.warn("No payloads found for warehouse '{}'. This might indicate a data mismatch.", 
+                        warehouse.getWarehouseNumber());
+                }
+                
+                return warehouseResponseMapper.toWarehouseResponseDto(warehouse, payloads);
+            })
+            .collect(java.util.stream.Collectors.toList());
+            
+            log.info("Successfully retrieved {} warehouses", response.size());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error retrieving all warehouses: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    // GET /warehouses/{id} - Get warehouse by ID
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
+    public ResponseEntity<WarehouseResponseDto> getWarehouseById(@PathVariable UUID id) {
+        try {
+            log.info("Getting warehouse by ID: {}", id);
+            var warehouse = getWarehouseByIdUseCase.getWarehouseById(id);
+            
+            if (warehouse.isPresent()) {
+                // Get payloads from the PDT repository
+                List<PayloadDeliveryTicket> pdtList = pdtRepositoryPort.findByWarehouseNumber(warehouse.get().getWarehouseNumber());
+                var response = warehouseResponseMapper.toWarehouseResponseDto(warehouse.get(), pdtList);
+                log.info("Successfully retrieved warehouse: {}", id);
+                return ResponseEntity.ok(response);
+            } else {
+                log.warn("Warehouse not found with ID: {}", id);
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error("Error retrieving warehouse by ID {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    // GET /warehouses/overview - Get capacity overview (existing endpoint)
     @GetMapping("/overview")
-    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')") 
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<WarehouseOverviewDto> getWarehouseOverview() {
         log.info("Getting warehouse overview for warehouse manager");
 
@@ -50,7 +121,69 @@ public class WarehouseController {
         
         return ResponseEntity.ok(overview);
     }
-    
+
+    // GET /warehouses/by-seller/{sellerId} - Get warehouses by seller
+    @GetMapping("/by-seller/{sellerId}")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
+    public ResponseEntity<List<WarehouseResponseDto>> getWarehousesBySeller(@PathVariable UUID sellerId) {
+        try {
+            log.info("Getting warehouses by seller: {}", sellerId);
+            var warehouses = getWarehousesBySellerUseCase.getWarehousesBySeller(sellerId);
+            
+            List<WarehouseResponseDto> response = warehouses.stream()
+            .map(warehouse -> {
+                // Fetch actual payloads for each warehouse
+                var payloads = pdtRepositoryPort.findByWarehouseNumber(warehouse.getWarehouseNumber());
+                return warehouseResponseMapper.toWarehouseResponseDto(warehouse, payloads);
+            })
+            .collect(java.util.stream.Collectors.toList());
+            
+            log.info("Successfully retrieved {} warehouses for seller: {}", response.size(), sellerId);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error retrieving warehouses by seller {}: {}", sellerId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    // POST /warehouses - Create new warehouse
+    @PostMapping
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
+    public ResponseEntity<WarehouseResponseDto> createWarehouse(@RequestBody WarehouseCreateRequestDto request) {
+        try {
+            log.info("Creating new warehouse: {}", request.getWarehouseNumber());
+            var warehouse = createWarehouseUseCase.createWarehouse(request);
+            var response = warehouseResponseMapper.toWarehouseResponseDto(warehouse, List.of());
+            log.info("Successfully created warehouse: {}", warehouse.getWarehouseNumber());
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            log.error("Validation error creating warehouse: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.error("Error creating warehouse: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    // DELETE /warehouses/{id} - Delete warehouse
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
+    public ResponseEntity<Void> deleteWarehouse(@PathVariable UUID id) {
+        try {
+            log.info("Deleting warehouse: {}", id);
+            deleteWarehouseUseCase.deleteWarehouse(id);
+            log.info("Successfully deleted warehouse: {}", id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            log.error("Validation error deleting warehouse {}: {}", id, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.error("Error deleting warehouse {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    // Existing endpoints
     @PostMapping("/assign")
     public ResponseEntity<Map<String, Object>> assignWarehouse(@RequestBody AssignWarehouseRequestDto requestDto) {
         try {

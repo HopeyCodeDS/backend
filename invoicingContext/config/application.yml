@@ -40,10 +40,10 @@ spring:
        com.fasterxml.jackson.databind: DEBUG
        be.kdg.prog6.invoicingContext: DEBUG
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:8180/realms/kdgRealm/protocol/openid-connect/certs
-          issuer-uri: http://localhost:8180/realms/kdgRealm
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:8180/realms/kdgRealm/protocol/openid-connect/certs
+#          issuer-uri: http://localhost:8180/realms/kdgRealm
 

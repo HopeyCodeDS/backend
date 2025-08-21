@@ -16,7 +16,7 @@ public class TruckOnSiteController {
     private final GetTrucksOnSiteUseCase getTrucksOnSiteUseCase;
     
     @GetMapping("/on-site/count")
-    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')") 
+    @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<TruckOnSiteCountResponse> getTrucksOnSiteCount() {
         long count = getTrucksOnSiteUseCase.getTrucksOnSiteCount();
         return ResponseEntity.ok(new TruckOnSiteCountResponse(count));

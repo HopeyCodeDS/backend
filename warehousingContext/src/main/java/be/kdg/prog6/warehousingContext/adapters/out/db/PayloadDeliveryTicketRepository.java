@@ -12,4 +12,5 @@ public interface PayloadDeliveryTicketRepository extends JpaRepository<PayloadDe
     Optional<PayloadDeliveryTicketJpaEntity> findByLicensePlate(String licensePlate);
     List<PayloadDeliveryTicketJpaEntity> findAll();
     List<PayloadDeliveryTicketJpaEntity> findByRawMaterialNameOrderByDeliveryTimeAsc(String rawMaterialName);
+    List<PayloadDeliveryTicketJpaEntity> findByWarehouseNumber(String warehouseNumber);
 } 

@@ -56,4 +56,9 @@ public class WarehouseDatabaseAdapter implements WarehouseRepositoryPort {
                 .mapToDouble(entity -> entity.getCurrentCapacity())
                 .sum();
     }
+    
+    @Override
+    public void deleteById(UUID warehouseId) {
+        warehouseJpaRepository.deleteById(warehouseId);
+    }
 }

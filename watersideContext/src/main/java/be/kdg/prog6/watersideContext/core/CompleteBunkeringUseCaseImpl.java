@@ -23,12 +23,12 @@ public class CompleteBunkeringUseCaseImpl implements CompleteBunkeringUseCase {
     
     @Override
     public ShippingOrder completeBunkering(CompleteBunkeringCommand command) {
-        log.info("Bunkering officer completing bunkering for shipping order: {}", command.getShippingOrderId());
+        log.info("Bunkering officer completing bunkering for shipping order: {}", command.shippingOrderId());
         
-        Optional<ShippingOrder> shippingOrderOpt = shippingOrderRepositoryPort.findById(command.getShippingOrderId());
+        Optional<ShippingOrder> shippingOrderOpt = shippingOrderRepositoryPort.findById(command.shippingOrderId());
         
         if (shippingOrderOpt.isEmpty()) {
-            throw new IllegalArgumentException("Shipping order not found: " + command.getShippingOrderId());
+            throw new IllegalArgumentException("Shipping order not found: " + command.shippingOrderId());
         }
         
         ShippingOrder shippingOrder = shippingOrderOpt.get();
@@ -40,7 +40,7 @@ public class CompleteBunkeringUseCaseImpl implements CompleteBunkeringUseCase {
         }
         
         // Complete the bunkering
-        shippingOrder.getBunkeringOperation().completeBunkering(command.getBunkeringOfficerSignature());
+        shippingOrder.getBunkeringOperation().completeBunkering(command.bunkeringOfficerSignature());
         
         // Update shipping order status if inspection is also completed
         if (shippingOrder.getInspectionOperation().isCompleted()) {
@@ -60,7 +60,7 @@ public class CompleteBunkeringUseCaseImpl implements CompleteBunkeringUseCase {
         shippingOrderRepositoryPort.save(shippingOrder);
         
         log.info("Bunkering completed successfully for shipping order: {} by officer: {}", 
-                command.getShippingOrderId(), command.getBunkeringOfficerSignature());
+                command.shippingOrderId(), command.bunkeringOfficerSignature());
         
         return shippingOrder;
     }
