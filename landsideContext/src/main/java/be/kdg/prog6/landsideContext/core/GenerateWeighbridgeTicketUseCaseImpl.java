@@ -3,6 +3,7 @@ package be.kdg.prog6.landsideContext.core;
 import be.kdg.prog6.landsideContext.domain.TruckMovement;
 import be.kdg.prog6.landsideContext.domain.WeighbridgeTicket;
 import be.kdg.prog6.landsideContext.domain.commands.GenerateWeighbridgeTicketCommand;
+import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
 import be.kdg.prog6.landsideContext.ports.in.GenerateWeighbridgeTicketUseCase;
 import be.kdg.prog6.landsideContext.ports.out.TruckMovementRepositoryPort;
 import be.kdg.prog6.landsideContext.ports.out.WeighbridgeTicketRepositoryPort;
@@ -22,7 +23,8 @@ public class GenerateWeighbridgeTicketUseCaseImpl implements GenerateWeighbridge
     private final WeighbridgeTicketRepositoryPort weighbridgeTicketRepositoryPort;
     private final WeighbridgeTicketGeneratedPort weighbridgeTicketGeneratedPort;
     private final TruckMovementRepositoryPort truckMovementRepositoryPort;
-    
+    private final AppointmentRepositoryPort appointmentRepository;
+
     @Override
     @Transactional
     public WeighbridgeTicket generateWeighbridgeTicket(GenerateWeighbridgeTicketCommand command) {
@@ -53,6 +55,13 @@ public class GenerateWeighbridgeTicketUseCaseImpl implements GenerateWeighbridge
         truckMovement.exitFacility();
         truckMovementRepositoryPort.save(truckMovement);
         
+        // Update appointment status to DEPARTED
+        var appointment = appointmentRepository.findByLicensePlate(command.licensePlate())
+            .stream().findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+        appointment.markAsDeparted();
+        appointmentRepository.save(appointment);
+
         // Publish event for other contexts
         weighbridgeTicketGeneratedPort.weighbridgeTicketGenerated(savedTicket);
         

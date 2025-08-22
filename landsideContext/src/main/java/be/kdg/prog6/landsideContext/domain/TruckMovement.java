@@ -79,6 +79,7 @@ public class TruckMovement {
         }
         
         this.currentLocation = TruckLocation.EXIT;
+        
         System.out.println("=== TRUCK LOCATION UPDATE ===");
         System.out.printf("Truck %s moved from WAREHOUSE to EXIT\n", licensePlate.getValue());
     }

@@ -42,14 +42,11 @@ public class RegisterWeightAndExitBridgeUseCaseImpl implements RegisterWeightAnd
         // Save updated movement
         truckMovementRepository.save(movement);
 
-        // Mark appointment as DEPARTED when truck exits
+        // Get appointment for this truck to get sellerId
         var appointment = appointmentRepository.findByLicensePlate(command.getLicensePlate())
         .stream()
         .findFirst()
         .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
-
-        appointment.setStatus(AppointmentStatus.DEPARTED);
-        appointmentRepository.save(appointment);
         
         // Publish event for Warehousing Context
         truckLeftWeighingBridgePort.truckLeftWeighingBridge(movement, command.getRawMaterialName(), appointment.getSellerId());

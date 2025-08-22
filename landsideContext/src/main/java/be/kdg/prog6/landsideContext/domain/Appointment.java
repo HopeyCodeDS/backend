@@ -61,6 +61,13 @@ public class Appointment {
         this.status = AppointmentStatus.ARRIVED;
         this.actualArrivalTime = actualArrivalTime; 
     }
+
+    public void markAsDeparted() {
+        if (status != AppointmentStatus.ARRIVED) {
+            throw new IllegalStateException("Appointment must be in ARRIVED status to mark as departed");
+        }
+        this.status = AppointmentStatus.DEPARTED;
+    }
     
     public void cancel() {
         if (status != AppointmentStatus.SCHEDULED) {
