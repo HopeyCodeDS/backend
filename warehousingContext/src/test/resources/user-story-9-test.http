@@ -1,0 +1,3 @@
+### Get warehouse overview - For user story 9 and 21
+GET http://localhost:8190/api/warehouses/overview
+Content-Type: application/json 

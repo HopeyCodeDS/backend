@@ -1,0 +1,179 @@
+ ### User Story 10: Submit Purchase Order
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-001",
+  "customerNumber": "CUST-001",
+  "customerName": "Steel Manufacturing Co.",
+  "sellerId": "seller-001",
+  "sellerName": "De klant van KDG",
+  "orderDate": "01/09/2025 08:00",
+  "orderLines": [
+    {
+      "lineNumber": 1,
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 10,
+      "pricePerTon": 13.0
+    },
+    {
+      "lineNumber": 2,
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 21,
+      "pricePerTon": 13.0
+    }
+  ]
+}
+
+### Expected Response
+### {
+###   "purchaseOrderId": "uuid-here",
+###   "purchaseOrderNumber": "PO-2025-001",
+###   "customerNumber": "CUST-001",
+###   "customerName": "Steel Manufacturing Co.",
+###   "sellerId": "seller-001",
+###   "sellerName": "De klant van KDG",
+###   "orderDate": "2025-08-01T08:45:30",
+###   "status": "PENDING",
+###   "totalValue": 416.0,
+###   "orderLines": [
+###     {
+###       "rawMaterialName": "Gypsum",
+###       "amountInTons": 12.0,
+###       "pricePerTon": 13.0,
+###       "lineTotal": 156.0
+###     },
+###     {
+###       "rawMaterialName": "Gypsum", 
+###       "amountInTons": 20.0,
+###       "pricePerTon": 13.0,
+###       "lineTotal": 260.0
+###     }
+###   ]
+### }
+
+### Submit Purchase Order 2
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-002",
+  "customerNumber": "CUST-002",
+  "customerName": "Cement Industries Ltd.",
+  "sellerId": "seller-001",
+  "sellerName": "De klant van KDG",
+  "orderDate": "01/09/2025 08:00",
+  "orderLines": [
+    {
+      "lineNumber": 1,
+      "rawMaterialName": "Iron_Ore",
+      "amountInTons": 14,
+      "pricePerTon": 110.0
+    },
+    {
+      "lineNumber": 2,
+      "rawMaterialName": "Cement",
+      "amountInTons": 12,
+      "pricePerTon": 95.0
+    },
+    {
+      "lineNumber": 3,
+      "rawMaterialName": "Cement",
+      "amountInTons": 10,
+      "pricePerTon": 95.0
+    }
+  ]
+}
+
+### Submit Purchase Order 3
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-003",
+  "customerNumber": "CUST-003",
+  "customerName": "Construction Materials Corp.",
+  "sellerId": "seller-001",
+  "sellerName": "De klant van KDG",
+  "orderDate": "01/09/2025 08:00",
+  "orderLines": [
+    {
+      "lineNumber": 1,
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 30,
+      "pricePerTon": 13.0
+    },
+    {
+      "lineNumber": 2,
+      "rawMaterialName": "Iron_Ore",
+      "amountInTons": 18,
+      "pricePerTon": 110.0
+    },
+    {
+      "lineNumber": 3,
+      "rawMaterialName": "Slag",
+      "amountInTons": 40,
+      "pricePerTon": 160.0
+    }
+  ]
+}
+
+### Submit Purchase Order 4
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-004",
+  "customerNumber": "CUST-004",
+  "customerName": "Mining Solutions Inc.",
+  "sellerId": "seller-001",
+  "sellerName": "De klant van KDG",
+  "orderDate": "01/09/2025 08:00",
+  "orderLines": [
+    {
+      "lineNumber": 1,
+      "rawMaterialName": "Iron_Ore",
+      "amountInTons": 50,
+      "pricePerTon": 110.0
+    }
+  ]
+}
+
+### Submit Purchase Order 5
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-005",
+  "customerNumber": "CUST-005",
+  "customerName": "Global Trading Partners",
+  "sellerId": "seller-001",
+  "sellerName": "De klant van KDG",
+  "orderDate": "01/09/2025 08:00",
+  "orderLines": [
+    {
+      "lineNumber": 1,
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 8,
+      "pricePerTon": 13.0
+    },
+    {
+      "lineNumber": 2,
+      "rawMaterialName": "Cement",
+      "amountInTons": 12,
+      "pricePerTon": 95.0
+    },
+    {
+      "lineNumber": 3,
+      "rawMaterialName": "Iron_Ore",
+      "amountInTons": 22,
+      "pricePerTon": 110.0
+    },
+    {
+      "lineNumber": 4,
+      "rawMaterialName": "Slag",
+      "amountInTons": 35,
+      "pricePerTon": 160.0
+    }
+  ]
+}

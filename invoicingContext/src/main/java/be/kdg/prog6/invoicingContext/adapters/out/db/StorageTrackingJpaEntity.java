@@ -1,0 +1,60 @@
+package be.kdg.prog6.invoicingContext.adapters.out.db;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import java.time.LocalDate;
+import java.math.BigDecimal;
+
+@Entity
+@Table(catalog = "invoicing", name = "storage_tracking")
+@Getter
+@Setter
+public class StorageTrackingJpaEntity {
+    
+    @Id
+    @Column(name = "tracking_id")
+    private UUID trackingId;
+    
+    @Column(name = "warehouse_number", nullable = false)
+    private String warehouseNumber;
+    
+    @Column(name = "customer_number", nullable = false)
+    private String customerNumber;
+    
+    @Column(name = "material_type", nullable = false)
+    private String materialType;
+    
+    @Column(name = "tons_stored", nullable = false)
+    private double tonsStored;
+    
+    @Column(name = "remaining_tons", nullable = false)
+    private double remainingTons;
+    
+    @Column(name = "delivery_time", nullable = false)
+    private LocalDateTime deliveryTime;
+    
+    @Column(name = "pdt_id", nullable = false)
+    private UUID pdtId;
+    
+    @Column(name = "storage_cost_calculation_date")
+    private LocalDate storageCostCalculationDate;
+    
+    @Column(name = "number_of_days")
+    private Long numberOfDays;
+    
+    @Column(name = "cost_in_dollars", precision = 10, scale = 2)
+    private BigDecimal costInDollars;
+
+    @Column(name = "storage_cost", precision = 10, scale = 2)
+    private BigDecimal storageCost;
+
+    @Column(name = "is_seller_tracking", nullable = false)
+    private boolean isSellerTracking;
+
+    public void setIsSellerTracking(Boolean isSellerTracking) {
+        this.isSellerTracking = isSellerTracking;
+    }
+} 

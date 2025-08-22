@@ -1,0 +1,16 @@
+### Get Ship Captain Operations Overview
+GET http://localhost:8190/api/waterside/captain/operations/Vessel-001
+
+### Expected Response
+### {
+###   "shippingOrderId": "uuid-here",
+###   "vesselNumber": "Vessel-001",
+###   "inspectionStatus": "COMPLETED",
+###   "bunkeringStatus": "COMPLETED",
+###   "canLeavePort": true,
+###   "inspectionCompletedDate": "2025-08-01T08:45:30",
+###   "bunkeringCompletedDate": "2025-08-01T08:45:30"
+### }
+
+### Get Ship Captain Operations Overview for Vessel-002
+GET http://localhost:8190/api/waterside/captain/operations/Vessel-002

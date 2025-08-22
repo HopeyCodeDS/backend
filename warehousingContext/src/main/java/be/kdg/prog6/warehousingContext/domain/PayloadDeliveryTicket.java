@@ -1,67 +1,35 @@
 package be.kdg.prog6.warehousingContext.domain;
 
-import be.kdg.prog6.common.domain.MaterialType;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
-
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Entity
-@Table(catalog = "warehouse", name = "payload_delivery_tickets")
+@Getter
 public class PayloadDeliveryTicket {
+    private final UUID pdtId;
+    private final String licensePlate;
+    private final String rawMaterialName;
+    private final String warehouseNumber;
+    private final String conveyorBeltNumber;
+    private final double payloadWeight;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private final LocalDateTime deliveryTime;
+    private final UUID sellerId;
+    private final String newWeighingBridgeNumber;
 
-    @Getter
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Getter
-    private String licensePlate;
-
-    @Getter
-    @Enumerated(EnumType.STRING)
-    private MaterialType materialType;
-
-    @Getter
-    private String conveyorBeltNumber;
-
-    @Getter
-    private String weighingBridgeNumber;
-
-    @Getter
-    private LocalDateTime deliveryTime;
-
-    @Getter
-    private double weight;
-
-    @Getter
-    private String warehouseId; // New field for warehouse ID
-
-    protected PayloadDeliveryTicket() {
-        // Default constructor for JPA
-    }
-
-    public PayloadDeliveryTicket(String licensePlate, MaterialType materialType, String conveyorBeltNumber,
-                                 String weighingBridgeNumber, double weight, String warehouseId) {
+    public PayloadDeliveryTicket(UUID pdtId, String licensePlate, String rawMaterialName, 
+                                String warehouseNumber, String conveyorBeltNumber, 
+                                double payloadWeight, UUID sellerId, LocalDateTime deliveryTime, String newWeighingBridgeNumber) {
+        this.pdtId = pdtId;
         this.licensePlate = licensePlate;
-        this.materialType = materialType;
+        this.rawMaterialName = rawMaterialName;
+        this.warehouseNumber = warehouseNumber;
         this.conveyorBeltNumber = conveyorBeltNumber;
-        this.weighingBridgeNumber = weighingBridgeNumber;
-        this.deliveryTime = LocalDateTime.now();
-        this.weight = weight;
-        this.warehouseId = warehouseId; // Assign warehouse ID
+        this.payloadWeight = payloadWeight;
+        this.sellerId = sellerId;
+        this.deliveryTime = deliveryTime;
+        this.newWeighingBridgeNumber = newWeighingBridgeNumber;
     }
-
-    @Override
-    public String toString() {
-        return "PayloadDeliveryTicket{" +
-                "licensePlate='" + licensePlate + '\'' +
-                ", materialType=" + materialType +
-                ", conveyorBeltNumber='" + conveyorBeltNumber + '\'' +
-                ", weighingBridgeNumber='" + weighingBridgeNumber + '\'' +
-                ", deliveryTime=" + deliveryTime +
-                ", weight=" + weight +
-                ", warehouseId=" + warehouseId +
-                '}';
-    }
-}
+} 

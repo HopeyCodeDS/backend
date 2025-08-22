@@ -1,0 +1,11 @@
+ ### Allocate Oldest Stock for Loading - User story 17
+POST http://localhost:8190/api/warehouses/allocate-oldest-stock?rawMaterialName=GYPSUM&requiredAmount=32.0
+
+### Allocate Oldest Stock for Different Material
+POST http://localhost:8190/api/warehouses/allocate-oldest-stock?rawMaterialName=GYPSUM&requiredAmount=260.0
+
+### Test Insufficient Stock Scenario
+POST http://localhost:8190/api/warehouses/allocate-oldest-stock?rawMaterialName=CEMENT&requiredAmount=1000.0
+
+### 8. Check Warehouse Overview (US-21 - should show volume adjustments)
+GET http://localhost:8190/api/warehouses/overview

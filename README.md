@@ -1,218 +1,245 @@
-# Mineral Flow System - Krystal Distribution Group
+# Krystal Distribution Group - Mineral Flow System
 
-## Project Overview
+## 🏗️ Project Overview
 
-The **Mineral Flow System** is designed to manage the logistics of truck drivers, sellers, warehouse managers, and other roles involved in the transportation, weighing, and docking of mineral goods. The system follows **hexagonal architecture** (ports and adapters) and uses **RabbitMQ** to enable communication between different bounded contexts such as **LandsideContext**, **WarehousingContext**, and **WatersideContext**.
+The **Mineral Flow System** is a comprehensive logistics management platform designed for **Krystal Distribution Group (KdG)** to efficiently manage the flow of raw materials from arrival scheduling to final warehousing and shipping. The system follows **Hexagonal Architecture** (ports and adapters) principles and implements **Domain-Driven Design** (DDD) to create a robust, scalable, and maintainable solution.
 
-This project implements user stories 1-5 and handles the flow from truck arrival to dock assignment, PDT generation, and reweighing at a new bridge.
-
----
-
-## User Stories Implemented
-
-### **User Story 1:**
-> _As a seller, I want to create appointments for trucks so that they can arrive at the facility within the designated time window._
-
-In this user story, the system allows a **seller** to create an appointment for a truck's arrival at the facility. The seller provides truck details such as the license plate, the material being transported, and the arrival window. The system registers the appointment, allowing the truck to be recognized when it arrives.
-
-### **User Story 2:**
-> _As a truck driver, I want to be recognized by my license plate so that the gate opens for the truck to enter the facility._
-
-When a truck arrives, the system automatically scans the license plate. If the truck is within the scheduled arrival window, the gate opens and the truck is allowed to enter the facility.
-
-### **User Story 3:**
-> _As a truck driver, I want to receive the weighing bridge number when accessing the site so I know where to go._
-
-Upon entering the facility, the truck driver is assigned a weighing bridge where the truck will be weighed. This number is provided immediately after the license plate is recognized, ensuring that the driver knows where to proceed.
-
-### **User Story 4:**
-> _As a truck driver, I want to be automatically weighed at the weighing bridge so the weight of my truck is registered._
-
-Once the truck reaches the assigned weighing bridge, the system automatically weighs the truck and logs the weight. This data is used for processing the delivery and any further actions such as warehouse assignment.
-
-### **User Story 5:**
-> _As a truck driver, I want to dock to the correct conveyor belt and receive my copy of the PDT and new weighing bridge number._
-
-After being weighed, the truck is assigned to the correct conveyor belt based on the material it carries. The system generates a **Proof of Delivery Ticket (PDT)**, which includes the truck’s license plate, material, conveyor belt number, and the next weighing bridge number.
-
-### **User Story 6:**
-> _As a truck driver, I want to pass the weighing bridge and get a Weighbridge Ticket (WBT) that includes: The gross weight upon arrival, tare weight, net weight, timestamp of weighing, and truck license plate number._
-
-In this case, the truck driver needs to pass through the weighing bridge and automatically receive a Weighbridge Ticket (WBT) upon weighing. This ticket serves as an official record that documents the truck's gross weight, tare weight, and net weight, along with the timestamp and license plate number.
-
-
-### **User Story :**
-> _As a warehouse manager, I want to check if trucks arrive within the scheduled arrival windows_
-
-This story implies that the warehouse manager needs real-time insights into truck arrivals and their adherence to their scheduled arrival times.
+### 🎯 Core Objectives
+- **Optimize Material Flow**: Streamline the entire logistics process from truck arrival to ship departure
+- **Real-time Operations**: Provide comprehensive monitoring and management of warehouse operations
+- **Automated Processes**: Implement intelligent automation for stock allocation, fee calculation, and compliance tracking
+- **Multi-Context Integration**: Seamlessly coordinate operations across landside, warehousing, waterside, and invoicing contexts
 
 ---
 
-## Project Architecture
+## 🏛️ Architecture Overview
 
-The system is built using **hexagonal architecture** (also known as ports and adapters architecture), which emphasizes clear separation between the core business logic (use cases and domain models) and external systems (user interfaces, databases, and messaging systems).
+### **Hexagonal Architecture Implementation**
+The system is built using **Hexagonal Architecture** (Ports and Adapters) and strictly following the **DDD (Domain Driven Design)** principles with clear separation between:
+- **Domain Layer**: Core business logic, entities, and value objects
+- **Application Layer**: Use cases and application services
+- **Infrastructure Layer**: External systems, databases, and messaging
 
 ### **Bounded Contexts**
-The project is divided into several bounded contexts, each handling a specific domain:
+The system is organized into four distinct bounded contexts, each handling specific domain responsibilities:
 
-- **LandsideContext**: Manages truck appointments, license plate recognition, and interaction with the weighing bridge.
-- **WarehousingContext**: Handles dock and conveyor belt assignments, and generates PDTs.
-- **WeighingContext**: Manages the weighing process and assigns new weighing bridge numbers.
-- **InvoicingContext**: Manages invoicing and payment processing.
+#### 🚛 LandsideContext
+- **Purpose**: Manages truck arrivals, appointments, and weighing operations
+- **Key Features**:
+  - Appointment scheduling and management
+  - License plate recognition and gate control
+  - Weighing bridge assignment and operation
+  - Arrival compliance tracking
+  - Real-time truck status monitoring
 
-### **RabbitMQ for Inter-Context Communication**
-To maintain loose coupling between these contexts, all communication between contexts happens through **RabbitMQ**. Events such as **DockingEvent** are published when key actions happen, and other contexts listen to these events and act accordingly.
+#### 🏭 WarehousingContext
+- **Purpose**: Handles warehouse operations, stock management, and material allocation
+- **Key Features**:
+  - Warehouse assignment and capacity management
+  - Conveyor belt operations and PDT generation
+  - FIFO stock allocation strategy
+  - Inventory tracking and overflow management
+  - Payload delivery processing
+
+#### ⚓ WatersideContext
+- **Purpose**: Manages shipping operations, vessel management, and port activities
+- **Key Features**:
+  - Shipping order processing and validation
+  - Inspection operations (IO) management
+  - Bunkering operations (BO) coordination
+  - PO-SO matching and validation
+  - Vessel loading and departure management
+
+#### 💰 InvoicingContext
+- **Purpose**: Handles financial operations, fee calculations, and billing
+- **Key Features**:
+  - Daily storage fee calculations (9:00 AM)
+  - Commission fee processing (1% on fulfilled POs)
+  - Purchase order management and tracking
+  - Invoice generation and payment processing
+  - Financial reporting and analytics
 
 ---
 
-## Technologies Used
+## 🚀 User Stories Implementation
 
-- **Java (Spring Boot)**: Core language and framework for developing the application.
-- **RabbitMQ**: Messaging broker used for communication between bounded contexts.
-- **Docker**: For managing RabbitMQ instances (optional).
-- **Gradle**: Build automation tool.
+### **Landside Operations (Stories 1-6)**
+1. Appointment Scheduling
+2. Truck Recognition
+3. Weighing Bridge Assignment
+4. Weight Registration
+5. Conveyor Belt Docking
+6. Weighbridge Ticket Generation
+
+### **Warehouse Management (Stories 7-11)**
+7. Arrival Compliance Monitoring  
+8. On-Site Truck Monitoring  
+9. Warehouse Overview  
+10. PO submission  
+11. PO Fulfillment Tracking
+#11. Automatic Stock Allocation and volume adjustment
+
+### **Shipping Operations (Stories 12-21)**
+12. Shipping Order Processing  
+13. Inspection Operations  
+14. Bunkering Operations  
+15. PO-SO Matching  
+16. Shipment arrivals 
+Vessel Operations Overview  
+17. Automatic Oldest Stock Allocation
+18. Shipping Order processing
+19. Warehouse/ship operations(vessel loading) completion 
+20. Ship operation overview
+21.  Warehouse volume adjustment
+
+### **Financial Management (Stories 22-23)**
+22. Commission Calculation  
+23. Daily Storage Fee Calculation  
 
 ---
 
-## Getting Started
+## 🛠️ Technology Stack
 
-### Prerequisites
+### **Backend Technologies**
+- Java 17
+- Spring Boot 3.x
+- Spring Security
+- Spring Data JPA
+- Gradle
 
-Ensure that the following are installed on your machine:
+### **Architecture & Design**
+- Hexagonal Architecture
+- Domain-Driven Design
+- Event Sourcing
+- CQRS Pattern
+- Event-Driven Architecture
 
-- **Java 17** (or higher)
-- **Gradle**
-- **Docker** (if running RabbitMQ in a container)
-- **RabbitMQ** (can be run locally or in Docker)
+### **Infrastructure & Services**
+- MySQL 9.0.1 (port 13306)
+- RabbitMQ
+- Keycloak 25.0.5 (port 8180)
+- Docker Compose
 
-### Installing RabbitMQ
+### **Security & Authentication**
+- OAuth 2.0 (JWT-based authentication)
+- Role-Based Access Control
+- CORS Configuration
 
-If you don’t already have RabbitMQ running, you can use Docker to spin up a RabbitMQ container:
+---
+
+## 📂 Project Structure
+
+```plaintext
+backend/
+├── application/                 # Main application module
+├── common/                      # Shared components and events
+├── landsideContext/              # Landside operations
+├── warehousingContext/           # Warehouse management
+├── watersideContext/             # Shipping operations
+├── invoicingContext/             # Financial operations
+├── infrastructure/               # Docker configuration
+└── buildSrc/                     # Gradle build configuration
+````
+
+Each bounded context follows the same structure:
+
+* `domain/` — Entities, value objects, and domain services
+* `ports/` — Inbound and outbound interfaces
+* `core/` — Use case implementations
+* `adapters/` — Web controllers, repositories, and external integrations
+
+---
+
+## 🚀 Getting Started
+
+### **Prerequisites**
+
+* Java 17+
+* Gradle 8.x
+* Docker & Docker Compose
+* IntelliJ IDEA (recommended)
+
+### **Setup Steps**
 
 ```bash
-docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
-```
-### Clone the Repository
+# 1. Clone Repository
+git clone https://gitlab.com/kdg-ti/programming6/students/24-25/momoduopeyemi/backend.git
+cd backend
 
-```githubexpressionlanguage
-    git clone https://gitlab.com/kdg-ti/programming6/students/24-25/momoduopeyemi/backend.git 
-    cd backend
-```
+# 2. Start Infrastructure
+cd infrastructure
+docker-compose up -d
 
-### Running the Application
-
-The application exposes various endpoints to handle truck operations and system events.
-
-#### Create Appointment (User Story 1)
-
-```http request
-POST http://localhost:8192/landsideContext/appointments
-Content-Type: application/json
-
-{
-"sellerId": "b78c50cd-a93b-4881-a37a-bc79408ef9d5",
-"plateNumber": "BE_VUB-T90",
-"materialType": "IRON_ORE",
-"arrivalWindow": "2024-11-03T09:15:00"
-}
-```
-#### Open Gate on Truck Arrival (User Story 2)
-
-```http request
-GET http://localhost:8192/landsideContext/trucks/open/BE_VUB-T90
-```
-#### Get Assigned Weighing Bridge (User Story 3)
-
-```http request
-GET http://localhost:8192/landsideContext/weighing-bridge/BE_VUB-T90
-```
-#### Weigh Truck at the Weighing Bridge (User Story 4)
-
-```http request
-POST http://localhost:8192/landsideContext/weighing-bridge/weigh?licensePlate=BE_VUB-T90&weight=12000
-```
-### Test Endpoint for Docking a Truck(Start Docking Process) - 1
-## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
-```http request
-POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T95
-Content-Type: application/json
-```
-### Test Endpoint for Docking a Truck(Start Docking Process) - 2
-## Retrieve the Generated PDT(The PDT is Asynchronously retrieved during the inter-context communication)
-```http request
-POST http://localhost:8192/landsideContext/dock?licensePlate=BE_VUB-T92
-Content-Type: application/json
+# 3. Build & Run
+./gradlew build
+./gradlew bootRun
 ```
 
-#### Get Assigned Weighing Bridge (User Story 5)
+### **Service URLs**
 
-```http request
-GET http://localhost:8192/landsideContext/weighing-bridge/BE_VUB-T90
-```
+* MySQL → `localhost:13306`
+* Keycloak → `http://localhost:8180/auth/`
+* RabbitMQ → `localhost:5672` (AMQP) / `localhost:15672` (Management)
 
-#### Weigh a Truck and Generate Weighbridge Ticket (WBT)
+---
 
-```http request
-POST http://localhost:8192/landsideContext/weighing-bridge/generate-ticket
-Content-Type: application/json
+## 🧪 Testing
 
-{
-  "licensePlate": "BE_VUB-T90",
-  "grossWeight": 12000,
-  "tareWeight": 7000
-}
-```
+**Test Files**:
 
-### Retrieve All Payload Delivery Tickets
-```http request
-GET http://localhost:8193/warehousingContext/pdt
-Content-Type: application/json
-```
+* Landside → `landside-tests.http`
+* Warehousing → `warehousing-tests.http`
+* Waterside → `waterside-tests.http`
+* Invoicing → `invoicing-tests.http`
 
-### Retrieve a Specific Payload Delivery Ticket by License Plate
-```http request
-GET http://localhost:8193/warehousingContext/pdt/BE_VUB-T95
-Content-Type: application/json
-```
+**Order of testing scenario(security-based) with test files**
 
-### Generate a Weigh Bridge Ticket - 1
-
-```http request
-POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
-Content-Type: application/json
-
-{
-"licensePlate": "BE_VUB-T95",
-"materialType": "IRON_ORE",
-"tareWeight": 10000,
-"weighingBridgeNumber": "Bridge-1"
-}
-```
-
-### Generate a Weigh Bridge Ticket - 2
-POST http://localhost:8192/landsideContext/weighbridge/generate-ticket
-Content-Type: application/json
-
-{
-"licensePlate": "BE_VUB-T92",
-"tareWeight": 18000
-}
+- Appointment scheduling by Seller `landside-tests.http`
+- Get all appointments by Warehouse Manager `landside-tests.http`
+- Recognize truck arrival by truck driver `landside-tests.http`
+- Weighing bridge assignment to trucks `landside-tests.http`
+- Register Weight and Receive Warehouse Number by truck driver `landside-tests.http`
+- Check warehouse assignment status for the trucks `landside-tests.http`
+- Deliver Payload of all trucks by truck driver `landside-tests.http`
+- Retrieve all PDTs `landside-tests.http`
+- Just check the storage cost preparation after payload delivery by accountant `landside-tests.http`
+- Generate weighbridge ticket by truck driver before EXIT `landside-tests.http`
+- Get Arrival compliance data by warehouse manager `warehousing-tests.http`
+- Truck on Site by warehouse manager `warehousing-tests.http`
+- Check warehouse overview by warehouse manager `warehousing-tests.http`
+- Purchase order submission by the buyer `invoicing-tests.http`
+- Shipping order submission by the ship captain (waterside-test.http)
+- SO matching with PO by Foreman `waterside-tests.http`
+- Inspection operations by the Inspector `waterside-tests.http`
+- Bunkering Operation by the Bunkering Officer `waterside-tests.http`
+- Check the storage fee cost preparation after vessel loading `waterside-tests.http`
+- Port Operations overview by the ship captain `waterside-tests.http`
 
 
+Run tests in IntelliJ HTTP Client or VS Code REST Client.
 
+---
 
+## 📊 Business Rules & Constraints
 
-### Future Features
+* **Truck Capacity**: 40 trucks/hour max
+* **Warehouse Capacity**: 500 kt (80% threshold, 110% overflow)
+* **Bunkering Operations**: Max 6/day
+* **Arrival Windows**: 1-hour slots
 
-Invoicing Context: Handle invoicing and payment processing for sellers based on truck deliveries.
-Ship Captain and Bunkering Officer: Implement user stories related to ship docking and bunkering operations in the WatersideContext.
+**Pricing**:
 
+* Gypsum: \$1/t/day
+* Iron Ore: \$5/t/day
+* Cement: \$3/t/day
+* Petcoke: \$10/t/day
+* Slag: \$7/t/day
+* 1% commission on fulfilled POs
 
-### Contributing
+---
 
-Feel free to open issues or submit pull requests to contribute to the project. All contributions are welcome!
+## 📄 License
 
-### License
+Licensed under MIT License.
 
-This project is licensed under the MIT License. See the LICENSE file for details.
-
+---

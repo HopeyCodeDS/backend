@@ -1,0 +1,5 @@
+ ### Get All Shipment Arrivals - User story 16
+GET http://localhost:8190/api/waterside/foreman/shipment-arrivals
+
+### Get Unmatched Shipping Orders (existing)
+GET http://localhost:8190/api/waterside/foreman/unmatched-shipping-orders

@@ -1,39 +1,51 @@
 server:
   port: ${PORT:8193}
   servlet:
-    context-path: /warehousingContext
+    context-path: /warehousing
 
 
 spring:
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
   jpa:
-    open-in-view: false
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-      show-sql: true
-    properties:
-      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
-      hibernate.default_schema: warehouse  # Uncomment if schema exists and should be default
+   open-in-view: false
+   generate-ddl: true
+   hibernate:
+     ddl-auto: create
+     show-sql: true
+#     defer-datasource-initialization: false
+   properties:
+     hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+     hibernate.default_schema: warehousing 
+#     hibernate.connection.characterEncoding: utf8
+#     hibernate.connection.useUnicode: true
   sql:
-    init:
-      mode: always
+   init:
+     mode: always
+     schema-locations: classpath:schema.sql
+     data-locations: classpath:data.sql
   datasource:
-    url: jdbc:mysql://localhost:3306/warehouse?useUnicode=true&characterEncoding=utf8
-    username: user
-    password: password
-  logging:
-    level:
-      org.hibernate.tool.schema: DEBUG
-      org.hibernate.SQL: DEBUG  # Add detailed logging for SQL and schema creation
-      org.hibernate.type: TRACE
-      org.springframework.amqp: DEBUG
-      org.springframework.rabbit: DEBUG
-      com.fasterxml.jackson.databind: DEBUG
-      be.kdg.prog6: DEBUG
+   url: jdbc:mysql://localhost:13306/app_db?useUnicode=true&characterEncoding=utf8
+   username: user
+   password: password
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: myuser
-    password: mypassword
+   host: localhost
+   port: 5672
+   username: myuser
+   password: mypassword
+  logging:
+   level:
+     org.hibernate.tool.schema: DEBUG
+     org.hibernate.SQL: DEBUG
+     org.hibernate.type: TRACE
+     org.springframework.amqp: DEBUG
+     org.springframework.rabbit: DEBUG
+     com.fasterxml.jackson.databind: DEBUG
+     be.kdg.prog6.warehousingContext: DEBUG
+
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:8180/realms/kdgRealm/protocol/openid-connect/certs
+#          issuer-uri: http://localhost:8180/realms/kdgRealm

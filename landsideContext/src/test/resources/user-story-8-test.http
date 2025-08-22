@@ -1,0 +1,3 @@
+### Get trucks on site count
+GET http://localhost:8190/api/landside/trucks/on-site/count
+Content-Type: application/json 

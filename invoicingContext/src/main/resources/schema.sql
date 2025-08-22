@@ -1,0 +1,92 @@
+-- -- =====================================================
+-- -- INVOICING CONTEXT - DATABASE SCHEMA
+-- -- =====================================================
+-- DROP SCHEMA IF EXISTS invoicing;
+--
+-- SET FOREIGN_KEY_CHECKS = 0;
+--
+-- DROP TABLE IF EXISTS invoicing.purchase_orders;
+-- DROP TABLE IF EXISTS invoicing.purchase_order_lines;
+-- DROP TABLE IF EXISTS invoicing.storage_fees;
+-- DROP TABLE IF EXISTS invoicing.commission_fees;
+-- DROP TABLE IF EXISTS invoicing.storage_tracking;
+--
+-- SET FOREIGN_KEY_CHECKS = 1;
+-- -- Create invoicing schema
+-- CREATE SCHEMA IF NOT EXISTS invoicing;
+--
+-- -- Create purchase orders table
+-- CREATE TABLE IF NOT EXISTS invoicing.purchase_orders (
+--     purchase_order_id BINARY(16) PRIMARY KEY,
+--     purchase_order_number VARCHAR(20) NOT NULL,
+--     customer_number VARCHAR(20) NOT NULL,
+--     customer_name VARCHAR(100) NOT NULL,
+--     seller_id VARCHAR(36) NOT NULL,
+--     seller_name VARCHAR(100) NOT NULL,
+--     order_date TIMESTAMP NOT NULL,
+--     status VARCHAR(20) NOT NULL,
+--     total_value DECIMAL(10,2) NOT NULL
+-- )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+--
+-- -- Create purchase order lines table
+-- CREATE TABLE IF NOT EXISTS invoicing.purchase_order_lines (
+--     line_id BINARY(16) PRIMARY KEY,
+--     purchase_order_id BINARY(16) NOT NULL,
+--     line_number INTEGER NOT NULL,
+--     raw_material_name VARCHAR(50) NOT NULL,
+--     amount_in_tons DECIMAL(10,2) NOT NULL,
+--     price_per_ton DECIMAL(10,2) NOT NULL
+-- --     FOREIGN KEY (purchase_order_id) REFERENCES invoicing.purchase_orders(purchase_order_id)
+-- )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+--
+-- -- Create storage fees table
+-- CREATE TABLE IF NOT EXISTS invoicing.storage_fees (
+--     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--     storage_fee_id BINARY(16) UNIQUE NOT NULL,
+--     calculation_date DATE NOT NULL,
+--     warehouse_number VARCHAR(20) NOT NULL,
+--     material_type VARCHAR(50) NOT NULL,
+--     seller_id VARCHAR(36) NOT NULL,
+--     total_daily_fee DECIMAL(10,2) NOT NULL,
+--     total_delivery_batches INTEGER NOT NULL,
+--     INDEX idx_calculation_date (calculation_date),
+--     INDEX idx_warehouse_material (warehouse_number, material_type),
+--     INDEX idx_seller (seller_id)
+-- )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+--
+-- -- Create commission fees table
+-- CREATE TABLE IF NOT EXISTS invoicing.commission_fees (
+--     commission_fee_id BINARY(16) PRIMARY KEY,
+--     purchase_order_number VARCHAR(20) NOT NULL,
+--     customer_number VARCHAR(20) NOT NULL,
+--     seller_id VARCHAR(36) NOT NULL,
+--     amount DECIMAL(10,2) NOT NULL,
+--     calculation_date TIMESTAMP NOT NULL,
+--     INDEX idx_purchase_order (purchase_order_number),
+--     INDEX idx_customer (customer_number),
+--     INDEX idx_seller (seller_id),
+--     INDEX idx_calculation_date (calculation_date)
+-- )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+--
+-- -- Create storage tracking table
+-- CREATE TABLE IF NOT EXISTS invoicing.storage_tracking (
+--     tracking_id BINARY(16) PRIMARY KEY,
+--     warehouse_number VARCHAR(20) NOT NULL,
+--     customer_number VARCHAR(20) NOT NULL,
+--     material_type VARCHAR(50) NOT NULL,
+--     tons_stored DECIMAL(10,2) NOT NULL,
+--     remaining_tons DECIMAL(10,2) NOT NULL,
+--     delivery_time TIMESTAMP NOT NULL,
+--     pdt_id BINARY(16) NOT NULL,
+--     storage_cost_calculation_date DATE,
+--     number_of_days BIGINT,
+--     cost_in_dollars DECIMAL(10,2),
+--     storage_cost DECIMAL(10,2),
+--     INDEX idx_warehouse (warehouse_number),
+--     INDEX idx_customer (customer_number),
+--     INDEX idx_material (material_type),
+--     INDEX idx_pdt (pdt_id),
+--     INDEX idx_delivery_time (delivery_time)
+-- )CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+--
+--

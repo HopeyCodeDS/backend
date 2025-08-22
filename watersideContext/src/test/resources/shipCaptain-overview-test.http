@@ -1,0 +1,24 @@
+### ========================================
+### STEP 9: User Story 20 - Ship Captain Operations Overview
+### ========================================
+
+### Get Operations Overview for Vessel 1
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-001
+
+### Get Operations Overview for Vessel 2
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-002
+
+### Get Operations Overview for Vessel 3
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-003
+
+
+
+### ========================================
+### STEP 10: User Story 21 - Verify Automatic Loading Triggered
+### ========================================
+
+### Check Warehouse Overview (should show volume adjustments)
+GET http://localhost:8190/api/warehouses/overview
+
+### Check Purchase Order Fulfillment Status
+GET http://localhost:8190/api/warehouses/purchase-orders/fulfillment-overview

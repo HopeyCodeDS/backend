@@ -5,13 +5,15 @@ server:
 
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
   jpa:
-    open-in-view: false
+#    open-in-view: false
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       show-sql: true
     defer-datasource-initialization: true
     properties:
@@ -19,8 +21,13 @@ spring:
   sql:
     init:
       mode: always
+      schema-locations: []
+      data-locations: classpath*:data.sql
   datasource:
-    url: jdbc:mysql://localhost:3306/landside
+    url: jdbc:mysql://localhost:13306/app_db
+
+
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: user
     password: password
   logging:
@@ -36,4 +43,27 @@ spring:
     port: 5672
     username: myuser
     password: mypassword
+    virtual-host: /
+    listener:
+      simple:
+        missing-queues-fatal: false
 
+# This is just to try out all my endpoints without authentication
+  security:
+    enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
+
+management:
+  security:
+    enabled: false
+
+#  security:
+#      oauth2:
+#        resourceserver:
+#          jwt:
+#            jwk-set-uri: http://localhost:8180/realms/kdgRealm/protocol/openid-connect/certs
+#            issuer-uri: http://localhost:8180/realms/kdgRealm

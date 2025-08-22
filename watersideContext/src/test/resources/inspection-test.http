@@ -1,0 +1,29 @@
+### Get Outstanding Inspections - User story 13
+GET http://localhost:8190/api/waterside/inspections/outstanding
+
+### Complete Inspection - Using actual shipping order ID from the application logs
+POST http://localhost:8190/api/waterside/inspections/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "inspectorSignature": "Inspector_Adrian_Van_Hecke"
+}
+
+### Complete Inspection - Another shipping order
+POST http://localhost:8190/api/waterside/inspections/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "inspectorSignature": "Inspector_Adrian_Van_Hecke"
+}
+
+### Complete Inspection - Another shipping order (Invalid inspection scenario, needs validation from the foreman first)
+POST http://localhost:8190/api/waterside/inspections/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "33a347c6-9430-4c67-aee1-ff2abf008cde",
+  "inspectorSignature": "Inspector_Adrian_Van_Hecke"
+}
