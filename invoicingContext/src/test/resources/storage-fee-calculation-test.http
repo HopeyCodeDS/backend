@@ -1,0 +1,19 @@
+## -- REAL TEST CASE FOR REAL 9AM Storage fee calculation test scenario
+### Calculate storage fees for today
+POST http://localhost:8190/api/invoicing/storage-fees/calculate-today
+
+### Calculate storage fees for specific date
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=10/09/2025
+
+## -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
+
+### Step 1: Pre-Loading Storage Fee Calculation (04/09/2025)
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-03
+
+## Step 2: Vessel Loading (04/09/2025)
+
+### Step 3: Post-Loading Storage Fee Calculation (05/09/2025) - Assuming it is the next day storage cost fee calculation
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-04
+
+### Step 3: Post-Loading Storage Fee Calculation (06/09/2025) - Assuming it is the next day storage cost fee calculation
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-05

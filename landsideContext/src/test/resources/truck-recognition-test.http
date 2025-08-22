@@ -1,0 +1,29 @@
+### Recognize truck with valid appointment
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC-123",
+  "recognitionTime": "27/07/2025 20:15"
+}
+
+### Recognize truck outside arrival window
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "XYZ-789",
+  "recognitionTime": "27/07/2025 22:10"
+}
+
+### Recognize truck with unknown license plate
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "UNKNOWN-123",
+  "recognitionTime": "27/07/2025 10:30"
+}
+
+### Get gate status
+GET http://localhost:8190/api/landside/gate/status 

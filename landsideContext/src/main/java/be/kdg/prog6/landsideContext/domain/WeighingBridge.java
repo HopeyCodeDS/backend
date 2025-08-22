@@ -1,27 +1,31 @@
 package be.kdg.prog6.landsideContext.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
+import java.util.UUID;
 
-import java.time.LocalDateTime;
-
-@Getter
-@Setter
+@Value
 public class WeighingBridge {
-    private String bridgeNumber;
-    private String scannedLicensePlate;
-    private double truckGrossWeight;
-    private LocalDateTime weighingTime;
-
-    public WeighingBridge(String bridgeNumber) {
+    UUID bridgeId;
+    String bridgeNumber;
+    boolean isAvailable;
+    
+    public WeighingBridge(UUID bridgeId, String bridgeNumber) {
+        this.bridgeId = bridgeId;
         this.bridgeNumber = bridgeNumber;
+        this.isAvailable = true;
     }
-
-    /// Method to scan the truck's license plate, register grossWeight, and assign a warehouse based on material type
-    public void scanTruckAndRegisterWeight(String licensePlate, double grossWeight) {
-        this.scannedLicensePlate = licensePlate;
-        this.truckGrossWeight = grossWeight;
-        this.weighingTime = LocalDateTime.now();
+    
+    public WeighingBridge markAsOccupied() {
+        return new WeighingBridge(bridgeId, bridgeNumber, false);
     }
-
-}
+    
+    public WeighingBridge markAsAvailable() {
+        return new WeighingBridge(bridgeId, bridgeNumber, true);
+    }
+    
+    public WeighingBridge(UUID bridgeId, String bridgeNumber, boolean isAvailable) {
+        this.bridgeId = bridgeId;
+        this.bridgeNumber = bridgeNumber;
+        this.isAvailable = isAvailable;
+    }
+} 

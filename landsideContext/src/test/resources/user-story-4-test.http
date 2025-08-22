@@ -1,0 +1,88 @@
+### ========================================
+### USER STORY 4: Register Weight and Receive Warehouse Number
+### ========================================
+
+### Register truck weight and exit bridge - truck 1
+### This triggers the async warehouse assignment process
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-001",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+### Register truck weight and exit bridge - truck 2
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-002",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+
+### Register truck weight and exit bridge - truck 3
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+### Register truck weight and exit bridge - truck 4
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "weight": 25000.0,
+  "rawMaterialName": "Iron_Ore"
+}
+
+### Register truck weight and exit bridge - truck 5
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "weight": 25000.0,
+  "rawMaterialName": "Cement"
+}
+
+
+### Check warehouse assignment status - truck 1
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-001
+
+### Check warehouse assignment status - truck 2
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-002
+
+### Check warehouse assignment status - truck 3
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-003
+
+### Check warehouse assignment status - truck 4
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-004
+
+### Check warehouse assignment status - truck 5
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-005
+
+
+
+### ========================================
+### TEST SCENARIO EXPLANATION
+### ========================================
+### 
+### 1. Driver registers weight at weighing bridge
+### 2. System immediately returns "PROCESSING" status
+### 3. Landside Context publishes TruckLeftWeighingBridge event
+### 4. Warehousing Context receives event and assigns warehouse
+### 5. Warehousing Context publishes WarehouseAssigned event
+### 6. Landside Context receives event and updates truck movement
+### 7. Driver can check status to get warehouse number
+### 
+### This demonstrates the complete asynchronous flow
+### from weight registration to warehouse assignment. 

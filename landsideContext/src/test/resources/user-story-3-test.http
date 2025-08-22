@@ -1,0 +1,296 @@
+### ========================================
+### USER STORY 3: Weighing Bridge Assignment
+### ========================================
+
+### APPOINTMENT SCHEDULING (User story 1)
+### Appointment 1: Create an appointment first
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-001",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "28/08/2025 08:30"
+}
+
+
+### Appointment 2: Create an appointment for the another truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-002",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "28/08/2025 20:30"
+}
+
+
+### Appointment 3: Create an appointment for the another truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-003",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "29/08/2025 08:30"
+} 
+
+### Appointment 4: Create an appointment for the another truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-004",
+  "truckType": "LARGE",
+  "rawMaterialName": "Iron_Ore",
+  "scheduledTime": "29/08/2025 20:30"
+} 
+
+### Appointment 5: Create an appointment for the another truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-001",
+  "licensePlate": "TRK-005",
+  "truckType": "LARGE",
+  "rawMaterialName": "Cement",
+  "scheduledTime": "30/08/2025 08:30"
+} 
+
+
+### Get all appointments
+GET http://localhost:8190/api/landside/appointments
+
+### Get appointment by appointmentId
+GET http://localhost:8190/api/landside/appointments/123e4567-e89b-12d3-a456-426614174000
+
+
+### RECOGNITION (User story 2)
+### Recognize truck arrival 1
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-001",
+  "recognitionTime": "28/08/2025 09:00"
+}
+
+### Recognize truck arrival 2
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-002",
+  "recognitionTime": "28/08/2025 21:00"
+}
+
+### Recognize truck arrival 3
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "recognitionTime": "29/08/2025 09:00"
+}
+
+### Recognize truck arrival 4
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "recognitionTime": "29/08/2025 21:00"
+}
+
+### Recognize truck arrival 5
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "recognitionTime": "30/08/2025 09:00"
+}
+
+
+### Assign weighing bridge to truck 1
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-001",
+  "assignmentTime": "28/08/2025 09:00"
+}
+
+### Assign weighing bridge to truck 2
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-002",
+  "assignmentTime": "28/08/2025 21:00"
+}
+
+### Assign weighing bridge to truck 3
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "assignmentTime": "29/08/2025 09:00"
+}
+
+### Assign weighing bridge to truck 4
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "assignmentTime": "29/08/2025 21:00"
+}
+
+### Assign weighing bridge to truck 5
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "assignmentTime": "30/08/2025 09:00"
+}
+
+###-----------------------------------------------------------------------------------
+
+### ========================================
+### TEST SCENARIOS
+### ========================================
+
+### Test Scenario 1: Successful weighing bridge assignment
+# Prerequisites: Truck must have arrived (status = ARRIVED)
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-001",
+  "assignmentTime": "30/07/2025 20:20"
+}
+
+### Expected Response:
+# {
+#   "success": true,
+#   "message": "Weighing bridge assigned successfully",
+#   "bridgeNumber": "WB-001",
+#   "licensePlate": "ABC-123"
+# }
+
+### Test Scenario 2: Try to assign bridge to truck that hasn't arrived
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "XYZ-789",
+  "assignmentTime": "27/08/2025 20:20"
+}
+
+### Expected Response:
+# {
+#   "success": false,
+#   "error": "Assignment failed",
+#   "message": "No arrived appointment found for license plate: XYZ-789"
+# }
+
+### Test Scenario 3: Try to assign bridge to unknown truck
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "UNKNOWN-123",
+  "assignmentTime": "30/08/2025 20:20"
+}
+
+### Expected Response:
+# {
+#   "success": false,
+#   "error": "Assignment failed",
+#   "message": "No arrived appointment found for license plate: UNKNOWN-123"
+# }
+
+### Test Scenario 4: Multiple trucks - test bridge availability
+# First truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-002",
+  "licensePlate": "TRK-002",
+  "truckType": "MEDIUM",
+  "rawMaterialName": "Iron_Ore",
+  "arrivalTime": "30/08/2025 21:00"
+}
+
+### Recognize first truck
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-002",
+  "recognitionTime": "30/08/2025 21:15"
+}
+
+### Assign bridge to first truck
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-002",
+  "assignmentTime": "30/08/2025 21:20"
+}
+
+### Second truck
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "seller-003",
+  "licensePlate": "TRK-003",
+  "truckType": "SMALL",
+  "rawMaterialName": "Cement",
+  "arrivalTime": "30/08/2025 21:00"
+}
+
+### Recognize second truck
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "recognitionTime": "30/08/2025 21:25"
+}
+
+### Assign bridge to second truck (should get different bridge)
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "assignmentTime": "30/08/2025 21:30"
+}
+
+### ========================================
+### VERIFICATION ENDPOINTS
+### ========================================
+
+### Check appointment status (should show AT_WEIGHING_BRIDGE)
+GET http://localhost:8190/api/landside/appointments/TRK-001
+
+### Check available bridges
+GET http://localhost:8190/api/landside/weighing-bridge/available
+
+### Check all bridges status
+GET http://localhost:8190/api/landside/weighing-bridge/status 

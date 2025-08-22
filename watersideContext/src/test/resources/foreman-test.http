@@ -1,0 +1,29 @@
+### Get Unmatched Shipping Orders - User story 15
+GET http://localhost:8190/api/waterside/foreman/unmatched-shipping-orders
+
+### Match Shipping Order with Purchase Order 1 - MATCHING PO WITH SO
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+
+{
+  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}
+
+### Match Shipping Order with Purchase Order 2
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+
+{
+  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}
+
+### Match Shipping Order with Purchase Order
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+
+{
+  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}

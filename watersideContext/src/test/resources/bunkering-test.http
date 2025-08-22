@@ -1,0 +1,29 @@
+### Get Outstanding Bunkering Operations - User story 14
+GET http://localhost:8190/api/waterside/bunkering/outstanding
+
+### Complete Bunkering for Vessel 1
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "ddff5856-13b5-4e4f-b989-1c2b5c5a0b96",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}
+
+### Complete Bunkering for Vessel 2
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "549c8aae-fa48-4989-aa15-3139fce8f457",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}
+
+### Complete Bunkering - (Invalid inspection scenario, needs validation from the foreman first)
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "17988197-c27c-4d28-87cb-60b412409946",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}

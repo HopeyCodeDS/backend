@@ -1,0 +1,162 @@
+### ========================================
+### USER STORY 5: Payload Delivery and PDT Generation
+### (Simulates pressure sensor activation, this generates PDT with new weighing bridge)
+### ========================================
+
+### Deliver Payload  - truck 1
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-001",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "28/08/2025 09:00"
+}
+
+
+
+### Deliver Payload  - truck 2
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-002",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "28/08/2025 21:00"
+}
+
+
+### Deliver Payload  - truck 3
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-003",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "29/08/2025 09:00"
+}
+
+### Deliver Payload  - truck 4
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-004",
+  "rawMaterialName": "Iron_Ore",
+  "warehouseNumber": "Warehouse-02",
+  "payloadWeight": 25,
+  "sellerId": "seller-001",
+  "deliveryTime": "29/08/2025 21:00"
+}
+
+### Deliver Payload  - truck 5
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-005",
+  "rawMaterialName": "Cement",
+  "warehouseNumber": "Warehouse-03",
+  "payloadWeight": 23.0,
+  "sellerId": "seller-001",
+  "deliveryTime": "30/08/2025 09:00"
+} 
+
+### Retrieve All PDTs
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt
+
+### Deliver Payload  - truck 6
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-006",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-002",
+  "deliveryTime": "31/08/2025 07:25"
+}
+
+### Deliver Payload  - truck 7
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-007",
+  "rawMaterialName": "Iron_Ore",
+  "warehouseNumber": "Warehouse-02",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-002",
+  "deliveryTime": "31/08/2025 07:30"
+}
+
+### Deliver Payload  - truck 8
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-008",
+  "rawMaterialName": "Iron_Ore",
+  "warehouseNumber": "Warehouse-02",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-003",
+  "deliveryTime": "31/08/2025 07:33"
+}
+
+
+### Deliver Payload  - truck 9
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-009",
+  "rawMaterialName": "Cement",
+  "warehouseNumber": "Warehouse-03",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-003",
+  "deliveryTime": "31/08/2025 07:40"
+}
+
+### Deliver Payload  - truck 10
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+{
+  "licensePlate": "TRK-010",
+  "rawMaterialName": "Slag",
+  "warehouseNumber": "Warehouse-03",
+  "payloadWeight": 25.0,
+  "sellerId": "seller-004",
+  "deliveryTime": "31/08/2025 07:41"
+}
+
+### Retrieve PDT by License Plate - truck 1
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt/TRK-001
+
+### Retrieve PDT by License Plate - truck 2
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt/TRK-002
+
+### Retrieve PDT by License Plate - truck 3
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt/TRK-003
+
+
+### Test Invalid Request (Missing License Plate)
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "conveyorBeltNumber": "WH-001-CB-GYPSUM",
+  "payloadWeight": 18.5,
+  "sellerId": "seller-001"
+}
