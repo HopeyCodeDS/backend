@@ -84,7 +84,7 @@ public class ProjectWarehouseActivityUseCaseImpl implements ProjectWarehouseActi
         
         Warehouse warehouse = warehouseOpt.get();
         
-        // Create a new projection with the warehouse's current state
+        // Creating a new projection with the warehouse's current state
         WarehouseProjection projection = new WarehouseProjection(
             warehouse.getWarehouseId(),
             warehouse.getWarehouseNumber(),
@@ -118,7 +118,8 @@ public class ProjectWarehouseActivityUseCaseImpl implements ProjectWarehouseActi
                 default -> throw new IllegalArgumentException("Unexpected value: " + activity.getAction());
             }
             
-            warehouseRepositoryPort.save(warehouse);
+            log.info("Updated warehouse {} capacity to {} tons (not saved to avoid duplicates)", 
+            warehouse.getWarehouseId(), warehouse.getCurrentCapacity());
         }
     }
     

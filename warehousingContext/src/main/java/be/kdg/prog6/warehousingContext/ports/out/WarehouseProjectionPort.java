@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface WarehouseProjectionPort {
     Optional<WarehouseProjection> loadWarehouseProjection(UUID warehouseId);
     void saveWarehouseProjection(WarehouseProjection warehouseProjection);
-    //List<WarehouseProjection> findByMaterialType(String materialType);
+
 } 

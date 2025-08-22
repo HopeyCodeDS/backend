@@ -26,7 +26,7 @@ public class WarehouseProjection {
         this.currentCapacity = currentCapacity;
     }
     
-    // Domain logic
+    // Applying the activity state to the projection
     public void applyActivity(WarehouseActivity activity) {
         switch (activity.getAction()) {
             case PAYLOAD_DELIVERED -> 
@@ -35,7 +35,7 @@ public class WarehouseProjection {
                 this.currentCapacity -= activity.getAmount();
         }
         
-        // Ensure capacity doesn't go negative
+        // Ensuring capacity doesn't go negative
         if (this.currentCapacity < 0) {
             this.currentCapacity = 0;
         }

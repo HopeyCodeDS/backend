@@ -1,0 +1,889 @@
+
+## LANDSIDE_TEST
+
+### Just Curious to know the number of trucks on-site on application startup (after data seeding)
+GET http://localhost:8190/api/landside/trucks/on-site/count
+Content-Type: application/json
+
+### APPOINTMENT SCHEDULING (User story 1)
+### Appointment 1: Create an appointment truck 1
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "licensePlate": "TRK-101",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "28/08/2025 08:30"
+}
+
+
+### Appointment 2: Create an appointment for truck 2
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "licensePlate": "TRK-102",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "28/08/2025 20:30"
+}
+
+
+### Appointment 3: Create an appointment for truck 3
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "licensePlate": "TRK-103",
+  "truckType": "LARGE",
+  "rawMaterialName": "Gypsum",
+  "scheduledTime": "29/08/2025 08:30"
+}
+
+### Appointment 4: Create an appointment for truck 4
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "licensePlate": "TRK-104",
+  "truckType": "LARGE",
+  "rawMaterialName": "Iron_Ore",
+  "scheduledTime": "29/08/2025 20:30"
+}
+
+### Appointment 5: Create an appointment for truck 5
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "licensePlate": "TRK-105",
+  "truckType": "LARGE",
+  "rawMaterialName": "Cement",
+  "scheduledTime": "30/08/2025 08:30"
+}
+
+
+
+
+### Get access token for warehouse manager
+
+### Get all appointments
+GET http://localhost:8190/api/landside/appointments
+
+
+#################################
+#   RECOGNITION (User story 2)  #
+#################################
+
+
+### Recognize truck arrival 1
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-101",
+  "recognitionTime": "28/08/2025 09:00"
+}
+
+### Recognize truck arrival 2
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-102",
+  "recognitionTime": "28/08/2025 21:00"
+}
+
+### Recognize truck arrival 3
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-103",
+  "recognitionTime": "29/08/2025 09:00"
+}
+
+### Recognize truck arrival 4
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-104",
+  "recognitionTime": "29/08/2025 21:00"
+}
+
+### Recognize truck arrival 5
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-105",
+  "recognitionTime": "30/08/2025 09:00"
+}
+
+
+#################################
+#   WEIGHING BRIDGE ASSIGNMENT  #
+#################################
+
+
+### Assign weighing bridge to truck 1
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-101",
+  "assignmentTime": "28/08/2025 09:00"
+}
+
+### Assign weighing bridge to truck 2
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-102",
+  "assignmentTime": "28/08/2025 21:00"
+}
+
+### Assign weighing bridge to truck 3
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-103",
+  "assignmentTime": "29/08/2025 09:00"
+}
+
+### Assign weighing bridge to truck 4
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-104",
+  "assignmentTime": "29/08/2025 21:00"
+}
+
+### Assign weighing bridge to truck 5
+POST http://localhost:8190/api/landside/weighing-bridge/assign
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-105",
+  "assignmentTime": "30/08/2025 09:00"
+}
+
+
+
+##############################################################################
+##       USER STORY 4: Register Weight and Receive Warehouse Number         ##
+##############################################################################
+
+
+### Register truck weight and exit bridge - truck 1
+### This triggers the async warehouse assignment process
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-101",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+### Register truck weight and exit bridge - truck 2
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-102",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+
+### Register truck weight and exit bridge - truck 3
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-103",
+  "weight": 25000.0,
+  "rawMaterialName": "Gypsum"
+}
+
+### Register truck weight and exit bridge - truck 4
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-104",
+  "weight": 25000.0,
+  "rawMaterialName": "Iron_Ore"
+}
+
+### Register truck weight and exit bridge - truck 5
+POST http://localhost:8190/api/landside/weight-registration/register
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-105",
+  "weight": 25000.0,
+  "rawMaterialName": "Cement"
+}
+
+
+### Check warehouse assignment status - truck 1
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-101
+
+### Check warehouse assignment status - truck 2
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-102
+
+### Check warehouse assignment status - truck 3
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-103
+
+### Check warehouse assignment status - truck 4
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-104
+
+### Check warehouse assignment status - truck 5
+GET http://localhost:8190/api/landside/weight-registration/status/TRK-105
+
+
+############################################################################################
+##   USER STORY 8: Get Trucks on Site Count for Warehouse Manager                         ##
+############################################################################################
+
+GET http://localhost:8190/api/landside/trucks/on-site/count
+Content-Type: application/json
+
+
+
+###############################################################################################
+##   USER STORY 5: Payload Delivery and PDT Generation                                       ##
+##   (Simulates a pressure sensor activation, this generates PDT with new weighing bridge)   ##
+###############################################################################################
+
+### Deliver Payload  - truck 1
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-101",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "deliveryTime": "28/08/2025 09:00"
+}
+
+
+
+### Deliver Payload  - truck 2
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-102",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "deliveryTime": "28/08/2025 21:00"
+}
+
+
+### Deliver Payload  - truck 3
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-103",
+  "rawMaterialName": "Gypsum",
+  "warehouseNumber": "Warehouse-01",
+  "payloadWeight": 25.0,
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "deliveryTime": "29/08/2025 09:00"
+}
+
+### Deliver Payload  - truck 4
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-104",
+  "rawMaterialName": "Iron_Ore",
+  "warehouseNumber": "Warehouse-02",
+  "payloadWeight": 25,
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "deliveryTime": "29/08/2025 21:00"
+}
+
+### Deliver Payload  - truck 5
+POST http://localhost:8190/api/warehousing/payload-delivery/deliver
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-105",
+  "rawMaterialName": "Cement",
+  "warehouseNumber": "Warehouse-03",
+  "payloadWeight": 23.0,
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "deliveryTime": "30/08/2025 09:00"
+}
+
+### Now check for snapshotting functionality in the snapshots DB for the 2 PayloadDeliveredEvent in Warehouse 01.
+--####--
+
+### Retrieve All PDTs
+GET http://localhost:8190/api/warehousing/payload-delivery/pdt
+
+
+############################################################################################
+##   Check the storage cost preparation after payload  delivery                           ##
+############################################################################################
+
+### -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
+
+### Step 1: Pre-Loading Storage Fee Calculation (04/09/2025)
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-04
+
+
+############################################################################################
+##   USER STORY 8: Get Trucks on Site Count for Warehouse Manager                          ##
+############################################################################################
+
+GET http://localhost:8190/api/landside/trucks/on-site/count
+Content-Type: application/json
+
+
+
+############################################################################################
+##   USER STORY 6: Generate Weighbridge Ticket                                            ##
+##   (This validates the exit weighing bridge first before generating the WBT)           ##
+############################################################################################
+
+### Generate weighbridge ticket - truck 1
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-101",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "28/08/2025 09:30"
+}
+
+
+### Generate weighbridge ticket - truck 2
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-102",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "28/08/2025 21:30"
+}
+
+
+### Generate weighbridge ticket - truck 3
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-103",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "29/08/2025 09:30"
+}
+
+### Generate weighbridge ticket - truck 4
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-104",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "29/08/2025 21:30"
+}
+
+### Generate weighbridge ticket - truck 5
+POST http://localhost:8190/api/landside/weighbridge-ticket/generate
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-105",
+  "grossWeight": 25000.0,
+  "tareWeight": 8000.0,
+  "weighingTime": "30/08/2025 09:30"
+}
+
+
+###
+## WAREHOUSING_TEST
+--####---
+
+### Get all warehouses
+GET http://localhost:8190/api/warehouses
+
+### Get warehouse by ID
+GET localhost:8190/api/warehouses/550e8400-e29b-41d4-a716-446655440502
+
+### Get warehouse overview
+GET http://localhost:8190/api/warehouses/overview HTTP/1.1
+
+
+### Get warehouse by Seller
+GET http://localhost:8190/api/warehouses/by-seller/ef01c728-ce36-46b5-a110-84f53fdd9668 HTTP/1.1
+
+
+##############################################################################################
+##   USER STORY 7: Get Arrival Compliance Data for Warehouse Manager                        ##
+##############################################################################################
+
+GET http://localhost:8190/api/landside/arrival-compliance
+Content-Type: application/json
+
+
+############################################################################################
+##   USER STORY 8: Get Trucks on Site Count for Warehouse Manager                          ##
+############################################################################################
+
+GET http://localhost:8190/api/landside/trucks/on-site/count
+Content-Type: application/json
+
+
+
+############################################################################################
+##   USER STORY 9: Get Warehouse Overview for Warehouse Manager                           ##
+############################################################################################
+
+### Get warehouse overview - For user story 9 and 21
+GET http://localhost:8190/api/warehouses/overview
+Content-Type: application/json
+
+
+###
+
+## INVOICING_TEST
+
+###########################################################################
+##        USER STORY 10: Purchase Order Submission by Buyer              ##
+###########################################################################
+
+### Submit purchase order 1
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-101",
+  "customerNumber": "CUST-101",
+  "customerName": "Gyproc & Co.",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "orderDate": "01/09/2025 08:00",
+  "orderLines": [
+    {
+      "lineNumber": 1,
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 10,
+      "pricePerTon": 13.0
+    },
+    {
+      "lineNumber": 2,
+      "rawMaterialName": "Gypsum",
+      "amountInTons": 21,
+      "pricePerTon": 13.0
+    }
+  ]
+}
+
+
+### Submit Purchase Order 2
+POST http://localhost:8190/api/invoicing/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseOrderNumber": "PO-2025-102",
+  "customerNumber": "CUST-102",
+  "customerName": "Cemminerals NV.",
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "orderDate": "01/09/2025 08:00",
+  "orderLines": [
+    {
+      "lineNumber": 1,
+      "rawMaterialName": "Iron_Ore",
+      "amountInTons": 14,
+      "pricePerTon": 110.0
+    },
+    {
+      "lineNumber": 2,
+      "rawMaterialName": "Cement",
+      "amountInTons": 12,
+      "pricePerTon": 95.0
+    },
+    {
+      "lineNumber": 3,
+      "rawMaterialName": "Cement",
+      "amountInTons": 10,
+      "pricePerTon": 95.0
+    }
+  ]
+}
+
+
+###
+
+## WATERSIDE_TEST
+
+
+########################################################
+#         Get access token for waterside context       #
+########################################################
+
+#################################################################################
+##                 Shipping Order Submission for Ship Captain                  ##
+#################################################################################
+
+### Submit Shipping Order
+POST http://localhost:8190/api/waterside/shipping-orders
+Content-Type: application/json
+
+{
+  "shippingOrderNumber": "SO-2025-101",
+  "purchaseOrderReference": "PO-2025-101",
+  "vesselNumber": "VESSEL-101",
+  "customerNumber": "CUST-101",
+  "estimatedArrivalDate": "03/09/2025 08:00",
+  "estimatedDepartureDate": "05/09/2025 08:00",
+  "actualArrivalDate": "04/09/2025 10:00"
+}
+
+### Submit Shipping Order 2
+POST http://localhost:8190/api/waterside/shipping-orders
+Content-Type: application/json
+
+{
+  "shippingOrderNumber": "SO-2025-102",
+  "purchaseOrderReference": "PO-2025-102",
+  "vesselNumber": "VESSEL-102",
+  "customerNumber": "CUST-102",
+  "estimatedArrivalDate": "03/09/2025 10:00",
+  "estimatedDepartureDate": "05/09/2025 12:00",
+  "actualArrivalDate": "04/09/2025 10:00"
+}
+
+
+#################################################################################
+##             Shipping Order Matching with Purchase Order by Foreman          ##
+#################################################################################
+
+### Get Unmatched Shipping Orders - User story 15
+GET http://localhost:8190/api/waterside/foreman/unmatched-shipping-orders
+
+### Get All Shipment Arrivals - User story 16
+GET http://localhost:8190/api/waterside/foreman/shipment-arrivals
+
+
+### Match Shipping Order with Purchase Order 1 - MATCHING PO WITH SO
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+
+{
+  "shippingOrderId": "3be97dd5-5748-4bb2-8d46-c9f173c65a99",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}
+
+### Match Shipping Order with Purchase Order 2
+POST http://localhost:8190/api/waterside/foreman/match-shipping-order
+Content-Type: application/json
+
+{
+  "shippingOrderId": "60c153d7-fbcb-44e3-a550-1bdbb7f6c66d",
+  "foremanSignature": "Foreman_Michael_Johnson"
+}
+
+#######################################################################################
+##                Inspection Operations by Inspector                                ##
+#######################################################################################
+
+### Get Outstanding Inspections - User story 13
+GET http://localhost:8190/api/waterside/inspections/outstanding
+
+### Complete Inspection - Using actual shipping order ID from the application logs
+POST http://localhost:8190/api/waterside/inspections/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "3be97dd5-5748-4bb2-8d46-c9f173c65a99",
+  "inspectorSignature": "Inspector_Adrian_Van_Hecke"
+}
+
+### Complete Inspection - Another shipping order
+POST http://localhost:8190/api/waterside/inspections/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "60c153d7-fbcb-44e3-a550-1bdbb7f6c66d",
+  "inspectorSignature": "Inspector_Adrian_Van_Hecke"
+}
+
+#############################################################################################
+##            Bunkering Operations by Bunkering Officer                                    ##
+#############################################################################################
+
+
+### Get Outstanding Bunkering Operations - User story 14
+GET http://localhost:8190/api/waterside/bunkering/outstanding
+
+### Complete Bunkering for Vessel 1
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "3be97dd5-5748-4bb2-8d46-c9f173c65a99",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}
+
+### Complete Bunkering for Vessel 2
+POST http://localhost:8190/api/waterside/bunkering/complete
+Content-Type: application/json
+
+{
+  "shippingOrderId": "60c153d7-fbcb-44e3-a550-1bdbb7f6c66d",
+  "bunkeringOfficerSignature": "BunkeringOfficer_Daniel_James"
+}
+
+
+######################################################################################
+##   Check the storage cost preparation after vessel loading                        ##
+##   (loading happens immediately after the bunkering/inspection operation)         ##
+######################################################################################
+
+
+### -- IMPORTANT TEST CASES FOR MY FUTURE DATES SCENARIOS
+
+### Post-Loading Storage Fee Calculation (04/09/2025)
+POST http://localhost:8190/api/invoicing/storage-fees/calculate?calculationDate=2025-09-05
+
+
+
+#############################################################################
+##   Port Operations Overview by Ship Captain                              ##
+#############################################################################
+
+### Get Operations Overview for Vessel 1
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-101
+
+
+### Get Operations Overview for Vessel 2
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-102
+
+### Get Operations Overview for Vessel 3
+GET http://localhost:8190/api/waterside/captain/operations/VESSEL-009
+
+### Get Operations Overview for all vessels
+GET http://localhost:8190/api/waterside/captain/operations-overview
+
+
+
+
+
+
+######################################################################
+
+##########################################
+##  FRONTEND WAREHOUSE PAGE ENDPOINTS   ##
+##########################################
+
+### List all warehouses with summary data
+GET http://localhost:8190/api/warehouses/overview
+
+### Get specific warehouse details
+GET http://localhost:8190/api/warehouses/550e8400-e29b-41d4-a716-446655440501
+
+### Get warehouse inventory
+GET http://localhost:8190/api/warehouses/550e8400-e29b-41d4-a716-446655440501
+
+### Create new warehouse
+POST http://localhost:8190/api/warehouses
+
+### Update warehouse
+PUT http://localhost:8190/api/warehouses/{id}
+
+### Delete warehouse
+DELETE http://localhost:8190/api/warehouses/{id}
+
+### Add material to warehouse
+POST /api/warehouses/{id}/materials
+
+### Remove material
+DELETE /api/warehouses/{id}/materials/{materialId}
+
+##########################################
+##  FRONTEND PURCHASE ORDER ENDPOINTS   ##
+##########################################
+
+### Get All POs
+GET http://localhost:8190/api/invoicing/purchase-orders
+
+### Get PO by ID
+GET http://localhost:8190/api/invoicing/purchase-orders/{id}
+
+### Get Outstanding POs
+GET http://localhost:8190/api/invoicing/purchase-orders/outstanding
+
+### Get Fulfilled POs
+GET http://localhost:8190/api/invoicing/purchase-orders/fulfilled
+
+### Get Cancelled POs
+GET http://localhost:8190/api/invoicing/purchase-orders/cancelled
+
+### Get POs by customer
+GET /invoicing/purchase-orders/by-customer/{customerId}
+
+### Get POs by status
+GET http://localhost:8190/api/invoicing/purchase-orders/by-status/{status}
+
+### Create new PO
+POST http://localhost:8190/api/invoicing/purchase-orders
+
+### Update PO
+PUT http://localhost:8190/api/invoicing/purchase-orders/{id}
+
+### Update PO status
+PATCH http://localhost:8190/api/invoicing/purchase-orders/{id}/status
+
+### Delete PO
+DELETE http://localhost:8190/api/invoicing/purchase-orders/{id}
+
+
+##########################################
+##  FRONTEND SHIPPING ORDER ENDPOINTS   ##
+##########################################
+
+### Get all shipping orders
+GET http://localhost:8190/api/waterside/shipping-orders
+
+### Get SO by ID
+GET http://localhost:8190/api/waterside/shipping-orders/{id}
+
+### Get arrived ships
+GET http://localhost:8190/api/waterside/shipping-orders/arrived
+
+### Get ships being loaded
+GET http://localhost:8190/api/waterside/shipping-orders/loading
+
+### Get departed ships
+GET http://localhost:8190/api/waterside/shipping-orders/departed
+
+### Get ready for loading ships
+GET http://localhost:8190/api/waterside/shipping-orders/ready_for_loading
+
+### Get SO by vessel
+GET http://localhost:8190/api/waterside/shipping-orders/by-vessel/{vesselNumber}
+
+### Get SO by status
+GET http://localhost:8190/api/waterside/shipping-orders/by-status/{status}
+
+### Create SO
+POST http://localhost:8190/api/waterside/shipping-orders
+
+### Update SO
+PUT http://localhost:8190/api/waterside/shipping-orders/{id}
+
+### Complete inspection
+PATCH http://localhost:8190/api/waterside/shipping-orders/{id}/inspection
+
+### Complete bunkering
+PATCH http://localhost:8190/api/waterside/shipping-orders/{id}/bunkering
+
+### Delete SO
+DELETE http://localhost:8190/api/waterside/shipping-orders/{id}
+
+
+############################################
+##  FRONTEND TRUCK MANAGEMENT ENDPOINTS   ##
+############################################
+
+### Get all trucks
+GET http://localhost:8190/api/landside/trucks
+
+### Get all trucks with pagination/filters
+GET http://localhost:8190/api/landside/trucks
+
+### Get truck by ID with full details
+GET http://localhost:8190/api/landside/trucks/{id}
+
+### Get trucks currently on site
+GET http://localhost:8190/api/landside/trucks/on-site/count
+
+### Create new truck
+POST http://localhost:8190/api/landside/trucks
+
+### Update truck information
+PUT http://localhost:8190/api/landside/trucks/{id}
+
+### Delete truck
+DELETE http://localhost:8190/api/landside/trucks/{id}
+
+
+##########################################
+##    FRONTEND APPOINTMENT ENDPOINTS     ##
+##########################################
+
+### Get all appointment
+GET http://localhost:8190/api/landside/appointments
+
+##########################################
+##    FRONTEND DASHBOARD ENDPOINTS     ##
+##########################################
+
+--
+### Today Appointment: Create an appointment for truck 6 (On exam day)
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "licensePlate": "TRK-107",
+  "truckType": "LARGE",
+  "rawMaterialName": "Cement",
+  "scheduledTime": "22/09/2025 09:00"
+}
+
+
+### Today Appointment: Create an appointment for truck 7 (On exam day)
+POST http://localhost:8190/api/landside/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
+  "sellerName": "De klant van KDG",
+  "licensePlate": "TRK-107",
+  "truckType": "LARGE",
+  "rawMaterialName": "Slag",
+  "scheduledTime": "23/09/2025 09:30"
+}
+
+### Recognize truck arrival 1
+POST http://localhost:8190/api/landside/gate/recognize
+Content-Type: application/json
+
+{
+  "licensePlate": "TRK-100",
+  "recognitionTime": "23/09/2025 09:35"
+}

@@ -36,6 +36,7 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
     private final ProjectWarehouseActivityUseCase projectWarehouseActivityUseCase;
     private final ConveyorBeltAssignmentService conveyorBeltAssignmentService;
     private final WarehouseActivityEventPublisherPort warehouseActivityEventPublisherPort;
+    
 
     @Override
     @Transactional
@@ -69,6 +70,20 @@ public class DeliverPayloadUseCaseImpl implements DeliverPayloadUseCase {
 
         // Log the warehouse ID being used
         log.info("Using warehouse ID: {} for warehouse number: {}", warehouseId, command.warehouseNumber());
+        
+        // Find warehouse by ID
+        Optional<Warehouse> warehouseOpt = warehouseRepositoryPort.findById(warehouseId);
+        if (warehouseOpt.isEmpty()) {
+            throw new IllegalArgumentException("Warehouse not found: " + warehouseId);
+        }
+        
+        Warehouse warehouse = warehouseOpt.get();
+        
+        // Deliver payload using event sourcing
+        warehouse.deliverPayload(command.payloadWeight(), command.rawMaterialName(), command.licensePlate());
+        
+        // Save warehouse (this will save events and potentially create snapshot)
+        warehouseRepositoryPort.save(warehouse);
 
         // Creating warehouse activity (event sourcing)
         WarehouseActivity activity = new WarehouseActivity(

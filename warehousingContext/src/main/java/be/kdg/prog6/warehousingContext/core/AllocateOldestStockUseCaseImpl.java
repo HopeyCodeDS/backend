@@ -182,7 +182,15 @@ public class AllocateOldestStockUseCaseImpl implements AllocateOldestStockUseCas
                             String.format("Material loaded for shipping order %s (PO: %s) with vessel %s. Deducted %.2f tons from PDT %s", 
                                 shippingOrderId, purchaseOrderReference, vesselNumber, deductionAmount, pdt.getPdtId())
                         );
-                        
+
+                        // Call the Warehouse loadVessel method
+                        warehouse.loadVessel(deductionAmount, pdt.getRawMaterialName());
+                        log.info("Loaded {} tons of {} from warehouse {}", deductionAmount, pdt.getRawMaterialName(), warehouse.getWarehouseId());
+
+                        // Update warehouse
+                        warehouseRepositoryPort.save(warehouse);
+                        log.info("Saved warehouse {}", warehouse.getWarehouseId());
+
                         // Save activity to event store
                         warehouseActivityRepositoryPort.save(activity);
 

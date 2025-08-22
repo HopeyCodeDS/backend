@@ -52,14 +52,12 @@ public class WarehouseController {
             
             List<WarehouseResponseDto> response = warehouses.stream()
             .map(warehouse -> {
-                // Add debug logging
                 log.info("Processing warehouse: {} with number: '{}'", 
                     warehouse.getWarehouseId(), warehouse.getWarehouseNumber());
                 
-                // Fetch actual payloads for each warehouse
+                // Fetching actual payloads for each warehouse
                 var payloads = pdtRepositoryPort.findByWarehouseNumber(warehouse.getWarehouseNumber());
-                
-                // Add debug logging for payloads
+
                 log.info("Found {} payloads for warehouse '{}'", 
                     payloads.size(), warehouse.getWarehouseNumber());
                 
@@ -104,7 +102,7 @@ public class WarehouseController {
         }
     }
 
-    // GET /warehouses/overview - Get capacity overview (existing endpoint)
+    // GET /warehouses/overview - Get capacity overview
     @GetMapping("/overview")
     @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<WarehouseOverviewDto> getWarehouseOverview() {
@@ -122,7 +120,7 @@ public class WarehouseController {
         return ResponseEntity.ok(overview);
     }
 
-    // GET /warehouses/by-seller/{sellerId} - Get warehouses by seller
+    // GET /warehouses/by-seller/{sellerId} - Get warehouses by sellerId
     @GetMapping("/by-seller/{sellerId}")
     @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<List<WarehouseResponseDto>> getWarehousesBySeller(@PathVariable UUID sellerId) {
@@ -132,7 +130,7 @@ public class WarehouseController {
             
             List<WarehouseResponseDto> response = warehouses.stream()
             .map(warehouse -> {
-                // Fetch actual payloads for each warehouse
+                // Fetching actual payloads for each warehouse
                 var payloads = pdtRepositoryPort.findByWarehouseNumber(warehouse.getWarehouseNumber());
                 return warehouseResponseMapper.toWarehouseResponseDto(warehouse, payloads);
             })
@@ -183,7 +181,7 @@ public class WarehouseController {
         }
     }
 
-    // Existing endpoints
+    // Assign Warehouse
     @PostMapping("/assign")
     public ResponseEntity<Map<String, Object>> assignWarehouse(@RequestBody AssignWarehouseRequestDto requestDto) {
         try {

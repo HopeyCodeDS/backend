@@ -29,6 +29,7 @@ public class WarehouseProjectionDatabaseAdapter implements WarehouseProjectionPo
     @Transactional
     public void saveWarehouseProjection(WarehouseProjection warehouseProjection) {
         try {
+            // Console logging for debugging
             System.out.println("=== SAVING TO WAREHOUSE_PROJECTION TABLE ===");
             System.out.printf("Warehouse ID: %s\n", warehouseProjection.getWarehouseId());
             System.out.printf("Warehouse Number: %s\n", warehouseProjection.getWarehouseNumber());

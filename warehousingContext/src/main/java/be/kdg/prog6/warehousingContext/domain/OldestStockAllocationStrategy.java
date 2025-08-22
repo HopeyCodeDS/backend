@@ -13,7 +13,6 @@ public class OldestStockAllocationStrategy {
     /**
      * Pure domain logic for allocating oldest stock (FIFO principle)
      * This ensures sellers are charged as little as possible for storage
-     * Supports partial deduction from PDTs to meet exact required amounts
      */
     public static List<PayloadDeliveryTicket> allocateOldestStockFIFO(
             List<PayloadDeliveryTicket> availableStock, double requiredAmount) {

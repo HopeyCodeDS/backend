@@ -26,13 +26,17 @@ public class WarehouseMapper {
             jpaEntity.getRawMaterialPricePerTon(),
             jpaEntity.getRawMaterialStoragePricePerTonPerDay()
         );
-        
-        return new Warehouse(
+
+        Warehouse warehouse = new Warehouse(
             jpaEntity.getWarehouseId(),
             jpaEntity.getWarehouseNumber(),
             jpaEntity.getSellerId(),
-            rawMaterial,
-            jpaEntity.getCurrentCapacity()
+            rawMaterial
         );
+        
+        // Setting the current capacity after construction
+        warehouse.setCurrentCapacity(jpaEntity.getCurrentCapacity());
+        
+        return warehouse;
     }
 }
