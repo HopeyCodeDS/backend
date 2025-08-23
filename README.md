@@ -218,6 +218,153 @@ docker-compose up -d
 
 Run tests in IntelliJ HTTP Client or VS Code REST Client.
 
+## �� Testing Strategy
+
+This project follows a comprehensive testing approach using multiple testing strategies to ensure code quality, maintainability, and reliability.
+
+### **Test Types Overview**
+
+| Test Type | Purpose | Technology | Location |
+|-----------|---------|------------|----------|
+| **Architecture Tests** | Verify architectural compliance | JUnit 5 + ArchUnit | `*/architecture/` |
+| **Integration Tests** | Test component interactions | Spring Boot Test + Testcontainers | `*/core/*IntegrationTest.java` |
+| **Unit Tests (Mocking)** | Test business logic in isolation | JUnit 5 + Mockito | `*/core/*Test.java` |
+| **Unit Tests (Stubbing)** | Test with controlled dependencies | JUnit 5 + Mockito | `*/core/*Test.java` |
+| **Testcontainers Tests** | Test with real databases | Testcontainers + MySQL | `*/testcontainers/` |
+
+---
+
+### **🏗️ Architecture Tests**
+
+Verify that the codebase follows hexagonal architecture principles and coding standards.
+
+#### **Landside Context**
+- **`ArchitectureTest.java`** - Verifies hexagonal architecture compliance, dependency direction, and port-adapter patterns
+- **`CodeStyleTest.java`** - Ensures coding standards, naming conventions, and package structure
+
+#### **Warehousing Context**
+- **`ArchitectureTest.java`** - Validates architectural patterns and dependency management
+
+**Purpose**: Ensure design principles are maintained across the codebase.
+
+---
+
+### **🔗 Integration Tests**
+
+Test real component interactions with Spring context and database operations.
+
+#### **Landside Context**
+- **`ScheduleAppointmentUseCaseImplIntegrationTest.java`** - Tests appointment scheduling with real database operations
+  - Extends `AbstractDatabaseTest` for MySQL Testcontainers setup
+  - Tests complete workflow from command to database persistence
+  - Verifies Spring context loading and bean initialization
+
+#### **Warehousing Context**
+- **`DefaultPayloadDeliveryUseCaseImplIntegrationTest.java`** - Tests payload delivery workflow integration
+  - Validates warehouse assignment and stock allocation
+  - Tests conveyor belt operations and PDT generation
+
+**Purpose**: Verify that multiple components work together correctly in a real environment.
+
+---
+
+### **🎭 Unit Tests Using Mocking**
+
+Isolate business logic by mocking all external dependencies.
+
+#### **Landside Context**
+- **`GetWarehouseStatusUseCaseImplTest.java`** - Tests warehouse status retrieval logic
+- **`RegisterWeightAndExitBridgeUseCaseImplTest.java`** - Tests weight registration workflow
+- **`ScheduleAppointmentUseCaseImplTest.java`** - Tests appointment scheduling business logic
+
+#### **Waterside Context**
+- **`SubmitShippingOrderUseCaseImplTest.java`** 
+  - **Test 1**: `submitShippingOrder_Success` - Happy path validation
+  - **Test 2**: `submitShippingOrder_VerifyBusinessLogic` - Business logic verification
+  - **Test 3**: `submitShippingOrder_RepositorySaveFailure` - Error handling scenarios
+  - Uses Mockito for dependency mocking
+  - Tests status transitions, operation initialization, and event publishing
+
+#### **Warehousing Context**
+- **`DeliverPayloadUseCaseImplTest.java`** - Tests payload delivery business logic
+
+**Purpose**: Test business logic in isolation with controlled dependency behavior.
+
+---
+
+### **🔌 Unit Tests Using Stubbing**
+
+Provide controlled responses from dependencies without full mocking.
+
+#### **Landside Context**
+- **`RegisterWeightAndExitBridgeUseCaseImplTest.java`** - Uses stubbing for repository calls
+  - Stubs `TruckMovementRepositoryPort.save()` with `doNothing()`
+  - Stubs `AppointmentRepositoryPort.findByLicensePlate()` with controlled data
+  - Tests business logic with predictable dependency responses
+
+**Purpose**: Provide controlled, predictable behavior for complex dependency interactions.
+
+---
+
+### **🐳 Tests Using Testcontainers**
+
+Use real database containers for integration testing with actual database behavior.
+
+#### **Landside Context**
+- **`AbstractDatabaseTest.java`** - Base class for all Testcontainers tests
+  - **Database**: MySQL 9.0.1 container
+  - **Configuration**: Automatic schema creation and cleanup
+  - **Isolation**: Each test class gets its own database instance
+  - **Setup**: Creates `landside` schema and grants permissions
+
+#### **Integration Test Example**
+- **`ScheduleAppointmentUseCaseImplIntegrationTest.java`** extends `AbstractDatabaseTest`
+  - Tests real database operations
+  - Verifies JPA entity mappings
+  - Tests transaction management
+  - Validates data persistence and retrieval
+
+**Purpose**: Test with real database behavior in isolated, controlled containers.
+
+---
+
+### **📊 Test Coverage by Context**
+
+| Context | Architecture | Integration | Unit (Mocking) | Unit (Stubbing) | Testcontainers |
+|---------|--------------|-------------|----------------|------------------|----------------|
+| **Landside** | 2 | 1 | 3 | 1 | 1 base class |
+| **Waterside** | 0 | 0 | 1  | 0 | 0 |
+| **Warehousing** | 1 | 1 | 1 | 0 | 0 |
+
+
+---
+
+###  Test Execution Commands
+
+```bash
+# Run all tests across all contexts
+./gradlew test
+
+# Run tests for specific context
+./gradlew :landsideContext:test
+./gradlew :watersideContext:test
+./gradlew :warehousingContext:test
+./gradlew :invoicingContext:test
+
+# Run only unit tests (excluding integration)
+./gradlew test --tests "*Test" --exclude-tests "*IntegrationTest"
+
+# Run only integration tests
+./gradlew test --tests "*IntegrationTest"
+
+# Run only architecture tests
+./gradlew test --tests "*ArchitectureTest"
+
+# Run tests with specific pattern
+./gradlew test --tests "*SubmitShippingOrder*"
+```
+
+
 ---
 
 ## 📊 Business Rules & Constraints
