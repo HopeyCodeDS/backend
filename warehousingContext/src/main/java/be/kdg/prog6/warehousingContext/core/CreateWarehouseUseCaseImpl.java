@@ -1,8 +1,8 @@
 package be.kdg.prog6.warehousingContext.core;
 
-import be.kdg.prog6.warehousingContext.adapters.in.web.dto.WarehouseCreateRequestDto;
 import be.kdg.prog6.warehousingContext.domain.RawMaterial;
 import be.kdg.prog6.warehousingContext.domain.Warehouse;
+import be.kdg.prog6.warehousingContext.domain.commands.CreateWarehouseCommand;
 import be.kdg.prog6.warehousingContext.ports.in.CreateWarehouseUseCase;
 import be.kdg.prog6.warehousingContext.ports.out.WarehouseRepositoryPort;
 import lombok.RequiredArgsConstructor;
@@ -19,29 +19,29 @@ public class CreateWarehouseUseCaseImpl implements CreateWarehouseUseCase {
     
     @Override
     @Transactional
-    public Warehouse createWarehouse(WarehouseCreateRequestDto request) {
-        // Validate request
-        if (request.getWarehouseNumber() == null || request.getWarehouseNumber().trim().isEmpty()) {
+    public Warehouse createWarehouse(CreateWarehouseCommand command) {
+        // Validate command
+        if (command.getWarehouseNumber() == null || command.getWarehouseNumber().trim().isEmpty()) {
             throw new IllegalArgumentException("Warehouse number is required");
         }
-        if (request.getSellerId() == null) {
+        if (command.getSellerId() == null) {
             throw new IllegalArgumentException("Seller ID is required");
         }
-        if (request.getRawMaterialName() == null || request.getRawMaterialName().trim().isEmpty()) {
+        if (command.getRawMaterialName() == null || command.getRawMaterialName().trim().isEmpty()) {
             throw new IllegalArgumentException("Raw material name is required");
         }
-        if (request.getMaxCapacity() <= 0) {
+        if (command.getMaxCapacity() <= 0) {
             throw new IllegalArgumentException("Max capacity must be positive");
         }
         
         // Create raw material
-        RawMaterial rawMaterial = RawMaterial.fromName(request.getRawMaterialName());
+        RawMaterial rawMaterial = RawMaterial.fromName(command.getRawMaterialName());
         
         // Create warehouse
         Warehouse warehouse = new Warehouse(
             UUID.randomUUID(),
-            request.getWarehouseNumber(),
-            request.getSellerId(),
+            command.getWarehouseNumber(),
+            command.getSellerId(),
             rawMaterial
         );
         

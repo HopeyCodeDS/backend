@@ -6,10 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
-    "be.kdg.prog6.landsideContext.*",
-    "be.kdg.prog6.warehousingContext.*", 
-    "be.kdg.prog6.invoicingContext.*",
-    "be.kdg.prog6.watersideContext.*"
+    "be.kdg.prog6.landsideContext",
+    "be.kdg.prog6.warehousingContext",
+    "be.kdg.prog6.invoicingContext",
+    "be.kdg.prog6.watersideContext"
 })
 
 public class CompleteApplication {

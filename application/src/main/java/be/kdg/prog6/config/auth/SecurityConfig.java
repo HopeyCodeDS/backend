@@ -38,7 +38,7 @@ public class SecurityConfig {
                     .requestMatchers("/warehousing/warehouses").permitAll()  // Allow warehouses
                     .requestMatchers("/waterside/shipping-orders").permitAll()  // Allow shipping orders
                     .requestMatchers("/invoicing/purchase-orders").permitAll()  // Allow purchase orders
-                    .anyRequest().authenticated()  // Require authentication for others
+                    .anyRequest().authenticated()
                 )
                 .sessionManagement(mgmt -> mgmt.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwtAuthenticationConverter()));

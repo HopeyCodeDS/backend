@@ -6,7 +6,7 @@ import be.kdg.prog6.landsideContext.domain.Appointment;
 import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
 import be.kdg.prog6.landsideContext.domain.commands.RecognizeTruckCommand;
 import be.kdg.prog6.landsideContext.ports.in.RecognizeTruckUseCase;
-import be.kdg.prog6.landsideContext.ports.out.AppointmentRepositoryPort;
+import be.kdg.prog6.landsideContext.ports.in.GetAppointmentByLicensePlateUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +21,7 @@ import java.util.Optional;
 public class GateController {
     
     private final RecognizeTruckUseCase recognizeTruckUseCase;
-    private final AppointmentRepositoryPort appointmentRepositoryPort;
+    private final GetAppointmentByLicensePlateUseCase getAppointmentByLicensePlateUseCase;
     private final GateMapper gateMapper;
     
     @PostMapping("/gate/recognize")
@@ -32,12 +32,9 @@ public class GateController {
             boolean recognized = recognizeTruckUseCase.recognizeTruck(command);
             
             if (recognized) {
-                // Get appointment details for response
-                Optional<Appointment> appointmentOpt = appointmentRepositoryPort
-                    .findByLicensePlate(requestDto.getLicensePlate())
-                    .stream()
-                    .filter(appointment -> appointment.getStatus() == AppointmentStatus.ARRIVED)
-                    .findFirst();
+                // Get appointment details for response using use case
+                Optional<Appointment> appointmentOpt = getAppointmentByLicensePlateUseCase
+                    .getAppointmentByLicensePlate(requestDto.getLicensePlate());
                 
                 if (appointmentOpt.isPresent()) {
                     Appointment appointment = appointmentOpt.get();
@@ -64,13 +61,4 @@ public class GateController {
             ));
         }
     }
-    
-    @GetMapping("/gate/status")
-    public ResponseEntity<Map<String, Object>> getGateStatus() {
-        // This would typically come from the gate control adapter
-        return ResponseEntity.ok(Map.of(
-            "gateOpen", false,
-            "message", "Gate status retrieved"
-        ));
-    }
-} 
+}
