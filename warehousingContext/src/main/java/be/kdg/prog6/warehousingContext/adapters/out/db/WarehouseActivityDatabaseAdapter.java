@@ -52,4 +52,9 @@ public class WarehouseActivityDatabaseAdapter implements WarehouseActivityReposi
                 .map(mapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

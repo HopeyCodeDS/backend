@@ -3,8 +3,11 @@ package be.kdg.prog6.landsideContext.adapters.in.amqp;
 import be.kdg.prog6.common.events.EventCatalog;
 import be.kdg.prog6.common.events.EventMessage;
 import be.kdg.prog6.common.events.WarehouseAssigned;
-import be.kdg.prog6.landsideContext.core.RegisterWeightAndExitBridgeUseCaseImpl;
+import be.kdg.prog6.landsideContext.ports.in.AssignWarehouseToTruckUseCase;
+import be.kdg.prog6.landsideContext.ports.in.RegisterWeightAndExitBridgeUseCase;
 import be.kdg.prog6.landsideContext.adapters.config.RabbitMQModuleTopology;
+import be.kdg.prog6.landsideContext.domain.commands.RegisterWeightAndExitBridgeCommand;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class WarehouseAssignedAMQPListener {
     
-    private final RegisterWeightAndExitBridgeUseCaseImpl registerWeightAndExitBridgeUseCase;
+    private final AssignWarehouseToTruckUseCase assignWarehouseToTruckUseCase;
     private final ObjectMapper objectMapper;
     
     @RabbitListener(queues = RabbitMQModuleTopology.WAREHOUSE_ASSIGNED_QUEUE)
@@ -39,12 +42,12 @@ public class WarehouseAssignedAMQPListener {
             log.info("Received warehouse assigned event for license plate: {}", event.licensePlate());
             
             // Update truck with warehouse assignment using existing use case
-            registerWeightAndExitBridgeUseCase.assignWarehouseToTruck(
-                event.licensePlate(), 
-                event.warehouseNumber()
+            assignWarehouseToTruckUseCase.assignWarehouseToTruck(
+                    event.licensePlate(),
+                    event.warehouseNumber()
             );
-            
-            log.info("Truck {} assigned to warehouse {}", event.licensePlate(), event.warehouseNumber());
+
+            log.info("Successfully assigned truck {} to warehouse {}", event.licensePlate(), event.warehouseNumber());
             
         } catch (Exception e) {
             log.error("Error processing warehouse assigned event", e);

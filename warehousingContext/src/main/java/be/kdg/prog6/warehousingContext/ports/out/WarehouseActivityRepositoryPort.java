@@ -12,4 +12,5 @@ public interface WarehouseActivityRepositoryPort {
     List<WarehouseActivity> findByWarehouseIdAndTimeRange(UUID warehouseId, LocalDateTime from, LocalDateTime to);
     Optional<WarehouseActivity> findById(UUID activityId);
     List<WarehouseActivity> findRecentActivities(UUID warehouseId, int limit);
-} 
+    void deleteAll();
+}

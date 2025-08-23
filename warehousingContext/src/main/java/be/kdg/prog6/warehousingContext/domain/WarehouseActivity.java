@@ -28,4 +28,17 @@ public class WarehouseActivity {
         this.licensePlate = licensePlate;
         this.description = description;
     }
+
+    // Constructor for reconstructing from database (preserves existing UUID)
+    public WarehouseActivity(UUID activityId, UUID warehouseId, double amount, WarehouseActivityAction action, 
+                           LocalDateTime pointInTime, String materialType, String licensePlate, String description) {
+        this.activityId = activityId;
+        this.warehouseId = warehouseId;
+        this.amount = amount;
+        this.action = action;
+        this.pointInTime = pointInTime;
+        this.materialType = materialType;
+        this.licensePlate = licensePlate;
+        this.description = description;
+    }
 }

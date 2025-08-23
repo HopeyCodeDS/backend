@@ -4,6 +4,7 @@ import be.kdg.prog6.landsideContext.adapters.in.web.dto.RegisterWeightRequestDto
 import be.kdg.prog6.landsideContext.adapters.in.web.dto.RegisterWeightResponseDto;
 import be.kdg.prog6.landsideContext.adapters.in.web.mapper.WeightRegistrationMapper;
 import be.kdg.prog6.landsideContext.domain.commands.RegisterWeightAndExitBridgeCommand;
+import be.kdg.prog6.landsideContext.ports.in.GetWarehouseStatusUseCase;
 import be.kdg.prog6.landsideContext.ports.in.RegisterWeightAndExitBridgeUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,8 @@ public class RegisterWeightAndReceiveWarehouseNumberController {
     
     private final RegisterWeightAndExitBridgeUseCase registerWeightAndExitBridgeUseCase;
     private final WeightRegistrationMapper mapper;
-    private final TruckMovementRepositoryPort truckMovementRepository;
+    //private final TruckMovementRepositoryPort truckMovementRepository;
+    private final GetWarehouseStatusUseCase getWarehouseStatusUseCase;
     
     @PostMapping("/register")
     @PreAuthorize("hasRole('TRUCK_DRIVER')")
@@ -38,22 +40,16 @@ public class RegisterWeightAndReceiveWarehouseNumberController {
     }
     
     @GetMapping("/status/{licensePlate}")
-    @PreAuthorize("hasRole('TRUCK_DRIVER')")
+//    @PreAuthorize("hasRole('TRUCK_DRIVER')")
     public ResponseEntity<RegisterWeightResponseDto> getWarehouseStatus(@PathVariable String licensePlate) {
         try {
-            var movement = truckMovementRepository.findByLicensePlate(licensePlate)
-                    .orElseThrow(() -> new IllegalArgumentException("Truck movement not found"));
-
-            String status = movement.getAssignedWarehouse() != null ? "COMPLETED" : "PROCESSING";
-            String message = movement.getAssignedWarehouse() != null ? 
-                    "Warehouse assigned successfully" : 
-                    "Warehouse assignment in progress";
-
+            var warehouseStatus = getWarehouseStatusUseCase.getWarehouseStatus(licensePlate);
+            
             RegisterWeightResponseDto response = new RegisterWeightResponseDto(
                 licensePlate,
-                status,
-                message,
-                movement.getAssignedWarehouse()
+                warehouseStatus.status(),
+                warehouseStatus.message(),
+                warehouseStatus.assignedWarehouse()
             );
 
             return ResponseEntity.ok(response);

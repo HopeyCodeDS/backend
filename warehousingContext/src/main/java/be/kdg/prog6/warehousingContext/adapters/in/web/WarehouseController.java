@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import be.kdg.prog6.warehousingContext.domain.commands.CreateWarehouseCommand;
 
 @RestController
-@RequestMapping("/warehouses")
+@RequestMapping("/api/warehouses")
 @RequiredArgsConstructor
 @Slf4j
 public class WarehouseController {
@@ -42,7 +43,7 @@ public class WarehouseController {
 
     private final PDTRepositoryPort pdtRepositoryPort;
 
-    // GET /warehouses - Get all warehouses
+    // GET /warehouses 
     @GetMapping
     @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<List<WarehouseResponseDto>> getAllWarehouses() {
@@ -78,7 +79,7 @@ public class WarehouseController {
         }
     }
 
-    // GET /warehouses/{id} - Get warehouse by ID
+    // GET /warehouses/{id}
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<WarehouseResponseDto> getWarehouseById(@PathVariable UUID id) {
@@ -102,7 +103,7 @@ public class WarehouseController {
         }
     }
 
-    // GET /warehouses/overview - Get capacity overview
+    // GET /warehouses/overview 
     @GetMapping("/overview")
     @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<WarehouseOverviewDto> getWarehouseOverview() {
@@ -120,7 +121,7 @@ public class WarehouseController {
         return ResponseEntity.ok(overview);
     }
 
-    // GET /warehouses/by-seller/{sellerId} - Get warehouses by sellerId
+    // GET /warehouses/by-seller/{sellerId} 
     @GetMapping("/by-seller/{sellerId}")
     @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
     public ResponseEntity<List<WarehouseResponseDto>> getWarehousesBySeller(@PathVariable UUID sellerId) {
@@ -144,23 +145,22 @@ public class WarehouseController {
         }
     }
 
-    // POST /warehouses - Create new warehouse
+    // POST /warehouses 
     @PostMapping
     @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
-    public ResponseEntity<WarehouseResponseDto> createWarehouse(@RequestBody WarehouseCreateRequestDto request) {
-        try {
-            log.info("Creating new warehouse: {}", request.getWarehouseNumber());
-            var warehouse = createWarehouseUseCase.createWarehouse(request);
-            var response = warehouseResponseMapper.toWarehouseResponseDto(warehouse, List.of());
-            log.info("Successfully created warehouse: {}", warehouse.getWarehouseNumber());
-            return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
-            log.error("Validation error creating warehouse: {}", e.getMessage());
-            return ResponseEntity.badRequest().build();
-        } catch (Exception e) {
-            log.error("Error creating warehouse: {}", e.getMessage(), e);
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<WarehouseResponseDto> createWarehouse(@RequestBody WarehouseCreateRequestDto requestDto) {
+        // Convert DTO to domain command
+        CreateWarehouseCommand command = new CreateWarehouseCommand(
+            requestDto.getWarehouseNumber(),
+            requestDto.getSellerId(),
+            requestDto.getRawMaterialName(),
+            requestDto.getMaxCapacity()
+        );
+        
+        // Execute use case
+        Warehouse warehouse = createWarehouseUseCase.createWarehouse(command);
+        
+        return ResponseEntity.ok(warehouseResponseMapper.toWarehouseResponseDto(warehouse, List.of()));
     }
 
     // DELETE /warehouses/{id} - Delete warehouse

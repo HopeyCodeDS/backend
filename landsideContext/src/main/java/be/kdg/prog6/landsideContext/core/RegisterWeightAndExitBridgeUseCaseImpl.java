@@ -1,6 +1,5 @@
 package be.kdg.prog6.landsideContext.core;
 
-import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
 import be.kdg.prog6.landsideContext.domain.TruckLocation;
 import be.kdg.prog6.landsideContext.domain.TruckMovement;
 import be.kdg.prog6.landsideContext.domain.commands.RegisterWeightAndExitBridgeCommand;
@@ -50,6 +49,7 @@ public class RegisterWeightAndExitBridgeUseCaseImpl implements RegisterWeightAnd
         
         // Publish event for Warehousing Context
         truckLeftWeighingBridgePort.truckLeftWeighingBridge(movement, command.getRawMaterialName(), appointment.getSellerId());
+        log.info("Truck left weighing bridge event published for truck: {}", command.getLicensePlate());
     }
 
     // Method to handle warehouse assignment response

@@ -1,8 +1,8 @@
 package be.kdg.prog6.warehousingContext.ports.in;
 
 import be.kdg.prog6.warehousingContext.domain.Warehouse;
-import be.kdg.prog6.warehousingContext.adapters.in.web.dto.WarehouseCreateRequestDto;
+import be.kdg.prog6.warehousingContext.domain.commands.CreateWarehouseCommand;
 
 public interface CreateWarehouseUseCase {
-    Warehouse createWarehouse(WarehouseCreateRequestDto request);
+    Warehouse createWarehouse(CreateWarehouseCommand command);
 }
