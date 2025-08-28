@@ -23,7 +23,7 @@ import java.util.UUID;
 import be.kdg.prog6.warehousingContext.domain.commands.CreateWarehouseCommand;
 
 @RestController
-@RequestMapping("/api/warehouses")
+@RequestMapping("/warehouses")
 @RequiredArgsConstructor
 @Slf4j
 public class WarehouseController {

@@ -78,20 +78,25 @@ public class GenerateWeighbridgeTicketUseCaseImpl implements GenerateWeighbridge
         if (truckMovementOpt.isEmpty()) {
             throw new IllegalStateException("Truck movement not found for license plate: " + licensePlate);
         }
-        
+
+        TruckMovement truckMovement = getMovement(licensePlate, truckMovementOpt);
+
+        log.info("Validation passed: Truck {} has exit weighing bridge assignment: {}", 
+            licensePlate, truckMovement.getExitWeighbridgeNumber());
+    }
+
+    private static TruckMovement getMovement(String licensePlate, Optional<TruckMovement> truckMovementOpt) {
         TruckMovement truckMovement = truckMovementOpt.get();
-        
+
         // Check if truck has been assigned an exit weighing bridge (from PDT)
         if (!truckMovement.hasExitWeighbridgeNumber()) {
             throw new IllegalStateException("Truck " + licensePlate + " has not been assigned to an exit weighing bridge. Complete payload delivery first.");
         }
-        
+
         // Check if truck has completed the payload delivery process
         if (truckMovement.getAssignedWarehouse() == null) {
             throw new IllegalStateException("Truck " + licensePlate + " has not completed payload delivery");
         }
-        
-        log.info("Validation passed: Truck {} has exit weighing bridge assignment: {}", 
-            licensePlate, truckMovement.getExitWeighbridgeNumber());
+        return truckMovement;
     }
 } 

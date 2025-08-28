@@ -32,7 +32,7 @@ public class RecognizeTruckUseCaseImpl implements RecognizeTruckUseCase {
         Optional<Appointment> appointmentOpt = appointmentRepositoryPort
             .findByLicensePlate(command.getLicensePlate())
             .stream()
-            .filter(appointment -> appointment.getStatus() == AppointmentStatus.SCHEDULED)
+            .filter(Appointment::isScheduled)
             .findFirst();
         
         if (appointmentOpt.isEmpty()) {

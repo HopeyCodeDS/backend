@@ -8,8 +8,11 @@ import java.time.LocalDateTime;
 @Setter
 public class InspectionOperation {
     private LocalDateTime plannedDate;
+    @Setter
     private LocalDateTime completedDate;
+    @Setter
     private String inspectorSignature;
+    @Setter
     private InspectionStatus status;
 
     public InspectionOperation() {
@@ -33,18 +36,6 @@ public class InspectionOperation {
 
     public boolean isCompleted() {
         return status == InspectionStatus.COMPLETED;
-    }
-
-    public void setStatus(InspectionStatus status) {
-        this.status = status;
-    }
-    
-    public void setCompletedDate(LocalDateTime completedDate) {
-        this.completedDate = completedDate;
-    }
-    
-    public void setInspectorSignature(String inspectorSignature) {
-        this.inspectorSignature = inspectorSignature;
     }
 
     public String getStatusDescription() {

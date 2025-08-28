@@ -48,10 +48,17 @@ public class Appointment {
 
         Appointment appointment = new Appointment(UUID.randomUUID(), sellerId, sellerName, truck, rawMaterial, window, scheduledTime);
 
+        // mark truck as scheduled
+        appointment.markAsScheduled();
+
         // the window enforce capacity check
         window.addAppointment(appointment);
 
         return appointment;
+    }
+
+    public void markAsScheduled() {
+        this.status = AppointmentStatus.SCHEDULED;
     }
     
     public void markAsArrived(LocalDateTime actualArrivalTime) {

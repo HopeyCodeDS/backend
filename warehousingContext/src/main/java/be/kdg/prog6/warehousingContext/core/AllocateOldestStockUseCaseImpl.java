@@ -199,7 +199,7 @@ public class AllocateOldestStockUseCaseImpl implements AllocateOldestStockUseCas
                             activity.getActivityId(),
                             pdt.getSellerId().toString(),
                             pdt.getWarehouseNumber(),
-                            WarehouseActivityAction.LOADING_VESSEL.name().toString(),
+                                WarehouseActivityAction.LOADING_VESSEL.name(),
                             deductionAmount,
                             pdt.getRawMaterialName(),
                             pdt.getDeliveryTime(),

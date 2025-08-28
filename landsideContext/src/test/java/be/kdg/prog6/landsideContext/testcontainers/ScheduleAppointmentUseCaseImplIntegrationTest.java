@@ -62,7 +62,7 @@ class ScheduleAppointmentUseCaseImplIntegrationTest extends AbstractDatabaseTest
         );
 
         // Act
-        UUID appointmentId = scheduleAppointmentUseCase.scheduleAppointment(command);
+        Appointment appointmentId = scheduleAppointmentUseCase.scheduleAppointment(command);
 
         // Assert
         assertNotNull(appointmentId);
@@ -117,7 +117,7 @@ class ScheduleAppointmentUseCaseImplIntegrationTest extends AbstractDatabaseTest
         );
 
         // Act
-        UUID appointmentId = scheduleAppointmentUseCase.scheduleAppointment(command);
+        Appointment appointmentId = scheduleAppointmentUseCase.scheduleAppointment(command);
 
         // Assert
         assertNotNull(appointmentId);

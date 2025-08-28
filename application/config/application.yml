@@ -49,21 +49,21 @@ spring:
         missing-queues-fatal: false
 
 # This is just to try out all my endpoints without authentication
-  security:
-    enabled: false
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
-      - org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
-
-management:
-  security:
-    enabled: false
-
 #  security:
-#      oauth2:
-#        resourceserver:
-#          jwt:
-#            jwk-set-uri: http://localhost:8180/realms/kdgRealm/protocol/openid-connect/certs
-#            issuer-uri: http://localhost:8180/realms/kdgRealm
+#    enabled: false
+#  autoconfigure:
+#    exclude:
+#      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+#      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+#      - org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
+#
+#management:
+#  security:
+#    enabled: false
+
+  security:
+      oauth2:
+        resourceserver:
+          jwt:
+            jwk-set-uri: http://localhost:8180/realms/kdgRealm/protocol/openid-connect/certs
+            issuer-uri: http://localhost:8180/realms/kdgRealm

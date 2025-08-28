@@ -1,11 +1,10 @@
 package be.kdg.prog6.landsideContext.adapters.in.web;
 
-import be.kdg.prog6.landsideContext.adapters.in.web.dto.ScheduleAppointmentRequestDto;
-import be.kdg.prog6.landsideContext.adapters.in.web.dto.UpdateAppointmentRequestDto;
-import be.kdg.prog6.landsideContext.adapters.in.web.dto.AppointmentResponseDto;
+import be.kdg.prog6.landsideContext.adapters.in.web.dto.*;
 import be.kdg.prog6.landsideContext.adapters.in.web.mapper.AppointmentMapper;
 import be.kdg.prog6.landsideContext.domain.Appointment;
 import be.kdg.prog6.landsideContext.domain.AppointmentStatus;
+import be.kdg.prog6.landsideContext.domain.ArrivalWindow;
 import be.kdg.prog6.landsideContext.domain.commands.ScheduleAppointmentCommand;
 import be.kdg.prog6.landsideContext.domain.commands.UpdateAppointmentCommand;
 import be.kdg.prog6.landsideContext.ports.in.ScheduleAppointmentUseCase;
@@ -45,30 +44,33 @@ public class AppointmentController {
             @RequestBody ScheduleAppointmentRequestDto requestDto) {
         try {
             ScheduleAppointmentCommand command = appointmentMapper.toCommand(requestDto);
-            UUID appointmentId = scheduleAppointmentUseCase.scheduleAppointment(command);
 
             // Load the created aggregate appointment to access calculated fields
-            Appointment appointment = getAppointmentUseCase.getAppointment(appointmentId);
+            Appointment populatedAppointment = scheduleAppointmentUseCase.scheduleAppointment(command);
 
-            if (appointment == null) {
+            if (populatedAppointment == null) {
                 return ResponseEntity.internalServerError().build();
             }
+
+            // Convert ArrivalWindow to DTO to avoid circular references
+            ArrivalWindowResponseDto arrivalWindowDto = convertToArrivalWindowDto(populatedAppointment.getArrivalWindow());
             
             // Create proper response DTO
             AppointmentResponseDto response = new AppointmentResponseDto(
-                appointmentId,
+                populatedAppointment.getAppointmentId(),
                 requestDto.getSellerId(),
                 requestDto.getSellerName(),
                 requestDto.getLicensePlate(),
                 requestDto.getTruckType().name(),
                 requestDto.getRawMaterialName(),
-                AppointmentStatus.SCHEDULED,
+                populatedAppointment.getStatus(),
                 requestDto.getScheduledTime(),
-                appointment.getArrivalWindow()
+                arrivalWindowDto
             );
             
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
+            log.error("Error scheduling appointment: {}", e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -92,7 +94,7 @@ public class AppointmentController {
                 appointment.getRawMaterial().getName(),
                 appointment.getStatus(),
                 appointment.getScheduledTime(),
-                appointment.getArrivalWindow()
+                convertToArrivalWindowDto(appointment.getArrivalWindow())
             );
             
             return ResponseEntity.ok(response);
@@ -117,7 +119,7 @@ public class AppointmentController {
                     appointment.getRawMaterial().getName(),
                     appointment.getStatus(),
                     appointment.getScheduledTime(),
-                    appointment.getArrivalWindow()
+                    convertToArrivalWindowDto(appointment.getArrivalWindow())
                 ))
                 .collect(Collectors.toList());
             
@@ -144,7 +146,7 @@ public class AppointmentController {
                     appointment.getRawMaterial().getName(),
                     appointment.getStatus(),
                     appointment.getScheduledTime(),
-                    appointment.getArrivalWindow()
+                    convertToArrivalWindowDto(appointment.getArrivalWindow())
                 ))
                 .collect(Collectors.toList());
             
@@ -170,7 +172,7 @@ public class AppointmentController {
                     appointment.getRawMaterial().getName(),
                     appointment.getStatus(),
                     appointment.getScheduledTime(),
-                    appointment.getArrivalWindow()
+                    convertToArrivalWindowDto(appointment.getArrivalWindow())
                 ))
                 .collect(Collectors.toList());
             
@@ -199,7 +201,7 @@ public class AppointmentController {
                 updatedAppointment.getRawMaterial().getName(),
                 updatedAppointment.getStatus(),
                 updatedAppointment.getScheduledTime(),
-                updatedAppointment.getArrivalWindow()
+                convertToArrivalWindowDto(updatedAppointment.getArrivalWindow())
             );
             
             return ResponseEntity.ok(response);
@@ -210,5 +212,25 @@ public class AppointmentController {
             log.error("Error updating appointment: {}", e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    private ArrivalWindowResponseDto convertToArrivalWindowDto(ArrivalWindow arrivalWindow) {
+        List<AppointmentSummaryDto> appointmentSummaries = arrivalWindow.getAppointments().stream()
+                .map(appointment -> new AppointmentSummaryDto(
+                        appointment.getAppointmentId(),
+                        appointment.getSellerName(),
+                        appointment.getTruck().getLicensePlate().getValue(),
+                        appointment.getTruck().getTruckType().name(),
+                        appointment.getRawMaterial().getName(),
+                        appointment.getStatus(),
+                        appointment.getScheduledTime()
+                ))
+                .collect(Collectors.toList());
+
+        return new ArrivalWindowResponseDto(
+                arrivalWindow.getStartTime(),
+                arrivalWindow.getEndTime(),
+                appointmentSummaries
+        );
     }
 } 

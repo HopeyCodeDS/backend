@@ -18,7 +18,7 @@ public class DeleteWarehouseUseCaseImpl implements DeleteWarehouseUseCase {
     @Transactional
     public void deleteWarehouse(UUID warehouseId) {
         // Check if warehouse exists
-        if (!warehouseRepositoryPort.findById(warehouseId).isPresent()) {
+        if (warehouseRepositoryPort.findById(warehouseId).isEmpty()) {
             throw new IllegalArgumentException("Warehouse not found");
         }
         

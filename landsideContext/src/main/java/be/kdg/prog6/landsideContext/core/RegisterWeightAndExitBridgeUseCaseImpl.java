@@ -28,7 +28,7 @@ public class RegisterWeightAndExitBridgeUseCaseImpl implements RegisterWeightAnd
                 .orElseThrow(() -> new IllegalArgumentException("Truck movement not found"));
         
         // Validate current location
-        if (movement.getCurrentLocation() != TruckLocation.WEIGHING_BRIDGE) {
+        if (!movement.isAtWeighingBridge()) {
             throw new IllegalStateException("Truck must be at weighing bridge to register weight and exit");
         }
         
@@ -50,21 +50,5 @@ public class RegisterWeightAndExitBridgeUseCaseImpl implements RegisterWeightAnd
         // Publish event for Warehousing Context
         truckLeftWeighingBridgePort.truckLeftWeighingBridge(movement, command.getRawMaterialName(), appointment.getSellerId());
         log.info("Truck left weighing bridge event published for truck: {}", command.getLicensePlate());
-    }
-
-    // Method to handle warehouse assignment response
-    @Transactional
-    public void assignWarehouseToTruck(String licensePlate, String warehouseNumber) {
-        TruckMovement movement = truckMovementRepository.findByLicensePlate(licensePlate)
-                .orElseThrow(() -> new IllegalArgumentException("Truck movement not found"));
-        
-        // Assign warehouse to truck
-        movement.assignWarehouse(warehouseNumber);
-        
-        // Save updated movement
-        truckMovementRepository.save(movement);
-
-        // Log the update
-        log.info("Updated truck movement for {} with warehouse: {}", licensePlate, warehouseNumber);
     }
 } 

@@ -24,7 +24,7 @@ public class GetUnmatchedShippingOrdersUseCaseImpl implements GetUnmatchedShippi
         List<ShippingOrder> allShippingOrders = shippingOrderRepositoryPort.findAll();
         
         List<ShippingOrder> unmatchedShippingOrders = allShippingOrders.stream()
-                .filter(so -> so.getStatus() == ShippingOrder.ShippingOrderStatus.ARRIVED)
+                .filter(ShippingOrder::isArrived)
                 .collect(Collectors.toList());
         
         log.info("Found {} unmatched shipping orders", unmatchedShippingOrders.size());

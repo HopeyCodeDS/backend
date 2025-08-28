@@ -37,7 +37,7 @@ public class AssignWeighingBridgeUseCaseImpl implements AssignWeighingBridgeUseC
             Optional<Appointment> appointmentOpt = appointmentRepositoryPort
                 .findByLicensePlate(command.getLicensePlate())
                 .stream()
-                .filter(appointment -> appointment.getStatus() == AppointmentStatus.ARRIVED)
+                .filter(Appointment::isArrived)
                 .findFirst();
 
             if (appointmentOpt.isEmpty()) {
@@ -55,7 +55,7 @@ public class AssignWeighingBridgeUseCaseImpl implements AssignWeighingBridgeUseC
             TruckMovement truckMovement = movementOpt.get();
 
             // Check if truck is at gate
-            if (truckMovement.getCurrentLocation() != TruckLocation.GATE) {
+            if (!truckMovement.isAtGate()) {
                 throw new IllegalStateException("Truck must be at gate to assign weighing bridge");
             }
             

@@ -72,7 +72,7 @@ class ScheduleAppointmentUseCaseImplTest {
         doNothing().when(appointmentScheduledPort).appointmentScheduled(any(Appointment.class));
 
         // Act
-        UUID result = scheduleAppointmentUseCase.scheduleAppointment(command);
+        Appointment result = scheduleAppointmentUseCase.scheduleAppointment(command);
 
         // Assert
         assertNotNull(result);
@@ -112,7 +112,7 @@ class ScheduleAppointmentUseCaseImplTest {
         doNothing().when(appointmentScheduledPort).appointmentScheduled(any(Appointment.class));
 
         // Act
-        UUID result = scheduleAppointmentUseCase.scheduleAppointment(command);
+        Appointment result = scheduleAppointmentUseCase.scheduleAppointment(command);
 
         // Assert
         assertNotNull(result);

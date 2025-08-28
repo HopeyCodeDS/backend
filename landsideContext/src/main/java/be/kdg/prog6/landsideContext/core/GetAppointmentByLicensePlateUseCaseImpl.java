@@ -19,7 +19,7 @@ public class GetAppointmentByLicensePlateUseCaseImpl implements GetAppointmentBy
     public Optional<Appointment> getAppointmentByLicensePlate(String licensePlate) {
         return appointmentRepositoryPort.findByLicensePlate(licensePlate)
                 .stream()
-                .filter(appointment -> appointment.getStatus() == AppointmentStatus.ARRIVED)
+                .filter(Appointment::isArrived)
                 .findFirst();
     }
 }

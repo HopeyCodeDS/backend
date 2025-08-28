@@ -125,6 +125,13 @@ public class ShippingOrder {
         return this.status == ShippingOrderStatus.VALIDATED;
     }
 
+    public boolean isReadyForLoading() {
+        return this.status != ShippingOrderStatus.READY_FOR_LOADING;
+    }
+
+    public boolean isArrived() {
+        return this.status == ShippingOrderStatus.ARRIVED;}
+
     public enum ShippingOrderStatus {
         ARRIVED, VALIDATED, INSPECTING, BUNKERING, READY_FOR_LOADING, LOADING_COMPLETED, DEPARTED
     }

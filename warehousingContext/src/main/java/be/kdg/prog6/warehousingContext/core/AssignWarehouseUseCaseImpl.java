@@ -49,7 +49,7 @@ public class AssignWarehouseUseCaseImpl implements AssignWarehouseUseCase {
         
         // Find the warehouse with the most available capacity (oldest material first strategy)
         Warehouse selectedWarehouse = availableWarehouses.stream()
-            .filter(warehouse -> warehouse.isAcceptingNewDeliveries())
+            .filter(Warehouse::isAcceptingNewDeliveries)
             .min((w1, w2) -> Double.compare(w1.getCurrentCapacity(), w2.getCurrentCapacity()))
             .orElseThrow(() -> new IllegalStateException("No warehouses accepting new deliveries"));
 

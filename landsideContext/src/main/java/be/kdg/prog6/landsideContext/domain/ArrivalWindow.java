@@ -42,4 +42,14 @@ public class ArrivalWindow {
         }
         appointments.add(appointment);
     }
+
+    // Add method to get appointments count
+    public int getAppointmentsCount() {
+        return appointments.size();
+    }
+
+    // Add method to check if window is empty
+    public boolean isEmpty() {
+        return appointments.isEmpty();
+    }
 } 

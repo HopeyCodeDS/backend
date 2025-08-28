@@ -23,7 +23,7 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
     private final TruckRepositoryPort truckRepositoryPort;
     
     @Override
-    public UUID scheduleAppointment(ScheduleAppointmentCommand command) {
+    public Appointment scheduleAppointment(ScheduleAppointmentCommand command) {
         // Validate input
         validateCommand(command);
         
@@ -50,7 +50,7 @@ public class ScheduleAppointmentUseCaseImpl implements ScheduleAppointmentUseCas
         // Publish event through output port
         appointmentScheduledPort.appointmentScheduled(appointment);
         
-        return appointment.getAppointmentId();
+        return appointment;
     }
 
     private Truck findOrCreateTruck(Truck commandTruck) {

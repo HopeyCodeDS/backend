@@ -10,9 +10,12 @@ import java.time.LocalDateTime;
 public class BunkeringOperation {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime plannedDate;
+    @Setter
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime completedDate;
+    @Setter
     private BunkeringStatus status;
+    @Setter
     private String bunkeringOfficerSignature;
 
     public BunkeringOperation() {
@@ -47,15 +50,4 @@ public class BunkeringOperation {
         return this.status.name();
     }
 
-    public void setStatus(BunkeringStatus status) {
-        this.status = status;
-    }
-    
-    public void setCompletedDate(LocalDateTime completedDate) {
-        this.completedDate = completedDate;
-    }
-    
-    public void setBunkeringOfficerSignature(String bunkeringOfficerSignature) {
-        this.bunkeringOfficerSignature = bunkeringOfficerSignature;
-    }
-} 
+}

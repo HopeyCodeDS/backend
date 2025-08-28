@@ -37,7 +37,7 @@ public class CompleteLoadingUseCaseImpl implements CompleteLoadingUseCase {
         ShippingOrder shippingOrder = shippingOrderOpt.get();
         
         // Check if ship is ready for loading
-        if (shippingOrder.getStatus() != ShippingOrder.ShippingOrderStatus.READY_FOR_LOADING) {
+        if (shippingOrder.isReadyForLoading()) {
             log.warn("Ship is not ready for loading. Current status: {}", shippingOrder.getStatus());
             return;
         }

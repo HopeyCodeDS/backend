@@ -7,13 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import be.kdg.prog6.watersideContext.ports.in.ShipDepartedUseCase;
 import be.kdg.prog6.watersideContext.ports.out.ShippingOrderRepositoryPort;
 import be.kdg.prog6.watersideContext.ports.out.ShipDepartedEventPublisherPort;
 import be.kdg.prog6.watersideContext.domain.ShippingOrder;
-import be.kdg.prog6.watersideContext.domain.ShippingOrder.ShippingOrderStatus;
 import be.kdg.prog6.common.events.ShipDepartedEvent;
 
 @Service
@@ -37,7 +35,7 @@ public class ShipDepartedUseCaseImpl implements ShipDepartedUseCase {
         ShippingOrder shippingOrder = shippingOrderOpt.get(0);
         
         // Only allow departure if ship is ready for loading
-        if (shippingOrder.getStatus() != ShippingOrderStatus.READY_FOR_LOADING) {
+        if (shippingOrder.isReadyForLoading()) {
             throw new IllegalStateException("Ship must be ready for loading before departure. Current status: " + shippingOrder.getStatus());
         }
         

@@ -13,19 +13,19 @@
       volumes:
         - ./mysql/data:/var/lib/mysql
 
-    # app_rabbitmq:
-    #   image: rabbitmq:3.13.7-management-alpine
-    #   environment:
-    #     - RABBITMQ_DEFAULT_USER=myuser
-    #     - RABBITMQ_DEFAULT_PASS=mypassword
-    #   ports:
-    #     - "5672:5672" #AMQP
-    #     - "15672:15672" #MGMT
-    #   networks:
-    #     - backend
-    #   volumes:
-    #     - ./rabbitmq/data/:/var/lib/rabbitmq/
-    #     - ./rabbitmq/log/:/var/log/rabbitmq/
+    app_rabbitmq:
+       image: rabbitmq:3.13.7-management-alpine
+       environment:
+         - RABBITMQ_DEFAULT_USER=myuser
+         - RABBITMQ_DEFAULT_PASS=mypassword
+       ports:
+         - "5672:5672" #AMQP
+         - "15672:15672" #MGMT
+       networks:
+         - backend
+       volumes:
+         - ./rabbitmq/data/:/var/lib/rabbitmq/
+         - ./rabbitmq/log/:/var/log/rabbitmq/
 
 
 

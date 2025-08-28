@@ -18,5 +18,5 @@ public record AppointmentResponseDto(
     
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     LocalDateTime scheduledTime,
-    ArrivalWindow arrivalWindow
+    ArrivalWindowResponseDto arrivalWindow
 ) {}
