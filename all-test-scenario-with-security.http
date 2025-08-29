@@ -52,7 +52,7 @@ Authorization: Bearer {{seller_access_token}}
   "licensePlate": "TRK-101",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
-  "scheduledTime": "28/08/2025 08:30"
+  "scheduledTime": "28/09/2025 08:30"
 }
 
 ####
@@ -84,6 +84,7 @@ Authorization: Bearer {{seller_access_token}}
 #  "scheduledTime": "28/08/2025 08:30"
 #}
 
+
 ### Appointment 2: Create an appointment for truck 2
 POST http://localhost:8190/api/landside/appointments
 Content-Type: application/json
@@ -95,7 +96,7 @@ Authorization: Bearer {{seller_access_token}}
   "licensePlate": "TRK-102",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
-  "scheduledTime": "28/08/2025 20:30"
+  "scheduledTime": "28/09/2025 20:30"
 }
 
 
@@ -110,7 +111,7 @@ Authorization: Bearer {{seller_access_token}}
   "licensePlate": "TRK-103",
   "truckType": "LARGE",
   "rawMaterialName": "Gypsum",
-  "scheduledTime": "29/08/2025 08:30"
+  "scheduledTime": "29/09/2025 08:30"
 }
 
 ### Appointment 4: Create an appointment for truck 4
@@ -124,7 +125,7 @@ Authorization: Bearer {{seller_access_token}}
   "licensePlate": "TRK-104",
   "truckType": "LARGE",
   "rawMaterialName": "Iron_Ore",
-  "scheduledTime": "29/08/2025 20:30"
+  "scheduledTime": "29/09/2025 20:30"
 }
 
 ### Appointment 5: Create an appointment for truck 5
@@ -138,7 +139,7 @@ Authorization: Bearer {{seller_access_token}}
   "licensePlate": "TRK-105",
   "truckType": "LARGE",
   "rawMaterialName": "Cement",
-  "scheduledTime": "30/08/2025 08:30"
+  "scheduledTime": "30/09/2025 08:30"
 }
 
 
@@ -195,7 +196,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-101",
-  "recognitionTime": "28/08/2025 09:00"
+  "recognitionTime": "28/09/2025 09:00"
 }
 
 ### Recognize truck arrival 2
@@ -205,7 +206,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-102",
-  "recognitionTime": "28/08/2025 21:00"
+  "recognitionTime": "28/09/2025 21:00"
 }
 
 ### Recognize truck arrival 3
@@ -215,7 +216,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-103",
-  "recognitionTime": "29/08/2025 09:00"
+  "recognitionTime": "29/09/2025 09:00"
 }
 
 ### Recognize truck arrival 4
@@ -225,7 +226,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-104",
-  "recognitionTime": "29/08/2025 21:00"
+  "recognitionTime": "29/09/2025 21:00"
 }
 
 ### Recognize truck arrival 5
@@ -235,7 +236,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-105",
-  "recognitionTime": "30/08/2025 09:00"
+  "recognitionTime": "30/09/2025 09:00"
 }
 
 
@@ -251,7 +252,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-101",
-  "assignmentTime": "28/08/2025 09:00"
+  "assignmentTime": "28/09/2025 09:00"
 }
 
 ### Assign weighing bridge to truck 2
@@ -261,7 +262,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-102",
-  "assignmentTime": "28/08/2025 21:00"
+  "assignmentTime": "28/09/2025 21:00"
 }
 
 ### Assign weighing bridge to truck 3
@@ -271,7 +272,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-103",
-  "assignmentTime": "29/08/2025 09:00"
+  "assignmentTime": "29/09/2025 09:00"
 }
 
 ### Assign weighing bridge to truck 4
@@ -281,7 +282,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-104",
-  "assignmentTime": "29/08/2025 21:00"
+  "assignmentTime": "29/09/2025 21:00"
 }
 
 ### Assign weighing bridge to truck 5
@@ -291,7 +292,7 @@ Authorization: Bearer {{truck_driver_access_token}}
 
 {
   "licensePlate": "TRK-105",
-  "assignmentTime": "30/08/2025 09:00"
+  "assignmentTime": "30/09/2025 09:00"
 }
 
 
@@ -429,7 +430,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
-  "deliveryTime": "28/08/2025 09:00"
+  "deliveryTime": "28/09/2025 09:00"
 }
 
 
@@ -445,7 +446,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
-  "deliveryTime": "28/08/2025 21:00"
+  "deliveryTime": "28/09/2025 21:00"
 }
 
 
@@ -460,7 +461,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "warehouseNumber": "Warehouse-01",
   "payloadWeight": 25.0,
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
-  "deliveryTime": "29/08/2025 09:00"
+  "deliveryTime": "29/09/2025 09:00"
 }
 
 ### Deliver Payload  - truck 4
@@ -474,7 +475,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "warehouseNumber": "Warehouse-02",
   "payloadWeight": 25,
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
-  "deliveryTime": "29/08/2025 21:00"
+  "deliveryTime": "29/09/2025 21:00"
 }
 
 ### Deliver Payload  - truck 5
@@ -488,7 +489,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "warehouseNumber": "Warehouse-03",
   "payloadWeight": 23.0,
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
-  "deliveryTime": "30/08/2025 09:00"
+  "deliveryTime": "30/09/2025 09:00"
 }
 
 ### Retrieve All PDTs
@@ -555,7 +556,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "licensePlate": "TRK-101",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
-  "weighingTime": "28/08/2025 09:30"
+  "weighingTime": "28/09/2025 09:30"
 }
 
 
@@ -568,7 +569,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "licensePlate": "TRK-102",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
-  "weighingTime": "28/08/2025 21:30"
+  "weighingTime": "28/09/2025 21:30"
 }
 
 
@@ -581,7 +582,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "licensePlate": "TRK-103",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
-  "weighingTime": "29/08/2025 09:30"
+  "weighingTime": "29/09/2025 09:30"
 }
 
 ### Generate weighbridge ticket - truck 4
@@ -593,7 +594,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "licensePlate": "TRK-104",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
-  "weighingTime": "29/08/2025 21:30"
+  "weighingTime": "29/09/2025 21:30"
 }
 
 ### Generate weighbridge ticket - truck 5
@@ -605,7 +606,7 @@ Authorization: Bearer {{truck_driver_access_token}}
   "licensePlate": "TRK-105",
   "grossWeight": 25000.0,
   "tareWeight": 8000.0,
-  "weighingTime": "30/08/2025 09:30"
+  "weighingTime": "30/09/2025 09:30"
 }
 
 
@@ -704,7 +705,7 @@ Authorization: Bearer {{buyer_access_token}}
   "customerName": "Gyproc & Co.",
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "sellerName": "De klant van KDG",
-  "orderDate": "01/09/2025 08:00",
+  "orderDate": "01/10/2025 08:00",
   "orderLines": [
     {
       "lineNumber": 1,
@@ -733,7 +734,7 @@ Authorization: Bearer {{buyer_access_token}}
   "customerName": "Cemminerals NV.",
   "sellerId": "ef01c728-ce36-46b5-a110-84f53fdd9668",
   "sellerName": "De klant van KDG",
-  "orderDate": "01/09/2025 08:00",
+  "orderDate": "01/10/2025 08:00",
   "orderLines": [
     {
       "lineNumber": 1,
@@ -796,9 +797,9 @@ Authorization: Bearer {{ship_captain_access_token}}
   "purchaseOrderReference": "PO-2025-101",
   "vesselNumber": "VESSEL-101",
   "customerNumber": "CUST-101",
-  "estimatedArrivalDate": "03/09/2025 08:00",
-  "estimatedDepartureDate": "05/09/2025 08:00",
-  "actualArrivalDate": "04/09/2025 10:00"
+  "estimatedArrivalDate": "03/10/2025 08:00",
+  "estimatedDepartureDate": "05/10/2025 08:00",
+  "actualArrivalDate": "04/10/2025 10:00"
 }
 
 ### Submit Shipping Order 2
@@ -811,9 +812,9 @@ Authorization: Bearer {{ship_captain_access_token}}
   "purchaseOrderReference": "PO-2025-102",
   "vesselNumber": "VESSEL-102",
   "customerNumber": "CUST-102",
-  "estimatedArrivalDate": "03/09/2025 10:00",
-  "estimatedDepartureDate": "05/09/2025 12:00",
-  "actualArrivalDate": "04/09/2025 10:00"
+  "estimatedArrivalDate": "03/10/2025 10:00",
+  "estimatedDepartureDate": "05/10/2025 12:00",
+  "actualArrivalDate": "04/10/2025 10:00"
 }
 
 

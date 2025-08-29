@@ -101,7 +101,7 @@ Vessel Operations Overview
 ## 🛠️ Technology Stack
 
 ### **Backend Technologies**
-- Java 17
+- Java 17 or 21
 - Spring Boot 3.x
 - Spring Security
 - Spring Data JPA
@@ -154,7 +154,7 @@ Each bounded context follows the same structure:
 
 ### **Prerequisites**
 
-* Java 17+
+* Java 17+ or 21
 * Gradle 8.x
 * Docker & Docker Compose
 * IntelliJ IDEA (recommended)
@@ -163,7 +163,7 @@ Each bounded context follows the same structure:
 
 ```bash
 # 1. Clone Repository
-git clone https://gitlab.com/kdg-ti/programming6/students/24-25/momoduopeyemi/backend.git
+git clone https://github.com/HopeyCodeDS/backend.git
 cd backend
 
 # 2. Start Infrastructure
