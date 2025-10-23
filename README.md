@@ -2,7 +2,7 @@
 
 ## 🏗️ Project Overview
 
-The **Mineral Flow System** is a comprehensive logistics management platform designed for **Krystal Distribution Group (KdG)** to efficiently manage the flow of raw materials from arrival scheduling to final warehousing and shipping. The system follows **Hexagonal Architecture** (ports and adapters) principles and implements **Domain-Driven Design** (DDD) to create a robust, scalable, and maintainable solution.
+The **Mineral Flow System** is a comprehensive logistics management platform designed for **Krystal Distribution Group (KdG)** to efficiently manage the flow of raw materials from arrival scheduling to final warehousing and shipping. The system follows **Hexagonal Architecture** (ports and adapters) principles and implements **Domain-Driven Design** (DDD) to create a robust, scalable, and maintainable solution. This represents the backend to a full stack enterprise application - [frontend](https://github.com/HopeyCodeDS/frontend).
 
 ### 🎯 Core Objectives
 - **Optimize Material Flow**: Streamline the entire logistics process from truck arrival to ship departure
